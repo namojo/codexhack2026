@@ -1,0 +1,40 @@
+{
+  "version": "service-v5",
+  "acceptance": "failed",
+  "reason": "자원 배정 시 상세만 열리고 진행 입력창이 사라짐",
+  "evidence": "메인 실제 브라우저 재현 + 독립 QA 코드 경합 검토",
+  "fixed_in": "service-v6",
+  "regression_checks": [
+    {
+      "name": "unittest",
+      "status": "passed",
+      "required": true,
+      "evidence": "unittest.log: python3 -B -m unittest discover -s tests -v; exit 0; 71 tests, OK. Loopback HTTP/temporary DB included; escalated execution approved."
+    },
+    {
+      "name": "engine_smoke",
+      "status": "passed",
+      "required": true,
+      "evidence": "smoke.log: python3 -B -m rescue.smoke; exit 0; 28 tests, OK."
+    },
+    {
+      "name": "fixture_replay",
+      "status": "passed",
+      "required": true,
+      "evidence": "fixture.log and fixture-report/report.json: python3 -B scripts/replay.py --all --output .harness/runs/service-v5/task-qa/outputs/fixture-report; new output path; exit 0; 20/20 cases, 91/91 assertions; fixture mode."
+    },
+    {
+      "name": "existing_dom_mock",
+      "status": "passed",
+      "required": true,
+      "evidence": "dom-mock.log: node _workspace/verification/service-v4/frontend-static-check.cjs against current web/app.js; exit 0; 15 JS/DOM-stub checks. Not a browser; available-resource assignment route absent from coverage."
+    },
+    {
+      "name": "resource_assignment_acceptance",
+      "status": "failed",
+      "required": true,
+      "evidence": "code-review.md F1: main actual browser reproduction of support-team select INC-20261008-001 -> 팀 배정 -> detail without progress dialog. QA corroborates location.hash + route(false) race at web/app.js:208, hashchange handler :213, route :64-68 and openTask :121. No product fix this run."
+    }
+  ],
+  "limitations": "이 요약은 공개용으로 선별했다. v5 실패를 성공으로 바꾸지 않았다."
+}

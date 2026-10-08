@@ -1,0 +1,13 @@
+{
+  "command": "python3 -B -m service.smoke",
+  "exit_code": 0,
+  "tests": 16,
+  "failures": 0,
+  "errors": 0,
+  "output": "test_assignment_race (__main__.BackendSmoke.test_assignment_race) ... ok\ntest_assignment_release_on_complete (__main__.BackendSmoke.test_assignment_release_on_complete) ... ok\ntest_auto_reopen_and_important_update (__main__.BackendSmoke.test_auto_reopen_and_important_update) ... ok\ntest_closed_progress_block (__main__.BackendSmoke.test_closed_progress_block) ... ok\ntest_correction_and_total_count_confirmation (__main__.BackendSmoke.test_correction_and_total_count_confirmation) ... ok\ntest_fake_media_headers_and_paths (__main__.BackendSmoke.test_fake_media_headers_and_paths) ... ok\ntest_http_lifecycle_media_and_errors (__main__.BackendSmoke.test_http_lifecycle_media_and_errors) ... ok\ntest_media_allowlist_and_upload (__main__.BackendSmoke.test_media_allowlist_and_upload) ... ok\ntest_original_and_audit (__main__.BackendSmoke.test_original_and_audit) ... ok\ntest_partial_no_closure (__main__.BackendSmoke.test_partial_no_closure) ... ok\ntest_reopen_and_old_basis_block (__main__.BackendSmoke.test_reopen_and_old_basis_block) ... ok\ntest_resolved_checks_and_latest_report (__main__.BackendSmoke.test_resolved_checks_and_latest_report) ... ok\ntest_revision_race (__main__.BackendSmoke.test_revision_race) ... ok\ntest_seed_and_persistence (__main__.BackendSmoke.test_seed_and_persistence) ... ok\ntest_unknown_and_bool_validation (__main__.BackendSmoke.test_unknown_and_bool_validation) ... ok\ntest_wrong_incident_basis_and_nonfield (__main__.BackendSmoke.test_wrong_incident_basis_and_nonfield) ... ok\n\n----------------------------------------------------------------------\nRan 16 tests in 0.646s\n\nOK\n",
+  "not_run": [
+    "독립 QA",
+    "브라우저 UX",
+    "실제 OCR/ASR/LLM"
+  ]
+}

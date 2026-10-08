@@ -1,0 +1,143 @@
+{
+  "run_id": "service-v2",
+  "objective": "합성 다매체 자료와 영속 사건업무 흐름을 갖춘 상황실 콘솔 구축",
+  "tasks": [
+    {
+      "id": "backend",
+      "role": "rescue_engine_worker",
+      "dependencies": [],
+      "ownership": [
+        "service/",
+        "scripts/serve.py"
+      ],
+      "inputs": [
+        "AGENTS.md",
+        "docs/service-contract.md",
+        "docs/service-design-brief.md"
+      ],
+      "context": {
+        "decisions": [
+          "합성자료만 사용",
+          "실제 첨부 재생",
+          "SQLite 영속 사건업무",
+          "원문·수정·결과 감사 이력 보존",
+          "해당 런의 역할 소유권 우선, builtinworker 명시 fallback"
+        ],
+        "skill_paths": [
+          ".agents/skills/rescue-orchestrator/SKILL.md"
+        ]
+      },
+      "acceptance": [
+        "계약을 준수한 실행 가능한 산출물",
+        "실제 자체검증 증거와 미실행 범위"
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "required": true
+    },
+    {
+      "id": "frontend",
+      "role": "scenario_designer",
+      "dependencies": [],
+      "ownership": [
+        "web/index.html",
+        "web/app.js",
+        "web/style.css"
+      ],
+      "inputs": [
+        "AGENTS.md",
+        "docs/service-contract.md",
+        "docs/service-design-brief.md"
+      ],
+      "context": {
+        "decisions": [
+          "합성자료만 사용",
+          "실제 첨부 재생",
+          "SQLite 영속 사건업무",
+          "원문·수정·결과 감사 이력 보존",
+          "해당 런의 역할 소유권 우선, builtinworker 명시 fallback"
+        ],
+        "skill_paths": [
+          ".agents/skills/rescue-orchestrator/SKILL.md"
+        ]
+      },
+      "acceptance": [
+        "계약을 준수한 실행 가능한 산출물",
+        "실제 자체검증 증거와 미실행 범위"
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "required": true
+    },
+    {
+      "id": "seed",
+      "role": "rescue_qa",
+      "dependencies": [],
+      "ownership": [
+        "data/seed.json",
+        "docs/service-workflows.md"
+      ],
+      "inputs": [
+        "AGENTS.md",
+        "docs/service-contract.md",
+        "docs/service-design-brief.md"
+      ],
+      "context": {
+        "decisions": [
+          "합성자료만 사용",
+          "실제 첨부 재생",
+          "SQLite 영속 사건업무",
+          "원문·수정·결과 감사 이력 보존",
+          "해당 런의 역할 소유권 우선, builtinworker 명시 fallback"
+        ],
+        "skill_paths": [
+          ".agents/skills/rescue-orchestrator/SKILL.md"
+        ]
+      },
+      "acceptance": [
+        "계약을 준수한 실행 가능한 산출물",
+        "실제 자체검증 증거와 미실행 범위"
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "required": true
+    },
+    {
+      "id": "qa",
+      "role": "rescue_qa",
+      "dependencies": [
+        "backend",
+        "frontend",
+        "seed"
+      ],
+      "ownership": [
+        "tests/test_service_qa.py",
+        ".harness/runs/service-v2/task-qa/outputs/"
+      ],
+      "inputs": [
+        "AGENTS.md",
+        "docs/service-contract.md",
+        "docs/service-design-brief.md"
+      ],
+      "context": {
+        "decisions": [
+          "합성자료만 사용",
+          "실제 첨부 재생",
+          "SQLite 영속 사건업무",
+          "원문·수정·결과 감사 이력 보존",
+          "해당 런의 역할 소유권 우선, builtinworker 명시 fallback"
+        ],
+        "skill_paths": [
+          ".agents/skills/rescue-orchestrator/SKILL.md"
+        ]
+      },
+      "acceptance": [
+        "계약을 준수한 실행 가능한 산출물",
+        "실제 자체검증 증거와 미실행 범위"
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "required": true
+    }
+  ]
+}

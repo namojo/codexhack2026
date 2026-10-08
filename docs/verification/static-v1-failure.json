@@ -1,0 +1,101 @@
+{
+  "run_id": "pages-v1",
+  "task_id": "qa",
+  "status": "failed",
+  "summary": "Independent Node20 groups:18PASS2FAIL exit1, same uploaded dataURL length cause. Full unittest78, engine28, fixture20/91 and DOM15 exit0;9-step representative parity passed. Public completion intentionally stricter than preserved Python. No product changes. Quota second upload not reached. Fix and same-test revalidation required in new run.",
+  "checks": [
+    {
+      "name": "Independent Node adapter tests",
+      "status": "failed",
+      "required": true,
+      "evidence": "node tests/pages_qa.cjs actual exit1; node-qa-final.log:20 groups,18 passed,2 failed. Real WAV and PNG attachment linkage fails400 at common string length20,000 in attachments URL validation. Header/MIME/base64/filename/size/external URL/duplicate small attachment checks execute before WAV failure."
+    },
+    {
+      "name": "Full unittest including independent build/parity",
+      "status": "passed",
+      "required": true,
+      "evidence": "python3 -B -m unittest discover -s tests -v actual exit0; unittest.log:78 tests (existing71 + independentPython7), OK. Public allowlist12 files, relative root/subpath entrypoints, protected/symlink/unrelated outputs, exact media/provenance, nine-step Python/JS parity; documented intentional Python equal-count residual difference."
+    },
+    {
+      "name": "Engine smoke",
+      "status": "passed",
+      "required": true,
+      "evidence": "python3 -B -m rescue.smoke actual exit0; smoke.log:28 tests, OK."
+    },
+    {
+      "name": "Fixture replay",
+      "status": "passed",
+      "required": true,
+      "evidence": "python3 -B scripts/replay.py --all --output .harness/runs/pages-v1/task-qa/outputs/fixture-report actual exit0; fixture.log and report.json20/20 cases91/91 checks. Synthetic fixture, not model accuracy."
+    },
+    {
+      "name": "Existing DOM mock",
+      "status": "passed",
+      "required": true,
+      "evidence": "node _workspace/verification/service-v4/frontend-static-check.cjs actual exit0; dom-mock.log15 JS/DOM-stub checks on current app; not actual browser."
+    },
+    {
+      "name": "Intentional stronger public completion guard",
+      "status": "passed",
+      "required": true,
+      "evidence": "Node equal count3 plus residual/negative/unanswered texts rejects400 atomically; explicit no residual plus full safety confirmation closes. Python independent test records legacy equal-count residual permits closed. Python backend not modified."
+    },
+    {
+      "name": "Read-only products",
+      "status": "passed",
+      "required": true,
+      "evidence": "source-before.json/source-after.json: 31 product paths compared; changed=[]. QA wrote only two assigned tests and outputs, no user DB or CUA."
+    },
+    {
+      "name": "5MiB attachment linkage and second upload overflow",
+      "status": "failed",
+      "required": true,
+      "evidence": "Node test uploads real stairwell PNG into5MiB serialized UTF8 JSON fake storage, but linkage fails400 at URL validation before quota behavior. Second upload quota assertion not reached/NOT RUN. Main separately reproduced browser duplication quota issue; QA cannot yet verify dedup or second-upload atomic boundary."
+    },
+    {
+      "name": "Actual browser and live model OCR ASR",
+      "status": "not_run",
+      "required": false,
+      "evidence": "CUA, production hosting, user DB and external models not operated by QA. Main reported quota observation; source/Node/build tests only."
+    }
+  ],
+  "issues": [
+    "P1: Successful real WAV/PNG upload returns long dataURL, then incident attachment linkage is rejected400 because attachments URL uses generic string max20,000. Both independent failed groups share this root cause.",
+    "P2 main browser finding: repeated dataURL storage can exhaust browser quota when a generated stairwell image is attached. Desired5MiB dedup linkage and second overflow behavior remain unverified because QA hits earlier400. New run product fix required."
+  ],
+  "commands": [
+    {
+      "command": "node tests/pages_qa.cjs",
+      "exit_code": 1,
+      "tests": 20,
+      "passed": 18,
+      "failed": 2
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "tests": 78
+    },
+    {
+      "command": "python3 -B -m rescue.smoke",
+      "exit_code": 0,
+      "tests": 28
+    },
+    {
+      "command": "python3 -B scripts/replay.py --all --output .harness/runs/pages-v1/task-qa/outputs/fixture-report",
+      "exit_code": 0,
+      "cases": 20,
+      "assertions": 91
+    },
+    {
+      "command": "node _workspace/verification/service-v4/frontend-static-check.cjs",
+      "exit_code": 0,
+      "tests": 15
+    }
+  ],
+  "not_run": [
+    "Actual browser/public Netlify deployment/production headers owned by main.",
+    "Second large upload quota atomicity after successful stairwell linkage: blocked by earlier URL400.",
+    "Real model OCR ASR official emergency integration."
+  ]
+}

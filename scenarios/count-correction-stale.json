@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "test_kind": "input_case",
+  "id": "count-correction-stale",
+  "title": "인원 정정 뒤 오래된 완료 승인",
+  "synthetic": true,
+  "description": "정정 이력과 revision으로 낡은 완료 결정을 거절한다. 모든 인물·ID·장소·좌표는 합성이며 fixture_analysis는 인간작성 분석이다. 실제 LLM·OCR·ASR 미실행.",
+  "channels": [
+    "sms",
+    "field",
+    "operator"
+  ],
+  "events": [
+    {
+      "id": "E1",
+      "channel": "sms",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:01:00+09:00",
+      "received_at": "2026-07-15T10:01:00+09:00",
+      "text": "합성 은하빌라 201호에 2명이 고립됐어요.",
+      "request_id": "R-A",
+      "building_id": "SYN-B1"
+    },
+    {
+      "id": "E2",
+      "channel": "field",
+      "actor": "합성 현장팀-A",
+      "occurred_at": "2026-07-15T10:02:00+09:00",
+      "received_at": "2026-07-15T10:02:00+09:00",
+      "text": "R-A 두 명 구조했습니다.",
+      "candidate_request_ids": [
+        "R-A"
+      ]
+    },
+    {
+      "id": "E3",
+      "channel": "sms",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:03:00+09:00",
+      "received_at": "2026-07-15T10:03:00+09:00",
+      "text": "인원 정정합니다. 아이 한 명을 빠뜨렸고 총 세 명입니다.",
+      "request_id": "R-A"
+    },
+    {
+      "id": "E4",
+      "channel": "operator",
+      "actor": "합성 담당자-1",
+      "occurred_at": "2026-07-15T10:04:00+09:00",
+      "received_at": "2026-07-15T10:04:00+09:00",
+      "text": "합성 담당자가 R-A의 근거와 2명 대조 후 rescued 확정.",
+      "decision": {
+        "kind": "confirm_outcome",
+        "request_id": "R-A",
+        "outcome": "rescued",
+        "confirmed_count": 2,
+        "basis_event_ids": [
+          "E2"
+        ],
+        "expected_revision": 1
+      }
+    },
+    {
+      "id": "E5",
+      "channel": "field",
+      "actor": "합성 현장팀-A",
+      "occurred_at": "2026-07-15T10:05:00+09:00",
+      "received_at": "2026-07-15T10:05:00+09:00",
+      "text": "정정된 R-A 세 명 모두 구조 확인했습니다.",
+      "candidate_request_ids": [
+        "R-A"
+      ]
+    },
+    {
+      "id": "E6",
+      "channel": "operator",
+      "actor": "합성 담당자-1",
+      "occurred_at": "2026-07-15T10:06:00+09:00",
+      "received_at": "2026-07-15T10:06:00+09:00",
+      "text": "합성 담당자가 R-A의 근거와 3명 대조 후 rescued 확정.",
+      "decision": {
+        "kind": "confirm_outcome",
+        "request_id": "R-A",
+        "outcome": "rescued",
+        "confirmed_count": 3,
+        "basis_event_ids": [
+          "E5"
+        ],
+        "expected_revision": 2
+      }
+    }
+  ],
+  "fixture_analysis": {
+    "E1": {
+      "event_id": "E1",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "합성 은하빌라 201호에 2명이 고립됐어요.",
+          "people_count": 2,
+          "location_text": "201호",
+          "needs": [
+            "고립"
+          ]
+        }
+      ]
+    },
+    "E2": {
+      "event_id": "E2",
+      "observations": [
+        {
+          "kind": "rescue_report",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "R-A 두 명 구조했습니다.",
+          "people_count": 2
+        }
+      ]
+    },
+    "E3": {
+      "event_id": "E3",
+      "observations": [
+        {
+          "kind": "count_correction",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "인원 정정합니다. 아이 한 명을 빠뜨렸고 총 세 명입니다.",
+          "people_count": 3
+        }
+      ]
+    },
+    "E5": {
+      "event_id": "E5",
+      "observations": [
+        {
+          "kind": "rescue_report",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "정정된 R-A 세 명 모두 구조 확인했습니다.",
+          "people_count": 3
+        }
+      ]
+    }
+  },
+  "expectations": [
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "보고만으로 미완료",
+      "after": "E2"
+    },
+    {
+      "path": "requests.R-A.people_count",
+      "equals": 3,
+      "label": "명시적 인원 정정",
+      "after": "E3"
+    },
+    {
+      "path": "requests.R-A.revision",
+      "equals": 2,
+      "label": "정정 버전 증가",
+      "after": "E3"
+    },
+    {
+      "path": "alerts",
+      "contains_code": "closure_blocked",
+      "active": true,
+      "label": "revision 1 승인 차단",
+      "after": "E4"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "낡은 승인으로 완료 금지",
+      "after": "E4"
+    },
+    {
+      "path": "requests.R-A.status",
+      "equals": "resolved",
+      "label": "새 인원과 버전 확인 후 완료"
+    },
+    {
+      "path": "requests.R-A.revision",
+      "equals": 2,
+      "label": "보고와 확인은 revision 유지"
+    }
+  ],
+  "demo_notes": "E3에서 2→3명·revision 2를 짚고 E4 실패를 보인 뒤 E6에서 새 근거로 완료한다."
+}

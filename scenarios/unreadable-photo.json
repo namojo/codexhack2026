@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "test_kind": "input_case",
+  "id": "unreadable-photo",
+  "title": "읽을 수 없는 사진",
+  "synthetic": true,
+  "description": "첨부가 존재한다는 이유로 인원이나 구조 완료를 추정하는 위험. 모든 인물·ID·장소·좌표는 합성이며 fixture_analysis는 인간작성 분석이다. 실제 LLM·OCR·ASR 미실행.",
+  "channels": [
+    "sms",
+    "mms"
+  ],
+  "events": [
+    {
+      "id": "E1",
+      "channel": "sms",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:01:00+09:00",
+      "received_at": "2026-07-15T10:01:00+09:00",
+      "text": "합성 은하빌라 201호에 2명이 고립됐어요.",
+      "request_id": "R-A",
+      "building_id": "SYN-B1"
+    },
+    {
+      "id": "E2",
+      "channel": "mms",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:02:00+09:00",
+      "received_at": "2026-07-15T10:02:00+09:00",
+      "text": "흐릿한 사진을 보냈습니다. 사진으로 현재 인원은 알 수 없습니다.",
+      "request_id": "R-A",
+      "attachments": [
+        {
+          "id": "SYN-IMG1",
+          "media_type": "image",
+          "description": "합성 사진 설명: 어두운 계단, 인원 식별 불가.",
+          "transcript_source": "fixture",
+          "captured_at": "2026-07-15T10:02:00+09:00",
+          "readable": false
+        }
+      ]
+    }
+  ],
+  "fixture_analysis": {
+    "E1": {
+      "event_id": "E1",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "합성 은하빌라 201호에 2명이 고립됐어요.",
+          "people_count": 2,
+          "location_text": "201호",
+          "needs": [
+            "고립"
+          ]
+        }
+      ]
+    },
+    "E2": {
+      "event_id": "E2",
+      "observations": [
+        {
+          "kind": "unreadable_media",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "합성 사진 설명: 어두운 계단, 인원 식별 불가."
+        }
+      ]
+    }
+  },
+  "expectations": [
+    {
+      "path": "alerts",
+      "contains_code": "unreadable_media",
+      "active": true,
+      "label": "첨부 해석 불가 확인",
+      "after": "E2"
+    },
+    {
+      "path": "requests.R-A.people_count",
+      "equals": 2,
+      "label": "이미 접수된 인원 유지"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "사진만으로 완료 금지"
+    },
+    {
+      "path": "requests.R-A.revision",
+      "equals": 1,
+      "label": "읽지 못한 첨부는 수정 아님"
+    }
+  ],
+  "demo_notes": "실제 이미지 대신 텍스트 미디어 설명과 readable=false임을 밝힌다."
+}

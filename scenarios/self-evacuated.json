@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "test_kind": "input_case",
+  "id": "self-evacuated",
+  "title": "자력 대피의 담당자 확인",
+  "synthetic": true,
+  "description": "안전 진술과 완료 확정을 분리하고 결과 종류를 보존한다. 모든 인물·ID·장소·좌표는 합성이며 fixture_analysis는 인간작성 분석이다. 실제 LLM·OCR·ASR 미실행.",
+  "channels": [
+    "sms",
+    "field",
+    "operator"
+  ],
+  "events": [
+    {
+      "id": "E1",
+      "channel": "sms",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:01:00+09:00",
+      "received_at": "2026-07-15T10:01:00+09:00",
+      "text": "합성 은하빌라 201호에 2명이 고립됐어요.",
+      "request_id": "R-A",
+      "building_id": "SYN-B1"
+    },
+    {
+      "id": "E2",
+      "channel": "field",
+      "actor": "합성 현장팀-A",
+      "occurred_at": "2026-07-15T10:02:00+09:00",
+      "received_at": "2026-07-15T10:02:00+09:00",
+      "text": "R-A 두 명이 스스로 합성 대피소에 도착해 본인 확인했습니다.",
+      "candidate_request_ids": [
+        "R-A"
+      ]
+    },
+    {
+      "id": "E3",
+      "channel": "operator",
+      "actor": "합성 담당자-1",
+      "occurred_at": "2026-07-15T10:03:00+09:00",
+      "received_at": "2026-07-15T10:03:00+09:00",
+      "text": "합성 담당자가 R-A의 근거와 2명 대조 후 self_evacuated 확정.",
+      "decision": {
+        "kind": "confirm_outcome",
+        "request_id": "R-A",
+        "outcome": "self_evacuated",
+        "confirmed_count": 2,
+        "basis_event_ids": [
+          "E2"
+        ],
+        "expected_revision": 1
+      }
+    }
+  ],
+  "fixture_analysis": {
+    "E1": {
+      "event_id": "E1",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "합성 은하빌라 201호에 2명이 고립됐어요.",
+          "people_count": 2,
+          "location_text": "201호",
+          "needs": [
+            "고립"
+          ]
+        }
+      ]
+    },
+    "E2": {
+      "event_id": "E2",
+      "observations": [
+        {
+          "kind": "safe_report",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "R-A 두 명이 스스로 합성 대피소에 도착해 본인 확인했습니다.",
+          "people_count": 2
+        }
+      ]
+    }
+  },
+  "expectations": [
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "인계 진술만으로 미확정",
+      "after": "E2"
+    },
+    {
+      "path": "requests.R-A.status",
+      "equals": "resolved",
+      "label": "담당자 대조 후 완료"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": "self_evacuated",
+      "label": "구조와 구분된 완료 종류"
+    }
+  ],
+  "demo_notes": "E2는 AI 제안과 확인 대기, E3는 담당자 결정으로 완료. outcome을 구조 완료와 구분해서 읽는다."
+}

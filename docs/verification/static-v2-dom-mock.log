@@ -1,0 +1,16 @@
+PASS ordering level → operator priority → oldest reception; completed excluded
+PASS operator priority unchanged by derived order
+PASS table uses action order except results
+PASS global strip count is incidents, with current-open qualifier
+PASS dashboard top 3 and dedicated entire target list
+PASS situation/reason/quote/next action use server fields, HTML escaped
+PASS detail shows all tasks, missing evidence explicit
+PASS empty states remove global tasks and menu count
+PASS menu/strip present, validation-tool link removed, responsive CSS retained
+PASS latest detail revision before progress form
+PASS latest detail revision before field-report form
+PASS latest detail revision before report form
+PASS latest detail revision before edit form
+PASS source navigation switches to reports and focuses exact report
+PASS failed latest detail never opens stale form; button released
+PASS 15 JS/DOM-stub checks; browser layout, network and workflow NOT RUN by frontend in service-v4

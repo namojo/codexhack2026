@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "test_kind": "input_case",
+  "id": "post-resolution-update",
+  "title": "완료 후 새 정보가 오면 재확인",
+  "synthetic": true,
+  "description": "완료 뒤 인원·위치·도움 변경을 영구 닫힘으로 묻는 위험. 모든 인물·ID·장소·좌표는 합성이며 fixture_analysis는 인간작성 분석이다. 실제 LLM·OCR·ASR 미실행.",
+  "channels": [
+    "sms",
+    "field",
+    "operator"
+  ],
+  "events": [
+    {
+      "id": "E1",
+      "channel": "sms",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:01:00+09:00",
+      "received_at": "2026-07-15T10:01:00+09:00",
+      "text": "합성 은하빌라 201호에 2명이 고립됐어요.",
+      "request_id": "R-A",
+      "building_id": "SYN-B1"
+    },
+    {
+      "id": "E2",
+      "channel": "field",
+      "actor": "합성 현장팀-A",
+      "occurred_at": "2026-07-15T10:02:00+09:00",
+      "received_at": "2026-07-15T10:02:00+09:00",
+      "text": "R-A 두 명 모두 구조했습니다.",
+      "candidate_request_ids": [
+        "R-A"
+      ]
+    },
+    {
+      "id": "E3",
+      "channel": "operator",
+      "actor": "합성 담당자-1",
+      "occurred_at": "2026-07-15T10:03:00+09:00",
+      "received_at": "2026-07-15T10:03:00+09:00",
+      "text": "합성 담당자가 R-A의 근거와 2명 대조 후 rescued 확정.",
+      "decision": {
+        "kind": "confirm_outcome",
+        "request_id": "R-A",
+        "outcome": "rescued",
+        "confirmed_count": 2,
+        "basis_event_ids": [
+          "E2"
+        ],
+        "expected_revision": 1
+      }
+    },
+    {
+      "id": "E4",
+      "channel": "sms",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:04:00+09:00",
+      "received_at": "2026-07-15T10:04:00+09:00",
+      "text": "추가 확인 부탁합니다. R-A의 인원은 세 명이었고 한 명이 301호에 고립돼 있습니다.",
+      "request_id": "R-A"
+    }
+  ],
+  "fixture_analysis": {
+    "E1": {
+      "event_id": "E1",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "합성 은하빌라 201호에 2명이 고립됐어요.",
+          "people_count": 2,
+          "location_text": "201호",
+          "needs": [
+            "고립"
+          ]
+        }
+      ]
+    },
+    "E2": {
+      "event_id": "E2",
+      "observations": [
+        {
+          "kind": "rescue_report",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "R-A 두 명 모두 구조했습니다.",
+          "people_count": 2
+        }
+      ]
+    },
+    "E4": {
+      "event_id": "E4",
+      "observations": [
+        {
+          "kind": "count_correction",
+          "request_ids": [
+            "R-A"
+          ],
+          "people_count": 3,
+          "evidence_quote": "추가 확인 부탁합니다. R-A의 인원은 세 명이었고 한 명이 301호에 고립돼 있습니다."
+        },
+        {
+          "kind": "location_update",
+          "request_ids": [
+            "R-A"
+          ],
+          "location_text": "301호",
+          "evidence_quote": "추가 확인 부탁합니다. R-A의 인원은 세 명이었고 한 명이 301호에 고립돼 있습니다."
+        },
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-A"
+          ],
+          "needs": [
+            "고립",
+            "추가 확인"
+          ],
+          "evidence_quote": "추가 확인 부탁합니다. R-A의 인원은 세 명이었고 한 명이 301호에 고립돼 있습니다."
+        }
+      ]
+    }
+  },
+  "expectations": [
+    {
+      "path": "requests.R-A.status",
+      "equals": "resolved",
+      "label": "초기 완료",
+      "after": "E3"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "새 정보 후 완료 해제"
+    },
+    {
+      "path": "requests.R-A.people_count",
+      "equals": 3,
+      "label": "새 접수 인원 반영"
+    },
+    {
+      "path": "requests.R-A.location_text",
+      "equals": "301호",
+      "label": "새 위치 반영"
+    },
+    {
+      "path": "requests.R-A.revision",
+      "equals": 2,
+      "label": "새 정보 버전"
+    },
+    {
+      "path": "alerts",
+      "contains_code": "post_resolution_update",
+      "active": true,
+      "label": "완료 후 변경 재확인"
+    }
+  ],
+  "demo_notes": "E3 완료를 보여준 뒤 E4에서 미확정으로 다시 열리고 알림이 남는지 본다."
+}

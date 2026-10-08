@@ -1,0 +1,121 @@
+{
+  "run_id": "pages-v2",
+  "objective": "현재 서비스와 아이디어를 공개 GitHub 저장소 및 hack-test GitHub Pages에 배포",
+  "tasks": [
+    {
+      "context": {
+        "decisions": [
+          "사용자 공개 저장소와 Pages 배포 명시 승인",
+          "로컬DB 무변경/공개seed10사건",
+          "역할파일명시 builtin fallback",
+          "브라우저는메인",
+          "최종저장과nativeFINAL후결과등록"
+        ],
+        "skill_paths": [
+          ".agents/skills/service-operations/SKILL.md"
+        ]
+      },
+      "inputs": [
+        "AGENTS.md",
+        "docs/service-contract.md",
+        "docs/attention-contract.md",
+        "docs/interaction-contract.md",
+        "docs/interaction-followup-contract.md",
+        "docs/pages-contract.md",
+        "docs/pages-upload-contract.md"
+      ],
+      "status": "pending",
+      "required": true,
+      "acceptance": [
+        "Pages 실제업무동작과안전가드",
+        "서브경로와영속상태",
+        "실제검사와미실행범위"
+      ],
+      "id": "pages",
+      "role": "service_backend",
+      "ownership": [
+        "web/pages-store.js",
+        "scripts/build_pages.py"
+      ],
+      "dependencies": []
+    },
+    {
+      "context": {
+        "decisions": [
+          "사용자 공개 저장소와 Pages 배포 명시 승인",
+          "로컬DB 무변경/공개seed10사건",
+          "역할파일명시 builtin fallback",
+          "브라우저는메인",
+          "최종저장과nativeFINAL후결과등록"
+        ],
+        "skill_paths": [
+          ".agents/skills/service-operations/SKILL.md"
+        ]
+      },
+      "inputs": [
+        "AGENTS.md",
+        "docs/service-contract.md",
+        "docs/attention-contract.md",
+        "docs/interaction-contract.md",
+        "docs/interaction-followup-contract.md",
+        "docs/pages-contract.md"
+      ],
+      "status": "pending",
+      "required": true,
+      "acceptance": [
+        "Pages 실제업무동작과안전가드",
+        "서브경로와영속상태",
+        "실제검사와미실행범위"
+      ],
+      "id": "frontend",
+      "role": "service_frontend",
+      "ownership": [
+        "web/app.js",
+        "web/index.html",
+        "web/style.css"
+      ],
+      "dependencies": []
+    },
+    {
+      "context": {
+        "decisions": [
+          "사용자 공개 저장소와 Pages 배포 명시 승인",
+          "로컬DB 무변경/공개seed10사건",
+          "역할파일명시 builtin fallback",
+          "브라우저는메인",
+          "최종저장과nativeFINAL후결과등록"
+        ],
+        "skill_paths": [
+          ".agents/skills/service-operations/SKILL.md"
+        ]
+      },
+      "inputs": [
+        "AGENTS.md",
+        "docs/service-contract.md",
+        "docs/attention-contract.md",
+        "docs/interaction-contract.md",
+        "docs/interaction-followup-contract.md",
+        "docs/pages-contract.md",
+        "docs/pages-upload-contract.md"
+      ],
+      "status": "pending",
+      "required": true,
+      "acceptance": [
+        "Pages 실제업무동작과안전가드",
+        "서브경로와영속상태",
+        "실제검사와미실행범위"
+      ],
+      "id": "qa",
+      "role": "service_qa",
+      "ownership": [
+        "tests/test_pages_qa.py",
+        "tests/pages_qa.cjs",
+        ".harness/runs/pages-v2/task-qa/outputs/"
+      ],
+      "dependencies": [
+        "pages",
+        "frontend"
+      ]
+    }
+  ]
+}

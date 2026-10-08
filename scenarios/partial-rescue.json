@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "test_kind": "input_case",
+  "id": "partial-rescue",
+  "title": "부분 구조는 전체 완료가 아니다",
+  "synthetic": true,
+  "description": "부분 구조 인원 불일치와 성급한 완료 거절. 모든 인물·ID·장소·좌표는 합성이며 fixture_analysis는 인간작성 분석이다. 실제 LLM·OCR·ASR 미실행.",
+  "channels": [
+    "sms",
+    "field",
+    "operator"
+  ],
+  "events": [
+    {
+      "id": "E1",
+      "channel": "sms",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:01:00+09:00",
+      "received_at": "2026-07-15T10:01:00+09:00",
+      "text": "합성 은하빌라 201호에 3명이 고립됐어요.",
+      "request_id": "R-A",
+      "building_id": "SYN-B1"
+    },
+    {
+      "id": "E2",
+      "channel": "field",
+      "actor": "합성 현장팀-A",
+      "occurred_at": "2026-07-15T10:02:00+09:00",
+      "received_at": "2026-07-15T10:02:00+09:00",
+      "text": "R-A 세 명 중 두 명만 구조했고 한 명은 남았습니다.",
+      "candidate_request_ids": [
+        "R-A"
+      ]
+    },
+    {
+      "id": "E3",
+      "channel": "operator",
+      "actor": "합성 담당자-1",
+      "occurred_at": "2026-07-15T10:03:00+09:00",
+      "received_at": "2026-07-15T10:03:00+09:00",
+      "text": "합성 담당자가 R-A의 근거와 2명 대조 후 rescued 확정.",
+      "decision": {
+        "kind": "confirm_outcome",
+        "request_id": "R-A",
+        "outcome": "rescued",
+        "confirmed_count": 2,
+        "basis_event_ids": [
+          "E2"
+        ],
+        "expected_revision": 1
+      }
+    },
+    {
+      "id": "E4",
+      "channel": "field",
+      "actor": "합성 현장팀-A",
+      "occurred_at": "2026-07-15T10:04:00+09:00",
+      "received_at": "2026-07-15T10:04:00+09:00",
+      "text": "R-A 세 명 전원 구조 확인했습니다.",
+      "candidate_request_ids": [
+        "R-A"
+      ]
+    },
+    {
+      "id": "E5",
+      "channel": "operator",
+      "actor": "합성 담당자-1",
+      "occurred_at": "2026-07-15T10:05:00+09:00",
+      "received_at": "2026-07-15T10:05:00+09:00",
+      "text": "합성 담당자가 R-A의 근거와 3명 대조 후 rescued 확정.",
+      "decision": {
+        "kind": "confirm_outcome",
+        "request_id": "R-A",
+        "outcome": "rescued",
+        "confirmed_count": 3,
+        "basis_event_ids": [
+          "E4"
+        ],
+        "expected_revision": 1
+      }
+    }
+  ],
+  "fixture_analysis": {
+    "E1": {
+      "event_id": "E1",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "합성 은하빌라 201호에 3명이 고립됐어요.",
+          "people_count": 3,
+          "location_text": "201호",
+          "needs": [
+            "고립"
+          ]
+        }
+      ]
+    },
+    "E2": {
+      "event_id": "E2",
+      "observations": [
+        {
+          "kind": "rescue_report",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "R-A 세 명 중 두 명만 구조했고 한 명은 남았습니다.",
+          "people_count": 2
+        }
+      ]
+    },
+    "E4": {
+      "event_id": "E4",
+      "observations": [
+        {
+          "kind": "rescue_report",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "R-A 세 명 전원 구조 확인했습니다.",
+          "people_count": 3
+        }
+      ]
+    }
+  },
+  "expectations": [
+    {
+      "path": "alerts",
+      "contains_code": "count_unreconciled",
+      "active": true,
+      "label": "부분 구조 인원 대조",
+      "after": "E2"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "부분 구조 미완료",
+      "after": "E2"
+    },
+    {
+      "path": "requests.R-A.status",
+      "equals": "awaiting_confirmation",
+      "label": "부분 보고 확인 대기",
+      "after": "E2"
+    },
+    {
+      "path": "alerts",
+      "contains_code": "closure_blocked",
+      "active": true,
+      "label": "2명 완료 승인 거절",
+      "after": "E3"
+    },
+    {
+      "path": "requests.R-A.people_count",
+      "equals": 3,
+      "label": "원래 요청 인원 유지",
+      "after": "E3"
+    },
+    {
+      "path": "requests.R-A.status",
+      "equals": "resolved",
+      "label": "전체 근거 후 완료"
+    },
+    {
+      "path": "requests.R-A.revision",
+      "equals": 1,
+      "label": "보고는 revision 유지"
+    }
+  ],
+  "demo_notes": "2명 구조 보고와 3명 접수의 차이를 강조하고 전체 보고와 담당자 결정 후만 닫는다."
+}

@@ -1,0 +1,104 @@
+{
+  "run_id": "rescue-v1",
+  "objective": "다매체 구조 요청을 근거·사람 확인으로 대조하는 실행 가능한 해커톤 하네스 구축",
+  "tasks": [
+    {
+      "id": "engine",
+      "role": "rescue_engine_worker",
+      "dependencies": [],
+      "ownership": [
+        "rescue/"
+      ],
+      "inputs": [
+        "docs/contract.md",
+        "AGENTS.md"
+      ],
+      "context": {
+        "decisions": [
+          "합성 입력만 사용",
+          "fixture와 live 결과 분리",
+          "완료는 근거 있는 담당자 결정으로만",
+          "표준 라이브러리 Python 엔진"
+        ],
+        "skill_paths": [
+          ".agents/skills/rescue-orchestrator/SKILL.md"
+        ]
+      },
+      "acceptance": [
+        "공통 계약을 준수한 실제 산출물",
+        "실제 검증 근거와 미실행 범위 반환"
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "required": true
+    },
+    {
+      "id": "cases",
+      "role": "scenario_designer",
+      "dependencies": [],
+      "ownership": [
+        "scenarios/",
+        "docs/proposal.md",
+        "docs/casebook.md",
+        "docs/demo-script.md",
+        "docs/sources.md"
+      ],
+      "inputs": [
+        "docs/contract.md",
+        "AGENTS.md"
+      ],
+      "context": {
+        "decisions": [
+          "합성 입력만 사용",
+          "fixture와 live 결과 분리",
+          "완료는 근거 있는 담당자 결정으로만",
+          "표준 라이브러리 Python 엔진"
+        ],
+        "skill_paths": [
+          ".agents/skills/rescue-orchestrator/SKILL.md"
+        ]
+      },
+      "acceptance": [
+        "공통 계약을 준수한 실제 산출물",
+        "실제 검증 근거와 미실행 범위 반환"
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "required": true
+    },
+    {
+      "id": "qa",
+      "role": "rescue_qa",
+      "dependencies": [
+        "engine",
+        "cases"
+      ],
+      "ownership": [
+        "tests/",
+        ".harness/runs/rescue-v1/task-qa/outputs/"
+      ],
+      "inputs": [
+        "docs/contract.md",
+        "AGENTS.md"
+      ],
+      "context": {
+        "decisions": [
+          "합성 입력만 사용",
+          "fixture와 live 결과 분리",
+          "완료는 근거 있는 담당자 결정으로만",
+          "표준 라이브러리 Python 엔진"
+        ],
+        "skill_paths": [
+          ".agents/skills/rescue-orchestrator/SKILL.md"
+        ]
+      },
+      "acceptance": [
+        "공통 계약을 준수한 실제 산출물",
+        "실제 검증 근거와 미실행 범위 반환"
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "required": true
+    }
+  ]
+}

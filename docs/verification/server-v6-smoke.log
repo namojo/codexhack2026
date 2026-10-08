@@ -1,0 +1,33 @@
+test_ambiguous_report (__main__.EngineSmoke.test_ambiguous_report) ... ok
+test_attachment_evidence_and_gps_subject (__main__.EngineSmoke.test_attachment_evidence_and_gps_subject) ... ok
+test_count_and_basis_block (__main__.EngineSmoke.test_count_and_basis_block) ... ok
+test_count_correction_history (__main__.EngineSmoke.test_count_correction_history) ... ok
+test_deterministic (__main__.EngineSmoke.test_deterministic) ... ok
+test_dispatch_not_closure (__main__.EngineSmoke.test_dispatch_not_closure) ... ok
+test_duplicate_candidate_keeps_cards (__main__.EngineSmoke.test_duplicate_candidate_keeps_cards) ... ok
+test_expectation_malformed_never_passes (__main__.EngineSmoke.test_expectation_malformed_never_passes) ... ok
+test_expectations_all_operations (__main__.EngineSmoke.test_expectations_all_operations) ... ok
+test_initial_and_immutable (__main__.EngineSmoke.test_initial_and_immutable) ... ok
+test_invalid_analysis_variants (__main__.EngineSmoke.test_invalid_analysis_variants) ... ok
+test_invalid_original_events (__main__.EngineSmoke.test_invalid_original_events) ... ok
+test_late_location_no_overwrite (__main__.EngineSmoke.test_late_location_no_overwrite) ... ok
+test_link_count_mismatch_block (__main__.EngineSmoke.test_link_count_mismatch_block) ... ok
+test_new_need_and_same_need_reopen (__main__.EngineSmoke.test_new_need_and_same_need_reopen) ... ok
+test_no_fixture_fallback (__main__.EngineSmoke.test_no_fixture_fallback) ... ok
+test_nonmonotonic_and_duplicate (__main__.EngineSmoke.test_nonmonotonic_and_duplicate) ... ok
+test_partial_or_missing_basis_count_blocks (__main__.EngineSmoke.test_partial_or_missing_basis_count_blocks) ... ok
+test_partial_report (__main__.EngineSmoke.test_partial_report) ... ok
+test_post_resolution_location_and_late (__main__.EngineSmoke.test_post_resolution_location_and_late) ... ok
+test_problem_never_resolves (__main__.EngineSmoke.test_problem_never_resolves) ... ok
+test_rejection_atomic (__main__.EngineSmoke.test_rejection_atomic) ... ok
+test_report_and_human_confirmation (__main__.EngineSmoke.test_report_and_human_confirmation) ... ok
+test_reports_never_auto_sum (__main__.EngineSmoke.test_reports_never_auto_sum) ... ok
+test_request_no_implicit_count_correction (__main__.EngineSmoke.test_request_no_implicit_count_correction) ... ok
+test_stale_revision (__main__.EngineSmoke.test_stale_revision) ... ok
+test_synthetic_and_mode (__main__.EngineSmoke.test_synthetic_and_mode) ... ok
+test_unknown_count_cannot_close (__main__.EngineSmoke.test_unknown_count_cannot_close) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 0.006s
+
+OK

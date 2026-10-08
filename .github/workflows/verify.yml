@@ -1,0 +1,30 @@
+name: Verify rescue console
+on:
+  push:
+    branches: [main]
+    paths: ['web/**', 'data/**', 'scripts/**', 'service/**', 'rescue/**', 'scenarios/**', 'tests/**', '.github/workflows/verify.yml']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+      - name: Service and static-site regression
+        run: python3 -B -m unittest discover -s tests -v
+      - name: Engine smoke
+        run: python3 -B -m rescue.smoke
+      - name: Replay fixtures
+        run: python3 -B scripts/replay.py --all --output /tmp/rescue-publish-fixture
+      - name: Browser storage adapter
+        run: node tests/pages_qa.cjs
+      - name: Build static site
+        run: python3 -B scripts/build_pages.py --output dist/pages

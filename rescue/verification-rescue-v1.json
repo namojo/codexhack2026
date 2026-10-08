@@ -1,0 +1,1629 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "mode": "fixture",
+  "created_at": "2026-10-08T04:10:02.763842+00:00",
+  "cwd": "/Users/andy/Documents/ChatGPT/Codex 2026 Hack",
+  "command": "python3 -B -m rescue.verify",
+  "exit_code": 0,
+  "input_sha256": {
+    "docs/contract.md": "68da7b5795e42ac93b8e73c6b8603b630cf36f0922572d07fc326373cf7ac332",
+    "rescue/engine.py": "b97ad0cfd8bb5bd1dd35bf43f575bdd850178869a413c49542f285e7cf91a2eb",
+    "rescue/smoke.py": "d2f7df71d88a821e0d86bd11d438292f63ccd76a3c0d5cadda8451c680913855",
+    "rescue/verify.py": "df41ee116b0bcc3023ea3ea55cb1a0dfa4410088bb0e41168b3827535310a874"
+  },
+  "passed": true,
+  "smoke": {
+    "tests": 28,
+    "failures": 0,
+    "errors": 0,
+    "passed": true,
+    "output": "test_ambiguous_report (rescue.smoke.EngineSmoke.test_ambiguous_report) ... ok\ntest_attachment_evidence_and_gps_subject (rescue.smoke.EngineSmoke.test_attachment_evidence_and_gps_subject) ... ok\ntest_count_and_basis_block (rescue.smoke.EngineSmoke.test_count_and_basis_block) ... ok\ntest_count_correction_history (rescue.smoke.EngineSmoke.test_count_correction_history) ... ok\ntest_deterministic (rescue.smoke.EngineSmoke.test_deterministic) ... ok\ntest_dispatch_not_closure (rescue.smoke.EngineSmoke.test_dispatch_not_closure) ... ok\ntest_duplicate_candidate_keeps_cards (rescue.smoke.EngineSmoke.test_duplicate_candidate_keeps_cards) ... ok\ntest_expectation_malformed_never_passes (rescue.smoke.EngineSmoke.test_expectation_malformed_never_passes) ... ok\ntest_expectations_all_operations (rescue.smoke.EngineSmoke.test_expectations_all_operations) ... ok\ntest_initial_and_immutable (rescue.smoke.EngineSmoke.test_initial_and_immutable) ... ok\ntest_invalid_analysis_variants (rescue.smoke.EngineSmoke.test_invalid_analysis_variants) ... ok\ntest_invalid_original_events (rescue.smoke.EngineSmoke.test_invalid_original_events) ... ok\ntest_late_location_no_overwrite (rescue.smoke.EngineSmoke.test_late_location_no_overwrite) ... ok\ntest_link_count_mismatch_block (rescue.smoke.EngineSmoke.test_link_count_mismatch_block) ... ok\ntest_new_need_and_same_need_reopen (rescue.smoke.EngineSmoke.test_new_need_and_same_need_reopen) ... ok\ntest_no_fixture_fallback (rescue.smoke.EngineSmoke.test_no_fixture_fallback) ... ok\ntest_nonmonotonic_and_duplicate (rescue.smoke.EngineSmoke.test_nonmonotonic_and_duplicate) ... ok\ntest_partial_or_missing_basis_count_blocks (rescue.smoke.EngineSmoke.test_partial_or_missing_basis_count_blocks) ... ok\ntest_partial_report (rescue.smoke.EngineSmoke.test_partial_report) ... ok\ntest_post_resolution_location_and_late (rescue.smoke.EngineSmoke.test_post_resolution_location_and_late) ... ok\ntest_problem_never_resolves (rescue.smoke.EngineSmoke.test_problem_never_resolves) ... ok\ntest_rejection_atomic (rescue.smoke.EngineSmoke.test_rejection_atomic) ... ok\ntest_report_and_human_confirmation (rescue.smoke.EngineSmoke.test_report_and_human_confirmation) ... ok\ntest_reports_never_auto_sum (rescue.smoke.EngineSmoke.test_reports_never_auto_sum) ... ok\ntest_request_no_implicit_count_correction (rescue.smoke.EngineSmoke.test_request_no_implicit_count_correction) ... ok\ntest_stale_revision (rescue.smoke.EngineSmoke.test_stale_revision) ... ok\ntest_synthetic_and_mode (rescue.smoke.EngineSmoke.test_synthetic_and_mode) ... ok\ntest_unknown_count_cannot_close (rescue.smoke.EngineSmoke.test_unknown_count_cannot_close) ... ok\n\n----------------------------------------------------------------------\nRan 28 tests in 0.005s\n\nOK\n"
+  },
+  "case_count": 20,
+  "passed_cases": 20,
+  "events": 57,
+  "assertions": 91,
+  "cases": [
+    {
+      "path": "scenarios/count-correction-stale.json",
+      "sha256": "58462cea179f1a3c25cc35f4ea26a9d2c74ae5fb6482a5b8b5ea0a4a02b361b7",
+      "passed": true,
+      "metrics": {
+        "events": 6,
+        "requests": 1,
+        "resolved": 1,
+        "unresolved": 0,
+        "active_alerts": 0,
+        "rejected_analyses": 0,
+        "blocked_closures": 1
+      },
+      "checks": [
+        {
+          "label": "보고만으로 미완료",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": "E2"
+        },
+        {
+          "label": "명시적 인원 정정",
+          "passed": true,
+          "expected": {
+            "equals": 3
+          },
+          "actual": 3,
+          "after": "E3"
+        },
+        {
+          "label": "정정 버전 증가",
+          "passed": true,
+          "expected": {
+            "equals": 2
+          },
+          "actual": 2,
+          "after": "E3"
+        },
+        {
+          "label": "revision 1 승인 차단",
+          "passed": true,
+          "expected": {
+            "contains_code": "closure_blocked",
+            "active": true
+          },
+          "actual": [
+            {
+              "code": "closure_blocked",
+              "request_ids": [
+                "R-A"
+              ],
+              "event_ids": [
+                "E4"
+              ],
+              "message": "완료 승인의 revision이 현재 카드와 다릅니다.",
+              "question": "담당자·대상·인원·현재 revision·도착한 근거를 다시 확인했나요?",
+              "active": true
+            }
+          ],
+          "after": "E4"
+        },
+        {
+          "label": "낡은 승인으로 완료 금지",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": "E4"
+        },
+        {
+          "label": "새 인원과 버전 확인 후 완료",
+          "passed": true,
+          "expected": {
+            "equals": "resolved"
+          },
+          "actual": "resolved",
+          "after": null
+        },
+        {
+          "label": "보고와 확인은 revision 유지",
+          "passed": true,
+          "expected": {
+            "equals": 2
+          },
+          "actual": 2,
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/delivery-failure.json",
+      "sha256": "3ec7532f8b1ed8516e51c616a216889fd88fb159403fd7fac72eac6a8fc558b3",
+      "passed": true,
+      "metrics": {
+        "events": 2,
+        "requests": 1,
+        "resolved": 0,
+        "unresolved": 1,
+        "active_alerts": 1,
+        "rejected_analyses": 0,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "미전달 확인 질문",
+          "passed": true,
+          "expected": {
+            "contains_code": "delivery_failure",
+            "active": true
+          },
+          "actual": [
+            {
+              "code": "delivery_failure",
+              "request_ids": [
+                "R-A"
+              ],
+              "event_ids": [
+                "E2"
+              ],
+              "message": "전송 실패가 기록되었습니다.",
+              "question": "요청 수신과 현재 상태를 별도로 확인했나요?",
+              "active": true
+            }
+          ],
+          "after": "E2"
+        },
+        {
+          "label": "전송 실패 미확정 유지",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": null
+        },
+        {
+          "label": "실패는 정보 변경 아님",
+          "passed": true,
+          "expected": {
+            "equals": 1
+          },
+          "actual": 1,
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/dispatch-not-complete.json",
+      "sha256": "62533dae30c056fcc6d8ff29f2564785a1c4277c8be06be0440fb488559f8652",
+      "passed": true,
+      "metrics": {
+        "events": 2,
+        "requests": 1,
+        "resolved": 0,
+        "unresolved": 1,
+        "active_alerts": 0,
+        "rejected_analyses": 0,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "담당자 배정 상태",
+          "passed": true,
+          "expected": {
+            "equals": "dispatched"
+          },
+          "actual": "dispatched",
+          "after": "E2"
+        },
+        {
+          "label": "배정 결과 미확정",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": null
+        },
+        {
+          "label": "배정은 정보 버전 유지",
+          "passed": true,
+          "expected": {
+            "equals": 1
+          },
+          "actual": 1,
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/fabricated-evidence.json",
+      "sha256": "1bd49f7472dec576ad2c66ac5fdfb45795efa3e9140ee13b46118c78322c50e2",
+      "passed": true,
+      "metrics": {
+        "events": 2,
+        "requests": 1,
+        "resolved": 0,
+        "unresolved": 1,
+        "active_alerts": 1,
+        "rejected_analyses": 1,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "허위 인용 분석 거절",
+          "passed": true,
+          "expected": {
+            "contains_code": "analysis_rejected",
+            "active": true
+          },
+          "actual": [
+            {
+              "code": "analysis_rejected",
+              "request_ids": [
+                "R-A"
+              ],
+              "event_ids": [
+                "E2"
+              ],
+              "message": "분석을 거절했습니다: 근거 인용이 원문 또는 첨부 설명/기록에 없습니다",
+              "question": "원문 근거와 접수된 ID로 분석을 보완했나요?",
+              "active": true
+            }
+          ],
+          "after": "E2"
+        },
+        {
+          "label": "허위 근거 완료 금지",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": null
+        },
+        {
+          "label": "거절 전 상태 보존",
+          "passed": true,
+          "expected": {
+            "equals": 1
+          },
+          "actual": 1,
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/late-location.json",
+      "sha256": "a88050dfb32e32d90ec9a40e1df1883c99d152753f0d0ed6d91e491054871c84",
+      "passed": true,
+      "metrics": {
+        "events": 3,
+        "requests": 1,
+        "resolved": 0,
+        "unresolved": 1,
+        "active_alerts": 1,
+        "rejected_analyses": 0,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "새 위치 반영",
+          "passed": true,
+          "expected": {
+            "equals": "301호"
+          },
+          "actual": "301호",
+          "after": "E2"
+        },
+        {
+          "label": "위치 변경 버전",
+          "passed": true,
+          "expected": {
+            "equals": 2
+          },
+          "actual": 2,
+          "after": "E2"
+        },
+        {
+          "label": "늦은 옛 위치 덮기 금지",
+          "passed": true,
+          "expected": {
+            "equals": "301호"
+          },
+          "actual": "301호",
+          "after": null
+        },
+        {
+          "label": "위치 사건 시각 유지",
+          "passed": true,
+          "expected": {
+            "equals": "2026-07-15T10:02:00+09:00"
+          },
+          "actual": "2026-07-15T10:02:00+09:00",
+          "after": null
+        },
+        {
+          "label": "무시한 위치는 버전 유지",
+          "passed": true,
+          "expected": {
+            "equals": 2
+          },
+          "actual": 2,
+          "after": null
+        },
+        {
+          "label": "옛 위치 이력 표시",
+          "passed": true,
+          "expected": {
+            "contains_code": "late_location_ignored",
+            "active": true
+          },
+          "actual": [
+            {
+              "code": "late_location_ignored",
+              "request_ids": [
+                "R-A"
+              ],
+              "event_ids": [
+                "E3"
+              ],
+              "message": "늦게 도착한 옛 위치 진술을 이력에 남기고 현재 위치를 유지합니다.",
+              "question": "현재 위치를 더 최신 근거로 확인했나요?",
+              "active": true
+            }
+          ],
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/manual-duplicate-link.json",
+      "sha256": "b402c7e8ed51a10188abf716da46cb323badd0266c837d754120ba3dc14dbe7b",
+      "passed": true,
+      "metrics": {
+        "events": 4,
+        "requests": 2,
+        "resolved": 0,
+        "unresolved": 2,
+        "active_alerts": 0,
+        "rejected_analyses": 0,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "중복 후보 수동 검토",
+          "passed": true,
+          "expected": {
+            "contains_code": "duplicate_review",
+            "active": true
+          },
+          "actual": [
+            {
+              "code": "duplicate_review",
+              "request_ids": [
+                "R-A",
+                "R-B"
+              ],
+              "event_ids": [
+                "E3"
+              ],
+              "message": "동일인·가구일 수 있으나 원본 요청을 유지합니다.",
+              "question": "담당자가 개별 원문과 인원을 확인한 뒤 연결했나요?",
+              "active": true
+            }
+          ],
+          "after": "E3"
+        },
+        {
+          "label": "자동 병합 없는 두 카드",
+          "passed": true,
+          "expected": {
+            "length": 2
+          },
+          "actual": {
+            "R-A": {
+              "id": "R-A",
+              "building_id": "SYN-B1",
+              "people_count": 2,
+              "location_text": "201호",
+              "location_occurred_at": "2026-07-15T10:01:00+09:00",
+              "needs": [
+                "고립"
+              ],
+              "status": "open",
+              "revision": 1,
+              "outcome": null,
+              "canonical_id": "R-A",
+              "evidence_event_ids": [
+                "E1",
+                "E3"
+              ],
+              "count_history": [
+                {
+                  "event_id": "E1",
+                  "occurred_at": "2026-07-15T10:01:00+09:00",
+                  "kind": "request",
+                  "previous": null,
+                  "proposed": 2,
+                  "applied": true
+                }
+              ],
+              "location_history": [
+                {
+                  "event_id": "E1",
+                  "occurred_at": "2026-07-15T10:01:00+09:00",
+                  "location_text": "201호",
+                  "applied": true
+                }
+              ]
+            },
+            "R-B": {
+              "id": "R-B",
+              "building_id": "SYN-B1",
+              "people_count": 2,
+              "location_text": "201호",
+              "location_occurred_at": "2026-07-15T10:02:00+09:00",
+              "needs": [
+                "고립"
+              ],
+              "status": "open",
+              "revision": 1,
+              "outcome": null,
+              "canonical_id": "R-B",
+              "evidence_event_ids": [
+                "E2",
+                "E3"
+              ],
+              "count_history": [
+                {
+                  "event_id": "E2",
+                  "occurred_at": "2026-07-15T10:02:00+09:00",
+                  "kind": "request",
+                  "previous": null,
+                  "proposed": 2,
+                  "applied": true
+                }
+              ],
+              "location_history": [
+                {
+                  "event_id": "E2",
+                  "occurred_at": "2026-07-15T10:02:00+09:00",
+                  "location_text": "201호",
+                  "applied": true
+                }
+              ]
+            }
+          },
+          "after": "E3"
+        },
+        {
+          "label": "담당자 연결 관계",
+          "passed": true,
+          "expected": {
+            "equals": "R-A"
+          },
+          "actual": "R-A",
+          "after": null
+        },
+        {
+          "label": "연결 후에도 두 원본",
+          "passed": true,
+          "expected": {
+            "length": 2
+          },
+          "actual": {
+            "R-A": {
+              "id": "R-A",
+              "building_id": "SYN-B1",
+              "people_count": 2,
+              "location_text": "201호",
+              "location_occurred_at": "2026-07-15T10:01:00+09:00",
+              "needs": [
+                "고립"
+              ],
+              "status": "open",
+              "revision": 1,
+              "outcome": null,
+              "canonical_id": "R-A",
+              "evidence_event_ids": [
+                "E1",
+                "E3",
+                "E4"
+              ],
+              "count_history": [
+                {
+                  "event_id": "E1",
+                  "occurred_at": "2026-07-15T10:01:00+09:00",
+                  "kind": "request",
+                  "previous": null,
+                  "proposed": 2,
+                  "applied": true
+                }
+              ],
+              "location_history": [
+                {
+                  "event_id": "E1",
+                  "occurred_at": "2026-07-15T10:01:00+09:00",
+                  "location_text": "201호",
+                  "applied": true
+                }
+              ]
+            },
+            "R-B": {
+              "id": "R-B",
+              "building_id": "SYN-B1",
+              "people_count": 2,
+              "location_text": "201호",
+              "location_occurred_at": "2026-07-15T10:02:00+09:00",
+              "needs": [
+                "고립"
+              ],
+              "status": "open",
+              "revision": 1,
+              "outcome": null,
+              "canonical_id": "R-A",
+              "evidence_event_ids": [
+                "E2",
+                "E3"
+              ],
+              "count_history": [
+                {
+                  "event_id": "E2",
+                  "occurred_at": "2026-07-15T10:02:00+09:00",
+                  "kind": "request",
+                  "previous": null,
+                  "proposed": 2,
+                  "applied": true
+                }
+              ],
+              "location_history": [
+                {
+                  "event_id": "E2",
+                  "occurred_at": "2026-07-15T10:02:00+09:00",
+                  "location_text": "201호",
+                  "applied": true
+                }
+              ]
+            }
+          },
+          "after": null
+        },
+        {
+          "label": "연결이 완료가 아님",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": null
+        },
+        {
+          "label": "관련 원본도 미완료",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/missing-analysis.json",
+      "sha256": "8297c5ea9fab757ec7a0370ffcb0a9f6385ffe2dbea4e120b5ceec389092fdb1",
+      "passed": true,
+      "metrics": {
+        "events": 2,
+        "requests": 1,
+        "resolved": 0,
+        "unresolved": 1,
+        "active_alerts": 1,
+        "rejected_analyses": 1,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "누락 분석 명시 표시",
+          "passed": true,
+          "expected": {
+            "contains_code": "analysis_rejected",
+            "active": true
+          },
+          "actual": [
+            {
+              "code": "analysis_rejected",
+              "request_ids": [
+                "R-A"
+              ],
+              "event_ids": [
+                "E2"
+              ],
+              "message": "분석을 거절했습니다: 분석 출력이 없거나 객체가 아닙니다",
+              "question": "원문 근거와 접수된 ID로 분석을 보완했나요?",
+              "active": true
+            }
+          ],
+          "after": "E2"
+        },
+        {
+          "label": "누락 분석으로 완료 금지",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": null
+        },
+        {
+          "label": "접수 원본 인원 보존",
+          "passed": true,
+          "expected": {
+            "equals": 2
+          },
+          "actual": 2,
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/multilingual-typo.json",
+      "sha256": "d87d8a3b8f2f79ba072d3265ad7af0bde6208294e22458e0aa975e2f8edf57fd",
+      "passed": true,
+      "metrics": {
+        "events": 1,
+        "requests": 1,
+        "resolved": 0,
+        "unresolved": 1,
+        "active_alerts": 0,
+        "rejected_analyses": 0,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "원문 두 명 추출",
+          "passed": true,
+          "expected": {
+            "equals": 2
+          },
+          "actual": 2,
+          "after": "E1"
+        },
+        {
+          "label": "위치 표기 정리",
+          "passed": true,
+          "expected": {
+            "equals": "201호"
+          },
+          "actual": "201호",
+          "after": null
+        },
+        {
+          "label": "번역만으로 완료 금지",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/no-response.json",
+      "sha256": "1b4fa4aa440e0cd1de575144b5bd94a8157ed5382bf1d88df8983ee79ca5cd33",
+      "passed": true,
+      "metrics": {
+        "events": 2,
+        "requests": 1,
+        "resolved": 0,
+        "unresolved": 1,
+        "active_alerts": 1,
+        "rejected_analyses": 0,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "재확인 질문",
+          "passed": true,
+          "expected": {
+            "contains_code": "no_response",
+            "active": true
+          },
+          "actual": [
+            {
+              "code": "no_response",
+              "request_ids": [
+                "R-A"
+              ],
+              "event_ids": [
+                "E2"
+              ],
+              "message": "연락 응답을 확인하지 못했습니다.",
+              "question": "다른 근거로 현재 상태를 확인했나요?",
+              "active": true
+            }
+          ],
+          "after": "E2"
+        },
+        {
+          "label": "무응답 결과 추론 금지",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": null
+        },
+        {
+          "label": "원래 인원 유지",
+          "passed": true,
+          "expected": {
+            "equals": 2
+          },
+          "actual": 2,
+          "after": null
+        },
+        {
+          "label": "무응답은 정보 수정 아님",
+          "passed": true,
+          "expected": {
+            "equals": 1
+          },
+          "actual": 1,
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/normal-completion.json",
+      "sha256": "2b1b63b043cff9b3ba022cb55de2ae88c832008bb4e0c944a55991c7ba7b0941",
+      "passed": true,
+      "metrics": {
+        "events": 4,
+        "requests": 1,
+        "resolved": 1,
+        "unresolved": 0,
+        "active_alerts": 0,
+        "rejected_analyses": 0,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "배정 중간 상태",
+          "passed": true,
+          "expected": {
+            "equals": "dispatched"
+          },
+          "actual": "dispatched",
+          "after": "E2"
+        },
+        {
+          "label": "배정은 완료 아님",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": "E2"
+        },
+        {
+          "label": "구조 보고도 미확정",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": "E3"
+        },
+        {
+          "label": "전체 보고도 확인 대기",
+          "passed": true,
+          "expected": {
+            "equals": "awaiting_confirmation"
+          },
+          "actual": "awaiting_confirmation",
+          "after": "E3"
+        },
+        {
+          "label": "담당자 근거 대조 완료",
+          "passed": true,
+          "expected": {
+            "equals": "resolved"
+          },
+          "actual": "resolved",
+          "after": null
+        },
+        {
+          "label": "완료 종류 구조",
+          "passed": true,
+          "expected": {
+            "equals": "rescued"
+          },
+          "actual": "rescued",
+          "after": null
+        },
+        {
+          "label": "정보 불변 버전",
+          "passed": true,
+          "expected": {
+            "equals": 1
+          },
+          "actual": 1,
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/old-video-new-text.json",
+      "sha256": "7647aaffbda197f40efdf23ab2a42333a85b9ee0a16f24851a55b93836830a9d",
+      "passed": true,
+      "metrics": {
+        "events": 3,
+        "requests": 1,
+        "resolved": 0,
+        "unresolved": 1,
+        "active_alerts": 1,
+        "rejected_analyses": 0,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "새 문자 위치",
+          "passed": true,
+          "expected": {
+            "equals": "옥상"
+          },
+          "actual": "옥상",
+          "after": "E2"
+        },
+        {
+          "label": "옛 영상 덮기 금지",
+          "passed": true,
+          "expected": {
+            "equals": "옥상"
+          },
+          "actual": "옥상",
+          "after": null
+        },
+        {
+          "label": "실제 새 정보만 버전 증가",
+          "passed": true,
+          "expected": {
+            "equals": 2
+          },
+          "actual": 2,
+          "after": null
+        },
+        {
+          "label": "옛 영상 촬영 시각 확인",
+          "passed": true,
+          "expected": {
+            "contains_code": "late_location_ignored",
+            "active": true
+          },
+          "actual": [
+            {
+              "code": "late_location_ignored",
+              "request_ids": [
+                "R-A"
+              ],
+              "event_ids": [
+                "E3"
+              ],
+              "message": "늦게 도착한 옛 위치 진술을 이력에 남기고 현재 위치를 유지합니다.",
+              "question": "현재 위치를 더 최신 근거로 확인했나요?",
+              "active": true
+            }
+          ],
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/partial-rescue.json",
+      "sha256": "9d4a3f855002162c831e5641d637d630fb0d00b50df38b9e921eb3663dd957bb",
+      "passed": true,
+      "metrics": {
+        "events": 5,
+        "requests": 1,
+        "resolved": 1,
+        "unresolved": 0,
+        "active_alerts": 0,
+        "rejected_analyses": 0,
+        "blocked_closures": 1
+      },
+      "checks": [
+        {
+          "label": "부분 구조 인원 대조",
+          "passed": true,
+          "expected": {
+            "contains_code": "count_unreconciled",
+            "active": true
+          },
+          "actual": [
+            {
+              "code": "count_unreconciled",
+              "request_ids": [
+                "R-A"
+              ],
+              "event_ids": [
+                "E2"
+              ],
+              "message": "접수 인원과 보고 인원의 대조가 끝나지 않았습니다.",
+              "question": "개별 요청의 접수 인원과 현장 확인 인원이 일치하나요?",
+              "active": true
+            }
+          ],
+          "after": "E2"
+        },
+        {
+          "label": "부분 구조 미완료",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": "E2"
+        },
+        {
+          "label": "부분 보고 확인 대기",
+          "passed": true,
+          "expected": {
+            "equals": "awaiting_confirmation"
+          },
+          "actual": "awaiting_confirmation",
+          "after": "E2"
+        },
+        {
+          "label": "2명 완료 승인 거절",
+          "passed": true,
+          "expected": {
+            "contains_code": "closure_blocked",
+            "active": true
+          },
+          "actual": [
+            {
+              "code": "count_unreconciled",
+              "request_ids": [
+                "R-A"
+              ],
+              "event_ids": [
+                "E2"
+              ],
+              "message": "접수 인원과 보고 인원의 대조가 끝나지 않았습니다.",
+              "question": "개별 요청의 접수 인원과 현장 확인 인원이 일치하나요?",
+              "active": true
+            },
+            {
+              "code": "closure_blocked",
+              "request_ids": [
+                "R-A"
+              ],
+              "event_ids": [
+                "E3"
+              ],
+              "message": "확인 인원이 알려진 현재 접수 인원과 일치해야 합니다.",
+              "question": "담당자·대상·인원·현재 revision·도착한 근거를 다시 확인했나요?",
+              "active": true
+            }
+          ],
+          "after": "E3"
+        },
+        {
+          "label": "원래 요청 인원 유지",
+          "passed": true,
+          "expected": {
+            "equals": 3
+          },
+          "actual": 3,
+          "after": "E3"
+        },
+        {
+          "label": "전체 근거 후 완료",
+          "passed": true,
+          "expected": {
+            "equals": "resolved"
+          },
+          "actual": "resolved",
+          "after": null
+        },
+        {
+          "label": "보고는 revision 유지",
+          "passed": true,
+          "expected": {
+            "equals": 1
+          },
+          "actual": 1,
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/post-resolution-update.json",
+      "sha256": "5c516a5435d28718ac6f60689f6c39fd6fcfa8901b027f3e9b068eafc0ee625e",
+      "passed": true,
+      "metrics": {
+        "events": 4,
+        "requests": 1,
+        "resolved": 0,
+        "unresolved": 1,
+        "active_alerts": 1,
+        "rejected_analyses": 0,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "초기 완료",
+          "passed": true,
+          "expected": {
+            "equals": "resolved"
+          },
+          "actual": "resolved",
+          "after": "E3"
+        },
+        {
+          "label": "새 정보 후 완료 해제",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": null
+        },
+        {
+          "label": "새 접수 인원 반영",
+          "passed": true,
+          "expected": {
+            "equals": 3
+          },
+          "actual": 3,
+          "after": null
+        },
+        {
+          "label": "새 위치 반영",
+          "passed": true,
+          "expected": {
+            "equals": "301호"
+          },
+          "actual": "301호",
+          "after": null
+        },
+        {
+          "label": "새 정보 버전",
+          "passed": true,
+          "expected": {
+            "equals": 2
+          },
+          "actual": 2,
+          "after": null
+        },
+        {
+          "label": "완료 후 변경 재확인",
+          "passed": true,
+          "expected": {
+            "contains_code": "post_resolution_update",
+            "active": true
+          },
+          "actual": [
+            {
+              "code": "post_resolution_update",
+              "request_ids": [
+                "R-A"
+              ],
+              "event_ids": [
+                "E4"
+              ],
+              "message": "완료 이후 새 정보가 도착하여 다시 확인합니다.",
+              "question": "새 위치·인원·도움 요청을 담당자가 확인했나요?",
+              "active": true
+            }
+          ],
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/prompt-injection-rejected.json",
+      "sha256": "d15fbf26db29c39ed24a9c3d7e342e1b42bb6fa9a9029b62b0041d7fe1f1cef6",
+      "passed": true,
+      "metrics": {
+        "events": 2,
+        "requests": 1,
+        "resolved": 0,
+        "unresolved": 1,
+        "active_alerts": 1,
+        "rejected_analyses": 1,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "계약 밖 완료 분석 거절",
+          "passed": true,
+          "expected": {
+            "contains_code": "analysis_rejected",
+            "active": true
+          },
+          "actual": [
+            {
+              "code": "analysis_rejected",
+              "request_ids": [
+                "R-A"
+              ],
+              "event_ids": [
+                "E2"
+              ],
+              "message": "분석을 거절했습니다: 알 수 없는 관찰 종류입니다",
+              "question": "원문 근거와 접수된 ID로 분석을 보완했나요?",
+              "active": true
+            }
+          ],
+          "after": "E2"
+        },
+        {
+          "label": "사용자 명령으로 완료 금지",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": null
+        },
+        {
+          "label": "기존 카드 보존",
+          "passed": true,
+          "expected": {
+            "equals": 2
+          },
+          "actual": 2,
+          "after": null
+        },
+        {
+          "label": "거절된 분석은 정보 변경 없음",
+          "passed": true,
+          "expected": {
+            "equals": 1
+          },
+          "actual": 1,
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/proxy-gps.json",
+      "sha256": "0624156a9dab8845c1f4a923ed4d8aeb684a6716a90dcb8cbab42d09fdc61e80",
+      "passed": true,
+      "metrics": {
+        "events": 1,
+        "requests": 1,
+        "resolved": 0,
+        "unresolved": 1,
+        "active_alerts": 1,
+        "rejected_analyses": 0,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "대상 텍스트 위치 유지",
+          "passed": true,
+          "expected": {
+            "equals": "합성 은하빌라 201호"
+          },
+          "actual": "합성 은하빌라 201호",
+          "after": "E1"
+        },
+        {
+          "label": "신고자와 대상 위치 확인",
+          "passed": true,
+          "expected": {
+            "contains_code": "location_conflict",
+            "active": true
+          },
+          "actual": [
+            {
+              "code": "location_conflict",
+              "request_ids": [
+                "R-A"
+              ],
+              "event_ids": [
+                "E1"
+              ],
+              "message": "위치 진술이 충돌하여 확인이 필요합니다.",
+              "question": "구조 대상의 현재 위치를 확인했나요?",
+              "active": true
+            }
+          ],
+          "after": "E1"
+        },
+        {
+          "label": "GPS만으로 완료 금지",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": null
+        },
+        {
+          "label": "접수 최초 버전",
+          "passed": true,
+          "expected": {
+            "equals": 1
+          },
+          "actual": 1,
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/same-building.json",
+      "sha256": "1cfa504006009ca5b8f1c01dc94484457d691ca396925722c0522244cfacd5f7",
+      "passed": true,
+      "metrics": {
+        "events": 5,
+        "requests": 2,
+        "resolved": 1,
+        "unresolved": 1,
+        "active_alerts": 2,
+        "rejected_analyses": 0,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "원본 두 카드 유지",
+          "passed": true,
+          "expected": {
+            "length": 2
+          },
+          "actual": {
+            "R-A": {
+              "id": "R-A",
+              "building_id": "SYN-B1",
+              "people_count": 3,
+              "location_text": "201호",
+              "location_occurred_at": "2026-07-15T10:01:00+09:00",
+              "needs": [
+                "고립"
+              ],
+              "status": "open",
+              "revision": 1,
+              "outcome": null,
+              "canonical_id": "R-A",
+              "evidence_event_ids": [
+                "E1"
+              ],
+              "count_history": [
+                {
+                  "event_id": "E1",
+                  "occurred_at": "2026-07-15T10:01:00+09:00",
+                  "kind": "request",
+                  "previous": null,
+                  "proposed": 3,
+                  "applied": true
+                }
+              ],
+              "location_history": [
+                {
+                  "event_id": "E1",
+                  "occurred_at": "2026-07-15T10:01:00+09:00",
+                  "location_text": "201호",
+                  "applied": true
+                }
+              ]
+            },
+            "R-B": {
+              "id": "R-B",
+              "building_id": "SYN-B1",
+              "people_count": 2,
+              "location_text": "202호",
+              "location_occurred_at": "2026-07-15T10:02:00+09:00",
+              "needs": [
+                "고립"
+              ],
+              "status": "open",
+              "revision": 1,
+              "outcome": null,
+              "canonical_id": "R-B",
+              "evidence_event_ids": [
+                "E2"
+              ],
+              "count_history": [
+                {
+                  "event_id": "E2",
+                  "occurred_at": "2026-07-15T10:02:00+09:00",
+                  "kind": "request",
+                  "previous": null,
+                  "proposed": 2,
+                  "applied": true
+                }
+              ],
+              "location_history": [
+                {
+                  "event_id": "E2",
+                  "occurred_at": "2026-07-15T10:02:00+09:00",
+                  "location_text": "202호",
+                  "applied": true
+                }
+              ]
+            }
+          },
+          "after": "E2"
+        },
+        {
+          "label": "모호한 보고로 A 완료 금지",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": "E3"
+        },
+        {
+          "label": "모호한 보고는 확인 대기",
+          "passed": true,
+          "expected": {
+            "equals": "awaiting_confirmation"
+          },
+          "actual": "awaiting_confirmation",
+          "after": "E3"
+        },
+        {
+          "label": "모호한 보고로 B 완료 금지",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": "E3"
+        },
+        {
+          "label": "가구 특정 확인 질문",
+          "passed": true,
+          "expected": {
+            "contains_code": "ambiguous_match",
+            "active": true
+          },
+          "actual": [
+            {
+              "code": "ambiguous_match",
+              "request_ids": [
+                "R-A",
+                "R-B"
+              ],
+              "event_ids": [
+                "E3"
+              ],
+              "message": "현장 보고가 여러 요청의 후보여서 개별 확인이 필요합니다.",
+              "question": "보고가 어느 요청의 누구를 가리키는지 확인했나요?",
+              "active": true
+            },
+            {
+              "code": "count_unreconciled",
+              "request_ids": [
+                "R-B"
+              ],
+              "event_ids": [
+                "E3"
+              ],
+              "message": "접수 인원과 보고 인원의 대조가 끝나지 않았습니다.",
+              "question": "개별 요청의 접수 인원과 현장 확인 인원이 일치하나요?",
+              "active": true
+            }
+          ],
+          "after": "E3"
+        },
+        {
+          "label": "A만 사람 확정",
+          "passed": true,
+          "expected": {
+            "equals": "resolved"
+          },
+          "actual": "resolved",
+          "after": null
+        },
+        {
+          "label": "B 미확정 유지",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": null
+        },
+        {
+          "label": "B 인원 보존",
+          "passed": true,
+          "expected": {
+            "equals": 2
+          },
+          "actual": 2,
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/self-evacuated.json",
+      "sha256": "0a80cb2e786da3779d2525248b71e8ab8b65e750ae07fb690b8fb83c468f77d0",
+      "passed": true,
+      "metrics": {
+        "events": 3,
+        "requests": 1,
+        "resolved": 1,
+        "unresolved": 0,
+        "active_alerts": 0,
+        "rejected_analyses": 0,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "인계 진술만으로 미확정",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": "E2"
+        },
+        {
+          "label": "담당자 대조 후 완료",
+          "passed": true,
+          "expected": {
+            "equals": "resolved"
+          },
+          "actual": "resolved",
+          "after": null
+        },
+        {
+          "label": "구조와 구분된 완료 종류",
+          "passed": true,
+          "expected": {
+            "equals": "self_evacuated"
+          },
+          "actual": "self_evacuated",
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/team-transfer.json",
+      "sha256": "30b5ad844f145477683c92a7f80589e6b848d0382fc017b40b4a7a790e672633",
+      "passed": true,
+      "metrics": {
+        "events": 3,
+        "requests": 1,
+        "resolved": 1,
+        "unresolved": 0,
+        "active_alerts": 0,
+        "rejected_analyses": 0,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "인계 진술만으로 미확정",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": "E2"
+        },
+        {
+          "label": "담당자 대조 후 완료",
+          "passed": true,
+          "expected": {
+            "equals": "resolved"
+          },
+          "actual": "resolved",
+          "after": null
+        },
+        {
+          "label": "구조와 구분된 완료 종류",
+          "passed": true,
+          "expected": {
+            "equals": "transferred"
+          },
+          "actual": "transferred",
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/unreadable-photo.json",
+      "sha256": "73352f1cf08bbd2bb6b4946bd10f2bf85437c7d9ec608beba7f11b71de3e5daf",
+      "passed": true,
+      "metrics": {
+        "events": 2,
+        "requests": 1,
+        "resolved": 0,
+        "unresolved": 1,
+        "active_alerts": 1,
+        "rejected_analyses": 0,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "첨부 해석 불가 확인",
+          "passed": true,
+          "expected": {
+            "contains_code": "unreadable_media",
+            "active": true
+          },
+          "actual": [
+            {
+              "code": "unreadable_media",
+              "request_ids": [
+                "R-A"
+              ],
+              "event_ids": [
+                "E2"
+              ],
+              "message": "첨부 내용을 판독할 수 없습니다.",
+              "question": "원문 또는 담당자 확인으로 내용을 보완했나요?",
+              "active": true
+            }
+          ],
+          "after": "E2"
+        },
+        {
+          "label": "이미 접수된 인원 유지",
+          "passed": true,
+          "expected": {
+            "equals": 2
+          },
+          "actual": 2,
+          "after": null
+        },
+        {
+          "label": "사진만으로 완료 금지",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": null
+        },
+        {
+          "label": "읽지 못한 첨부는 수정 아님",
+          "passed": true,
+          "expected": {
+            "equals": 1
+          },
+          "actual": 1,
+          "after": null
+        }
+      ]
+    },
+    {
+      "path": "scenarios/video-call-transcript.json",
+      "sha256": "1f60aaed5d8cffe73e2c2433dec184af1cf8cff354dcb635bd7f82a9f10208a4",
+      "passed": true,
+      "metrics": {
+        "events": 1,
+        "requests": 1,
+        "resolved": 0,
+        "unresolved": 1,
+        "active_alerts": 0,
+        "rejected_analyses": 0,
+        "blocked_closures": 0
+      },
+      "checks": [
+        {
+          "label": "전사에 기재된 두 명",
+          "passed": true,
+          "expected": {
+            "equals": 2
+          },
+          "actual": 2,
+          "after": "E1"
+        },
+        {
+          "label": "영상 해석은 접수 상태",
+          "passed": true,
+          "expected": {
+            "equals": "open"
+          },
+          "actual": "open",
+          "after": null
+        },
+        {
+          "label": "영상통화만으로 완료 금지",
+          "passed": true,
+          "expected": {
+            "equals": null
+          },
+          "actual": null,
+          "after": null
+        }
+      ]
+    }
+  ],
+  "not_run": [
+    "독립 QA",
+    "실제 LLM",
+    "실제 OCR",
+    "실제 ASR",
+    "실제 브라우저"
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "run_id": "pages-v2",
+  "task_id": "qa",
+  "status": "completed",
+  "summary": "Independent revalidation passed:Node21/21,unittest78,smoke28,fixture20/91,DOM15 all actual exit0. RealPNG/WAV linkage+reload,5MiB single payload+overflow atomicity and schema1 compatibility verified. Nine-step Python parity and intentional stronger public text confirmation verified. Products unchanged by QA, final files frozen before native FINAL.",
+  "checks": [
+    {
+      "name": "Independent public adapter",
+      "status": "passed",
+      "required": true,
+      "evidence": "node tests/pages_qa.cjs actual exit0; node-qa.log21/21 independent groups. Continuous CRUD, exact revisions, same-storage mutation/team races, evidence/partial/conflict/reopen guards, audit/raw preservation, warning resolution, storage/unknown API failures."
+    },
+    {
+      "name": "Upload single payload and quota atomicity",
+      "status": "passed",
+      "required": true,
+      "evidence": "Node test: real stairwell PNG upload/create/four extra picture reports plus real WAV report, reload resolution exactly equals original dataURI, payload substrings each occur once. Fake storage5MiB serialized UTF8 JSON cap; second large PNG rejects507 with Korean message and storage byte-identical. Both v1 failed groups now pass. This fake-storage budget is not a universal browser quota claim."
+    },
+    {
+      "name": "Schema1 registered-dataURL compatibility",
+      "status": "passed",
+      "required": true,
+      "evidence": "Node test creates registered schema1 old-format upload/report fixture. Reload resolves actual dataURI without rewriting/resetting storage. New report references normalize compactly; old report byte-equivalent object, schema_version1 retained."
+    },
+    {
+      "name": "Full unittest/build/parity",
+      "status": "passed",
+      "required": true,
+      "evidence": "python3 -B -m unittest discover -s tests -v actual exit0; unittest.log78 tests (71 existing +7 independent Python), OK. Nine-step state projections equal Python/JS,12-file build allowlist, relative root/subpath, protected/symlink/unrelated-output refusal, exact media/provenance and seed10/20."
+    },
+    {
+      "name": "Stricter public completion guard",
+      "status": "passed",
+      "required": true,
+      "evidence": "Matchingcount residual/negative/unanswered Node fixtures reject400; explicit no-residual/full-safety text closes. Python standalone test confirms preserved legacy equal-count residual closes: intentional safety difference, not full equivalence. Backend unmodified."
+    },
+    {
+      "name": "Engine regression",
+      "status": "passed",
+      "required": true,
+      "evidence": "python3 -B -m rescue.smoke actual exit0; smoke.log28 tests,OK. Replay --all new fixture-report output actual exit0;20cases91checks. Both rerun against current code."
+    },
+    {
+      "name": "Existing frontend DOM mock",
+      "status": "passed",
+      "required": true,
+      "evidence": "node _workspace/verification/service-v4/frontend-static-check.cjs actual exit0;dom-mock.log15 stubs. Current app uses adapter media resolver while retained server flow remains; this is not actual browser."
+    },
+    {
+      "name": "Product read-only fingerprints and failure-exit contract",
+      "status": "passed",
+      "required": true,
+      "evidence": "source-before/after raw SHA25631 product paths unchanged. Since v1 only web/pages-store.js changed in common scope. Assigned tests updated for opaque media references and schema1 behavior. v1 Node failure exit1 preserved; v2 success exit0 and Python unrelated-output CLI exit1 checked. Workflow source invokes same Node and unittest CLIs; no cloud Actions execution claimed."
+    },
+    {
+      "name": "Actual browser/public hosting",
+      "status": "not_run",
+      "required": false,
+      "evidence": "CUA/browser/Netlify deployment/security headers/user DB operations are main-owned. QA used synthetic fake storage and temporary DB/build folders only."
+    },
+    {
+      "name": "Live AI OCR ASR",
+      "status": "not_run",
+      "required": false,
+      "evidence": "No actual model/OCR/ASR/emergency integration or operator efficacy measurement. Fixture success is deterministic regression only."
+    }
+  ],
+  "issues": []
+}

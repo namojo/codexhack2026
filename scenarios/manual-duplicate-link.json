@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "test_kind": "input_case",
+  "id": "manual-duplicate-link",
+  "title": "중복 후보는 사람이 연결",
+  "synthetic": true,
+  "description": "같은 대상의 재신고도 자동 병합하지 않고 개별 원본을 남긴다. 모든 인물·ID·장소·좌표는 합성이며 fixture_analysis는 인간작성 분석이다. 실제 LLM·OCR·ASR 미실행.",
+  "channels": [
+    "sms",
+    "web",
+    "operator"
+  ],
+  "events": [
+    {
+      "id": "E1",
+      "channel": "sms",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:01:00+09:00",
+      "received_at": "2026-07-15T10:01:00+09:00",
+      "text": "합성 은하빌라 201호 가족 두 명 고립입니다.",
+      "request_id": "R-A",
+      "building_id": "SYN-B1"
+    },
+    {
+      "id": "E2",
+      "channel": "web",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:02:00+09:00",
+      "received_at": "2026-07-15T10:02:00+09:00",
+      "text": "합성 은하빌라 201호 가족 두 명입니다. 앞서 문자도 보냈습니다.",
+      "request_id": "R-B",
+      "building_id": "SYN-B1"
+    },
+    {
+      "id": "E3",
+      "channel": "operator",
+      "actor": "합성 담당자-1",
+      "occurred_at": "2026-07-15T10:03:00+09:00",
+      "received_at": "2026-07-15T10:03:00+09:00",
+      "text": "담당자 통화 대조: R-A와 R-B는 같은 두 명 가족의 중복 후보입니다."
+    },
+    {
+      "id": "E4",
+      "channel": "operator",
+      "actor": "합성 담당자-1",
+      "occurred_at": "2026-07-15T10:04:00+09:00",
+      "received_at": "2026-07-15T10:04:00+09:00",
+      "text": "담당자가 원문과 대상 가족을 대조하여 R-B를 R-A에 관계 연결합니다.",
+      "decision": {
+        "kind": "link_duplicate",
+        "request_id": "R-A",
+        "related_request_id": "R-B"
+      }
+    }
+  ],
+  "fixture_analysis": {
+    "E1": {
+      "event_id": "E1",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "합성 은하빌라 201호 가족 두 명 고립입니다.",
+          "people_count": 2,
+          "location_text": "201호",
+          "needs": [
+            "고립"
+          ]
+        }
+      ]
+    },
+    "E2": {
+      "event_id": "E2",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-B"
+          ],
+          "evidence_quote": "합성 은하빌라 201호 가족 두 명입니다. 앞서 문자도 보냈습니다.",
+          "people_count": 2,
+          "location_text": "201호",
+          "needs": [
+            "고립"
+          ]
+        }
+      ]
+    },
+    "E3": {
+      "event_id": "E3",
+      "observations": [
+        {
+          "kind": "duplicate_candidate",
+          "request_ids": [
+            "R-A",
+            "R-B"
+          ],
+          "evidence_quote": "담당자 통화 대조: R-A와 R-B는 같은 두 명 가족의 중복 후보입니다."
+        }
+      ]
+    }
+  },
+  "expectations": [
+    {
+      "path": "alerts",
+      "contains_code": "duplicate_review",
+      "active": true,
+      "label": "중복 후보 수동 검토",
+      "after": "E3"
+    },
+    {
+      "path": "requests",
+      "length": 2,
+      "label": "자동 병합 없는 두 카드",
+      "after": "E3"
+    },
+    {
+      "path": "requests.R-B.canonical_id",
+      "equals": "R-A",
+      "label": "담당자 연결 관계"
+    },
+    {
+      "path": "requests",
+      "length": 2,
+      "label": "연결 후에도 두 원본"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "연결이 완료가 아님"
+    },
+    {
+      "path": "requests.R-B.outcome",
+      "equals": null,
+      "label": "관련 원본도 미완료"
+    }
+  ],
+  "demo_notes": "E3 두 카드 → E4 canonical_id 관계를 보여주며 실제 합쳐 삭제하지 않는다."
+}

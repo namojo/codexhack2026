@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "test_kind": "input_case",
+  "id": "same-building",
+  "title": "같은 건물의 다른 가구",
+  "synthetic": true,
+  "description": "건물 단위 구조 보고가 두 가구 전체 완료로 번지는 위험. 모든 인물·ID·장소·좌표는 합성이며 fixture_analysis는 인간작성 분석이다. 실제 LLM·OCR·ASR 미실행.",
+  "channels": [
+    "sms",
+    "field",
+    "operator"
+  ],
+  "events": [
+    {
+      "id": "E1",
+      "channel": "sms",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:01:00+09:00",
+      "received_at": "2026-07-15T10:01:00+09:00",
+      "text": "합성 은하빌라 201호 세 명 고립입니다.",
+      "request_id": "R-A",
+      "building_id": "SYN-B1"
+    },
+    {
+      "id": "E2",
+      "channel": "sms",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:02:00+09:00",
+      "received_at": "2026-07-15T10:02:00+09:00",
+      "text": "같은 합성 은하빌라 202호 두 명 고립입니다.",
+      "request_id": "R-B",
+      "building_id": "SYN-B1"
+    },
+    {
+      "id": "E3",
+      "channel": "field",
+      "actor": "합성 현장팀-A",
+      "occurred_at": "2026-07-15T10:03:00+09:00",
+      "received_at": "2026-07-15T10:03:00+09:00",
+      "text": "이 건물에서 세 명 구조했습니다. 어느 가구인지는 아직 확인 중입니다.",
+      "candidate_request_ids": [
+        "R-A",
+        "R-B"
+      ],
+      "building_id": "SYN-B1"
+    },
+    {
+      "id": "E4",
+      "channel": "field",
+      "actor": "합성 현장팀-A",
+      "occurred_at": "2026-07-15T10:04:00+09:00",
+      "received_at": "2026-07-15T10:04:00+09:00",
+      "text": "201호 R-A 세 명 구조 확인했습니다.",
+      "candidate_request_ids": [
+        "R-A"
+      ],
+      "building_id": "SYN-B1"
+    },
+    {
+      "id": "E5",
+      "channel": "operator",
+      "actor": "합성 담당자-1",
+      "occurred_at": "2026-07-15T10:05:00+09:00",
+      "received_at": "2026-07-15T10:05:00+09:00",
+      "text": "합성 담당자가 R-A의 근거와 3명 대조 후 rescued 확정.",
+      "decision": {
+        "kind": "confirm_outcome",
+        "request_id": "R-A",
+        "outcome": "rescued",
+        "confirmed_count": 3,
+        "basis_event_ids": [
+          "E4"
+        ],
+        "expected_revision": 1
+      }
+    }
+  ],
+  "fixture_analysis": {
+    "E1": {
+      "event_id": "E1",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "합성 은하빌라 201호 세 명 고립입니다.",
+          "people_count": 3,
+          "location_text": "201호",
+          "needs": [
+            "고립"
+          ]
+        }
+      ]
+    },
+    "E2": {
+      "event_id": "E2",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-B"
+          ],
+          "evidence_quote": "같은 합성 은하빌라 202호 두 명 고립입니다.",
+          "people_count": 2,
+          "location_text": "202호",
+          "needs": [
+            "고립"
+          ]
+        }
+      ]
+    },
+    "E3": {
+      "event_id": "E3",
+      "observations": [
+        {
+          "kind": "rescue_report",
+          "request_ids": [
+            "R-A",
+            "R-B"
+          ],
+          "evidence_quote": "이 건물에서 세 명 구조했습니다. 어느 가구인지는 아직 확인 중입니다.",
+          "people_count": 3
+        }
+      ]
+    },
+    "E4": {
+      "event_id": "E4",
+      "observations": [
+        {
+          "kind": "rescue_report",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "201호 R-A 세 명 구조 확인했습니다.",
+          "people_count": 3
+        }
+      ]
+    }
+  },
+  "expectations": [
+    {
+      "path": "requests",
+      "length": 2,
+      "label": "원본 두 카드 유지",
+      "after": "E2"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "모호한 보고로 A 완료 금지",
+      "after": "E3"
+    },
+    {
+      "path": "requests.R-A.status",
+      "equals": "awaiting_confirmation",
+      "label": "모호한 보고는 확인 대기",
+      "after": "E3"
+    },
+    {
+      "path": "requests.R-B.outcome",
+      "equals": null,
+      "label": "모호한 보고로 B 완료 금지",
+      "after": "E3"
+    },
+    {
+      "path": "alerts",
+      "contains_code": "ambiguous_match",
+      "active": true,
+      "label": "가구 특정 확인 질문",
+      "after": "E3"
+    },
+    {
+      "path": "requests.R-A.status",
+      "equals": "resolved",
+      "label": "A만 사람 확정"
+    },
+    {
+      "path": "requests.R-B.outcome",
+      "equals": null,
+      "label": "B 미확정 유지"
+    },
+    {
+      "path": "requests.R-B.people_count",
+      "equals": 2,
+      "label": "B 인원 보존"
+    }
+  ],
+  "demo_notes": "E3에서 두 카드와 가구 특정 질문을 보인 뒤 E5에서 A만 완료되고 B가 남는 장면."
+}

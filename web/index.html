@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183449">
+  <title>아직 여기 | 신고·구조 상황관리</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#workspace">업무 영역으로 이동</a>
+  <header class="topbar">
+    <a class="brand" href="#dashboard"><span class="brand-mark" aria-hidden="true">＋</span><strong>아직 여기</strong><span class="brand-sub">신고·구조 상황관리</span></a>
+    <div class="topbar-tools"><span class="synthetic-badge">합성 훈련 데이터</span><span class="operator">상황실 김담당</span></div>
+  </header>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <p class="nav-label">상황실 업무</p>
+      <nav aria-label="주요 업무">
+        <a href="#dashboard" data-nav="dashboard"><span aria-hidden="true">▦</span>상황 대시보드</a>
+        <a href="#attention" data-nav="attention"><span aria-hidden="true">!</span>지금 판단·조치<span id="attention-nav-count" class="nav-count">0</span></a>
+        <a href="#active" data-nav="active"><span aria-hidden="true">▤</span>진행 사건<span id="active-nav-count" class="nav-count"></span></a>
+        <a href="#results" data-nav="results"><span aria-hidden="true">✓</span>처리 결과</a>
+        <a href="#resources" data-nav="resources"><span aria-hidden="true">◈</span>대응 자원</a>
+      </nav>
+      <div class="sidebar-bottom"><p>공식 119 연계 및<br>외부 신고 전송 없음</p></div>
+    </aside>
+    <main id="workspace" tabindex="-1">
+      <section id="pages-notice" class="pages-notice" aria-label="브라우저 체험 저장 범위" hidden><strong>브라우저 체험</strong><p>변경 내용은 이 브라우저에만 저장됩니다. 다른 방문자와 공유되지 않으며 서버에 저장되지 않습니다.</p></section>
+      <div id="page-error" class="page-error" role="alert" hidden></div>
+      <section id="attention-strip" class="attention-strip" aria-label="현재 미처리 사건 판단·조치 요약" hidden></section>
+      <div id="view"><div class="loading"><span class="loading-dot" aria-hidden="true"></span>사건 정보를 불러오고 있습니다.</div></div>
+      <footer class="workspace-footer"><span>집중호우 대응 업무</span><a class="project-link" href="https://github.com/namojo/hack-test#readme" target="_blank" rel="noopener noreferrer">프로젝트 소개 ↗</a><span id="refreshed-at">자료 확인 중</span><button type="button" id="refresh" class="link-button">새로고침</button></footer>
+    </main>
+  </div>
+  <dialog id="task-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+    <form id="task-form" novalidate>
+      <div class="dialog-head"><div><h2 id="dialog-title"></h2><p id="dialog-description"></p></div><button type="button" class="icon-button" data-close aria-label="창 닫기">×</button></div>
+      <div id="dialog-error" class="form-error" role="alert" hidden></div>
+      <div id="dialog-fields" class="dialog-fields"></div>
+      <div class="dialog-footer"><button type="button" data-close>취소</button><button type="submit" class="primary" id="dialog-save">저장</button></div>
+    </form>
+  </dialog>
+  <dialog id="media-dialog" class="media-dialog" aria-labelledby="media-title">
+    <div class="dialog-head"><h2 id="media-title">첨부 사진</h2><button type="button" class="icon-button" data-media-close aria-label="사진 닫기">×</button></div>
+    <div id="media-content"></div>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+</body>
+</html>

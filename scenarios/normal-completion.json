@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "test_kind": "input_case",
+  "id": "normal-completion",
+  "title": "근거를 대조한 정상 완료",
+  "synthetic": true,
+  "description": "접수→배정→구조 보고→담당자 확정의 정상 흐름. 모든 인물·ID·장소·좌표는 합성이며 fixture_analysis는 인간작성 분석이다. 실제 LLM·OCR·ASR 미실행.",
+  "channels": [
+    "web",
+    "operator",
+    "field"
+  ],
+  "events": [
+    {
+      "id": "E1",
+      "channel": "web",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:01:00+09:00",
+      "received_at": "2026-07-15T10:01:00+09:00",
+      "text": "합성 은하빌라 201호에 2명이 고립됐어요.",
+      "request_id": "R-A",
+      "building_id": "SYN-B1"
+    },
+    {
+      "id": "E2",
+      "channel": "operator",
+      "actor": "합성 담당자-1",
+      "occurred_at": "2026-07-15T10:02:00+09:00",
+      "received_at": "2026-07-15T10:02:00+09:00",
+      "text": "합성 현장팀-A 배정.",
+      "decision": {
+        "kind": "dispatch",
+        "request_id": "R-A"
+      }
+    },
+    {
+      "id": "E3",
+      "channel": "field",
+      "actor": "합성 현장팀-A",
+      "occurred_at": "2026-07-15T10:03:00+09:00",
+      "received_at": "2026-07-15T10:03:00+09:00",
+      "text": "R-A 두 명 모두 구조했고 접수 두 명과 대조했습니다.",
+      "candidate_request_ids": [
+        "R-A"
+      ]
+    },
+    {
+      "id": "E4",
+      "channel": "operator",
+      "actor": "합성 담당자-1",
+      "occurred_at": "2026-07-15T10:04:00+09:00",
+      "received_at": "2026-07-15T10:04:00+09:00",
+      "text": "합성 담당자가 R-A의 근거와 2명 대조 후 rescued 확정.",
+      "decision": {
+        "kind": "confirm_outcome",
+        "request_id": "R-A",
+        "outcome": "rescued",
+        "confirmed_count": 2,
+        "basis_event_ids": [
+          "E3"
+        ],
+        "expected_revision": 1
+      }
+    }
+  ],
+  "fixture_analysis": {
+    "E1": {
+      "event_id": "E1",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "합성 은하빌라 201호에 2명이 고립됐어요.",
+          "people_count": 2,
+          "location_text": "201호",
+          "needs": [
+            "고립"
+          ]
+        }
+      ]
+    },
+    "E3": {
+      "event_id": "E3",
+      "observations": [
+        {
+          "kind": "rescue_report",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "R-A 두 명 모두 구조했고 접수 두 명과 대조했습니다.",
+          "people_count": 2
+        }
+      ]
+    }
+  },
+  "expectations": [
+    {
+      "path": "requests.R-A.status",
+      "equals": "dispatched",
+      "label": "배정 중간 상태",
+      "after": "E2"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "배정은 완료 아님",
+      "after": "E2"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "구조 보고도 미확정",
+      "after": "E3"
+    },
+    {
+      "path": "requests.R-A.status",
+      "equals": "awaiting_confirmation",
+      "label": "전체 보고도 확인 대기",
+      "after": "E3"
+    },
+    {
+      "path": "requests.R-A.status",
+      "equals": "resolved",
+      "label": "담당자 근거 대조 완료"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": "rescued",
+      "label": "완료 종류 구조"
+    },
+    {
+      "path": "requests.R-A.revision",
+      "equals": 1,
+      "label": "정보 불변 버전"
+    }
+  ],
+  "demo_notes": "완료까지 네 단계와 근거 E3, expected_revision 1을 연결해서 보여준다."
+}

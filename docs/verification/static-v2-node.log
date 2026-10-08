@@ -1,0 +1,22 @@
+PASS continuous CRUD, explicit outcome, reopen, correction, audit and raw preservation
+PASS partial report cannot close or release assigned team
+PASS equal numeric counts cannot conceal residual, negative or unanswered evidence
+PASS explicit no-residual wording permits full safe confirmation
+PASS report counts are not summed, other incident and initial basis rejected
+PASS additional count conflict requires explicit correction
+PASS old field basis is unusable after reopen even at same clock
+PASS completed additional information and important edits reopen while retaining outcomes
+PASS unknown count and malformed mutation fields reject atomically
+PASS same revision simultaneous mutations have one winner across factories
+PASS shared storage team assignment race has one winner and consistent team incident
+PASS persisted reload reads fresh data and returned object mutation does not leak
+PASS contact and proxy warnings clear only after valid confirmation and location correction
+PASS quota failures do not commit incident edits or uploaded media
+PASS 5MiB storage connects one generated stairwell attachment without duplication and rejects second atomically
+PASS upload header base64 filename size and external attachment boundaries
+PASS schema1 registered dataURL survives reload and new report references normalize without reset
+PASS media allowlist works at root/subpath without URL traversal or unregistered data
+PASS unavailable corrupted versioned storage is never silently reset
+PASS seed load failure is retriable and navigation locks surround operations
+PASS unknown API and unsupported methods fail with CLI-safe error status
+{"suite":"independent-pages-qa","tests":21,"passed":21,"failed":0,"synthetic":true,"browser":"not_run"}

@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "test_kind": "input_case",
+  "id": "delivery-failure",
+  "title": "전송 실패는 안내 완료가 아니다",
+  "synthetic": true,
+  "description": "로컬 전송 시도만으로 수신·안전·완료를 추론하는 위험. 모든 인물·ID·장소·좌표는 합성이며 fixture_analysis는 인간작성 분석이다. 실제 LLM·OCR·ASR 미실행.",
+  "channels": [
+    "sms",
+    "system"
+  ],
+  "events": [
+    {
+      "id": "E1",
+      "channel": "sms",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:01:00+09:00",
+      "received_at": "2026-07-15T10:01:00+09:00",
+      "text": "합성 은하빌라 201호에 2명이 고립됐어요.",
+      "request_id": "R-A",
+      "building_id": "SYN-B1"
+    },
+    {
+      "id": "E2",
+      "channel": "system",
+      "actor": "모의 전송기",
+      "occurred_at": "2026-07-15T10:02:00+09:00",
+      "received_at": "2026-07-15T10:02:00+09:00",
+      "text": "R-A 담당자 안내 메시지가 전송 실패했습니다. 수신 확인이 없습니다.",
+      "request_id": "R-A"
+    }
+  ],
+  "fixture_analysis": {
+    "E1": {
+      "event_id": "E1",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "합성 은하빌라 201호에 2명이 고립됐어요.",
+          "people_count": 2,
+          "location_text": "201호",
+          "needs": [
+            "고립"
+          ]
+        }
+      ]
+    },
+    "E2": {
+      "event_id": "E2",
+      "observations": [
+        {
+          "kind": "delivery_failure",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "R-A 담당자 안내 메시지가 전송 실패했습니다. 수신 확인이 없습니다."
+        }
+      ]
+    }
+  },
+  "expectations": [
+    {
+      "path": "alerts",
+      "contains_code": "delivery_failure",
+      "active": true,
+      "label": "미전달 확인 질문",
+      "after": "E2"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "전송 실패 미확정 유지"
+    },
+    {
+      "path": "requests.R-A.revision",
+      "equals": 1,
+      "label": "실패는 정보 변경 아님"
+    }
+  ],
+  "demo_notes": "전송 실패 알림을 확인한다. 하네스 밖 메시지를 실제 발송하지 않는다."
+}

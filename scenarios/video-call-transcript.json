@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "test_kind": "input_case",
+  "id": "video-call-transcript",
+  "title": "영상통화 모의 전사",
+  "synthetic": true,
+  "description": "전사 출처와 근거를 보존하며 해석만으로 완료하지 않는다. 모든 인물·ID·장소·좌표는 합성이며 fixture_analysis는 인간작성 분석이다. 실제 LLM·OCR·ASR 미실행.",
+  "channels": [
+    "video_call"
+  ],
+  "events": [
+    {
+      "id": "E1",
+      "channel": "video_call",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:01:00+09:00",
+      "received_at": "2026-07-15T10:01:00+09:00",
+      "text": "영상통화의 합성 기록을 접수합니다.",
+      "request_id": "R-A",
+      "building_id": "SYN-B1",
+      "attachments": [
+        {
+          "id": "SYN-CALL1",
+          "media_type": "video",
+          "description": "합성 영상통화 기록: 손가락 두 개와 201호 표지에 대한 작성자 설명.",
+          "transcript": "201호 두 명이 고립됐습니다.",
+          "transcript_source": "fixture",
+          "captured_at": "2026-07-15T10:01:00+09:00",
+          "readable": true
+        }
+      ]
+    }
+  ],
+  "fixture_analysis": {
+    "E1": {
+      "event_id": "E1",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "201호 두 명이 고립됐습니다.",
+          "people_count": 2,
+          "location_text": "201호",
+          "needs": [
+            "고립"
+          ]
+        }
+      ]
+    }
+  },
+  "expectations": [
+    {
+      "path": "requests.R-A.people_count",
+      "equals": 2,
+      "label": "전사에 기재된 두 명",
+      "after": "E1"
+    },
+    {
+      "path": "requests.R-A.status",
+      "equals": "open",
+      "label": "영상 해석은 접수 상태"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "영상통화만으로 완료 금지"
+    }
+  ],
+  "demo_notes": "transcript_source=fixture를 직접 보여주고 실제 영상통화 연결·ASR은 실행하지 않았다고 말한다."
+}

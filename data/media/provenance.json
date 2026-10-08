@@ -1,0 +1,37 @@
+{
+  "synthetic": true,
+  "generated_at": "2026-10-08",
+  "images": [
+    {
+      "path": "data/media/flood-entrance.png",
+      "source": "ai_generated",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: photorealistic-natural. Asset type: fictional emergency training report attachment, candid smartphone photograph. A modest fictional Korean residential villa entrance on an overcast rainy afternoon, viewed from the exterior pavement. Muddy shallow flood water covers the bottom two concrete steps and doorway threshold, pale tiled walls and plain metal door, rain speckles on camera lens, slightly tilted practical snapshot, no cinematic styling. No people, no casualties, no readable signs, no address, no logo, no emergency insignia, no text overlay. Show the entrance and water level clearly. Landscape phone framing.",
+      "review": "주제·수위·구도·인물 및 실제 주소 부재를 눈으로 확인"
+    },
+    {
+      "path": "data/media/flood-stairwell.png",
+      "source": "ai_generated",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: photorealistic-natural. Asset type: fictional emergency training report attachment, candid smartphone photograph. Interior stairwell of a fictional modest Korean residential villa viewed from the second-floor landing looking down, brown flood water accumulated at ground level; concrete stair treads, stainless steel handrail, pale walls, gray daylight from entrance window. Small practical flashlight reflection, ordinary handheld smartphone exposure and slight grain, detail legible, no cinematic art. No people, no victims, no text, no address, no logo, no official signage. Landscape snapshot showing lower landing and blocked flooded exit.",
+      "review": "주제·수위·구도·인물 및 실제 주소 부재를 눈으로 확인"
+    }
+  ],
+  "audio": [
+    {
+      "path": "data/media/call-isolated.wav",
+      "source": "tts_synthetic",
+      "tool": "macOS say -v Yuna → afconvert PCM WAV",
+      "transcript": "물 때문에 밖으로 나갈 수 없어요. 가상동 새봄빌라 이층 이백일호예요. 어머니와 저, 두 명이고요. 어머니는 걷기 어려우세요. 일층 입구로 물이 들어와요.",
+      "seconds": 10.72
+    },
+    {
+      "path": "data/media/call-proxy.wav",
+      "source": "tts_synthetic",
+      "tool": "macOS say -v Yuna → afconvert PCM WAV",
+      "transcript": "저는 다른 곳에 있는 아들입니다. 어머니가 가상동 푸른빌라 삼층 삼백이호에 혼자 계세요. 제 휴대폰 위치는 어머니 집이 아니에요. 연락이 끊겨서 대신 신고합니다.",
+      "seconds": 11.42
+    }
+  ],
+  "limits": "실제 신고/피해사진/음성이 아닌 합성 훈련 자료. ASR/OCR/LLM 미실행."
+}

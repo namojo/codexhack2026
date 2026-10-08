@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "test_kind": "input_case",
+  "id": "multilingual-typo",
+  "title": "외국어와 오타가 섞인 문자",
+  "synthetic": true,
+  "description": "원문을 보존한 채 인간작성 정규화 분석의 경계를 보여준다. 모든 인물·ID·장소·좌표는 합성이며 fixture_analysis는 인간작성 분석이다. 실제 LLM·OCR·ASR 미실행.",
+  "channels": [
+    "sms"
+  ],
+  "events": [
+    {
+      "id": "E1",
+      "channel": "sms",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:01:00+09:00",
+      "received_at": "2026-07-15T10:01:00+09:00",
+      "text": "Help, 2 ppl trapped, 201 rom, synthetic Galaxy villa. 고립됬어요.",
+      "request_id": "R-A",
+      "building_id": "SYN-B1"
+    }
+  ],
+  "fixture_analysis": {
+    "E1": {
+      "event_id": "E1",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "Help, 2 ppl trapped, 201 rom, synthetic Galaxy villa. 고립됬어요.",
+          "people_count": 2,
+          "location_text": "201호",
+          "needs": [
+            "고립"
+          ]
+        }
+      ]
+    }
+  },
+  "expectations": [
+    {
+      "path": "requests.R-A.people_count",
+      "equals": 2,
+      "label": "원문 두 명 추출",
+      "after": "E1"
+    },
+    {
+      "path": "requests.R-A.location_text",
+      "equals": "201호",
+      "label": "위치 표기 정리"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "번역만으로 완료 금지"
+    }
+  ],
+  "demo_notes": "정규화된 카드 옆 원문을 확인한다. 이 픽스처는 실제 번역 모델 성능 증거가 아니다."
+}

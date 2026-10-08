@@ -1,0 +1,142 @@
+test_absent_text_does_not_fabricate_evidence (test_attention_qa.AttentionRuleQA.test_absent_text_does_not_fabricate_evidence) ... ok
+test_additional_count_conflict_preserves_official_count (test_attention_qa.AttentionRuleQA.test_additional_count_conflict_preserves_official_count) ... ok
+test_assignment_severity_and_assignment_resolves_only_that_cause (test_attention_qa.AttentionRuleQA.test_assignment_severity_and_assignment_resolves_only_that_cause) ... ok
+test_closed_excluded_even_with_urgent_and_residual (test_attention_qa.AttentionRuleQA.test_closed_excluded_even_with_urgent_and_residual) ... ok
+test_concrete_risk_precedes_generic_assignment_and_same_cause_grouped (test_attention_qa.AttentionRuleQA.test_concrete_risk_precedes_generic_assignment_and_same_cause_grouped) ... ok
+test_contact_latest_direct_full_confirmation_resolves (test_attention_qa.AttentionRuleQA.test_contact_latest_direct_full_confirmation_resolves) ... ok
+test_contact_negative_confirmation_does_not_resolve (test_attention_qa.AttentionRuleQA.test_contact_negative_confirmation_does_not_resolve) ... ok
+test_equal_count_negative_safety_requires_decision (test_attention_qa.AttentionRuleQA.test_equal_count_negative_safety_requires_decision) ... ok
+test_equal_count_residual_statement_is_not_cleared (test_attention_qa.AttentionRuleQA.test_equal_count_residual_statement_is_not_cleared) ... ok
+test_evidence_schema_substring_and_priority_input_immutable (test_attention_qa.AttentionRuleQA.test_evidence_schema_substring_and_priority_input_immutable) ... ok
+test_explicit_count_correction_clears_older_partial (test_attention_qa.AttentionRuleQA.test_explicit_count_correction_clears_older_partial) ... ok
+test_latest_full_confirmation_clears_old_partial_without_sum (test_attention_qa.AttentionRuleQA.test_latest_full_confirmation_clears_old_partial_without_sum) ... ok
+test_legacy_same_time_field_excluded_correction_cause_included (test_attention_qa.AttentionRuleQA.test_legacy_same_time_field_excluded_correction_cause_included) ... ok
+test_location_explicit_correction_clears_old_proxy (test_attention_qa.AttentionRuleQA.test_location_explicit_correction_clears_old_proxy) ... ok
+test_location_patch_audit_clears_old_proxy (test_attention_qa.AttentionRuleQA.test_location_patch_audit_clears_old_proxy) ... ok
+test_partial_report_is_immediate_and_unknown_not_asserted_dead (test_attention_qa.AttentionRuleQA.test_partial_report_is_immediate_and_unknown_not_asserted_dead) ... ok
+test_reopen_excludes_old_fields_by_id (test_attention_qa.AttentionRuleQA.test_reopen_excludes_old_fields_by_id) ... ok
+test_sort_level_then_priority_then_received_time_and_id (test_attention_qa.AttentionRuleQA.test_sort_level_then_priority_then_received_time_and_id) ... ok
+test_unknown_count_has_real_evidence_and_human_task (test_attention_qa.AttentionRuleQA.test_unknown_count_has_real_evidence_and_human_task) ... ok
+test_closed_then_new_info_reopens_and_generates_current_tasks (test_attention_qa.AttentionStoreQA.test_closed_then_new_info_reopens_and_generates_current_tasks) ... ok
+test_legacy_reopen_same_time_correction_in_compat_seed_is_current_risk (test_attention_qa.AttentionStoreQA.test_legacy_reopen_same_time_correction_in_compat_seed_is_current_risk) ... ok
+test_newly_assigned_team_clears_assignment_but_keeps_concrete_risk (test_attention_qa.AttentionStoreQA.test_newly_assigned_team_clears_assignment_but_keeps_concrete_risk) ... ok
+test_reads_pure_and_attention_never_stored_even_after_mutation (test_attention_qa.AttentionStoreQA.test_reads_pure_and_attention_never_stored_even_after_mutation) ... ok
+test_store_location_patch_and_latest_contact_clear_tasks (test_attention_qa.AttentionStoreQA.test_store_location_patch_and_latest_contact_clear_tasks) ... ok
+test_default_dev_routes_blocked (test_attention_qa.DevToolsHTTPQA.test_default_dev_routes_blocked) ... "GET /replay HTTP/1.1" 404 -
+"GET /replay/ HTTP/1.1" 404 -
+"GET /replay/app.js HTTP/1.1" 404 -
+"GET /replay/index.html HTTP/1.1" 404 -
+"GET /api/bundle HTTP/1.1" 404 -
+"HEAD /replay HTTP/1.1" 404 -
+"HEAD /replay/ HTTP/1.1" 404 -
+"HEAD /replay/app.js HTTP/1.1" 404 -
+"HEAD /replay/index.html HTTP/1.1" 404 -
+"HEAD /api/bundle HTTP/1.1" 404 -
+"GET /api/incidents HTTP/1.1" 200 -
+"GET / HTTP/1.1" 200 -
+ok
+test_explicit_opt_in_dev_routes_visible (test_attention_qa.DevToolsHTTPQA.test_explicit_opt_in_dev_routes_visible) ... "GET /replay HTTP/1.1" 302 -
+"GET /replay/ HTTP/1.1" 200 -
+"GET /replay/ HTTP/1.1" 200 -
+"GET /replay/app.js HTTP/1.1" 200 -
+"GET /replay/index.html HTTP/1.1" 200 -
+"GET /api/bundle HTTP/1.1" 200 -
+"HEAD /replay HTTP/1.1" 302 -
+"GET /replay/ HTTP/1.1" 200 -
+"HEAD /replay/ HTTP/1.1" 200 -
+"HEAD /replay/app.js HTTP/1.1" 200 -
+"HEAD /replay/index.html HTTP/1.1" 200 -
+"HEAD /api/bundle HTTP/1.1" 200 -
+"GET /api/incidents HTTP/1.1" 200 -
+"GET / HTTP/1.1" 200 -
+ok
+test_documented_python_equal_count_residual_difference_is_explicit (test_pages_qa.PagesIndependentQA.test_documented_python_equal_count_residual_difference_is_explicit) ... ok
+test_existing_unrelated_output_cli_fails_and_preserves_content (test_pages_qa.PagesIndependentQA.test_existing_unrelated_output_cli_fails_and_preserves_content) ... ok
+test_generated_media_exact_allowlist_provenance_preserved (test_pages_qa.PagesIndependentQA.test_generated_media_exact_allowlist_provenance_preserved) ... ok
+test_public_build_allowlist_hashes_and_synthetic_counts (test_pages_qa.PagesIndependentQA.test_public_build_allowlist_hashes_and_synthetic_counts) ... ok
+test_relative_entrypoints_support_netlify_root_and_subpath (test_pages_qa.PagesIndependentQA.test_relative_entrypoints_support_netlify_root_and_subpath) ... ok
+test_representative_continuous_state_matches_python_store (test_pages_qa.PagesIndependentQA.test_representative_continuous_state_matches_python_store) ... ok
+test_source_and_symlink_output_targets_rejected (test_pages_qa.PagesIndependentQA.test_source_and_symlink_output_targets_rejected) ... ok
+test_adapter_exit_timeout_invalid_json_os_failure_no_fallback (test_rescue_qa.AdapterAndCLITests.test_adapter_exit_timeout_invalid_json_os_failure_no_fallback) ... ok
+test_cli_invalid_mode_configuration_does_not_create_output (test_rescue_qa.AdapterAndCLITests.test_cli_invalid_mode_configuration_does_not_create_output) ... ok
+test_fixture_cli_hashes_command_and_existing_output_protection (test_rescue_qa.AdapterAndCLITests.test_fixture_cli_hashes_command_and_existing_output_protection) ... ok
+test_live_missing_analysis_files_and_output_fault_exclusion (test_rescue_qa.AdapterAndCLITests.test_live_missing_analysis_files_and_output_fault_exclusion) ... ok
+test_packet_contains_only_current_event_and_prior_state (test_rescue_qa.AdapterAndCLITests.test_packet_contains_only_current_event_and_prior_state) ... ok
+test_real_local_subprocess_failure_never_falls_back (test_rescue_qa.AdapterAndCLITests.test_real_local_subprocess_failure_never_falls_back) ... ok
+test_real_local_subprocess_timeout_never_falls_back (test_rescue_qa.AdapterAndCLITests.test_real_local_subprocess_timeout_never_falls_back) ... ok
+test_all_twenty_cases_and_every_expectation (test_rescue_qa.EngineBoundaryTests.test_all_twenty_cases_and_every_expectation) ... ok
+test_bad_analysis_fields_ids_quotes_counts_and_shapes_rejected (test_rescue_qa.EngineBoundaryTests.test_bad_analysis_fields_ids_quotes_counts_and_shapes_rejected) ... ok
+test_completion_then_new_location_count_or_need_reopens (test_rescue_qa.EngineBoundaryTests.test_completion_then_new_location_count_or_need_reopens) ... ok
+test_dispatch_and_rescue_report_do_not_automatically_complete (test_rescue_qa.EngineBoundaryTests.test_dispatch_and_rescue_report_do_not_automatically_complete) ... ok
+test_late_location_preserves_latest_location_and_old_evidence (test_rescue_qa.EngineBoundaryTests.test_late_location_preserves_latest_location_and_old_evidence) ... ok
+test_link_resolved_and_open_or_different_counts_is_rejected (test_rescue_qa.EngineBoundaryTests.test_link_resolved_and_open_or_different_counts_is_rejected) ... ok
+test_manual_link_does_not_propagate_completion (test_rescue_qa.EngineBoundaryTests.test_manual_link_does_not_propagate_completion) ... ok
+test_missing_expectations_or_assertion_path_fails (test_rescue_qa.EngineBoundaryTests.test_missing_expectations_or_assertion_path_fails) ... ok
+test_missing_live_analysis_never_falls_back (test_rescue_qa.EngineBoundaryTests.test_missing_live_analysis_never_falls_back) ... ok
+test_no_response_and_delivery_failure_remain_unresolved (test_rescue_qa.EngineBoundaryTests.test_no_response_and_delivery_failure_remain_unresolved) ... ok
+test_partial_report_cannot_confirm_current_total (test_rescue_qa.EngineBoundaryTests.test_partial_report_cannot_confirm_current_total) ... ok
+test_rejected_analysis_is_atomic_and_preserves_receipt (test_rescue_qa.EngineBoundaryTests.test_rejected_analysis_is_atomic_and_preserves_receipt) ... ok
+test_reports_must_not_sum_into_total (test_rescue_qa.EngineBoundaryTests.test_reports_must_not_sum_into_total) ... ok
+test_required_original_times_and_operator_identity (test_rescue_qa.EngineBoundaryTests.test_required_original_times_and_operator_identity) ... ok
+test_same_building_preserves_ids_and_every_raw_event (test_rescue_qa.EngineBoundaryTests.test_same_building_preserves_ids_and_every_raw_event) ... ok
+test_stale_revision_approval_blocks (test_rescue_qa.EngineBoundaryTests.test_stale_revision_approval_blocks) ... ok
+test_api_bundle_matches_fixture_and_is_synthetic (test_rescue_qa.HTTPBoundaryTests.test_api_bundle_matches_fixture_and_is_synthetic) ... "GET /api/bundle HTTP/1.1" 200 -
+ok
+test_post_has_no_state_changing_route (test_rescue_qa.HTTPBoundaryTests.test_post_has_no_state_changing_route) ... code 501, message Unsupported method ('POST')
+"POST /api/bundle HTTP/1.1" 501 -
+ok
+test_static_allowlist_is_accessible (test_rescue_qa.HTTPBoundaryTests.test_static_allowlist_is_accessible) ... "GET / HTTP/1.1" 200 -
+"GET /index.html HTTP/1.1" 200 -
+"GET /app.js HTTP/1.1" 200 -
+"GET /style.css HTTP/1.1" 200 -
+ok
+test_unknown_and_traversal_routes_are_denied (test_rescue_qa.HTTPBoundaryTests.test_unknown_and_traversal_routes_are_denied) ... code 404, message No such route
+"GET /docs/contract.md HTTP/1.1" 404 -
+code 404, message No such route
+"GET /../docs/contract.md HTTP/1.1" 404 -
+code 404, message No such route
+"GET /%2e%2e/docs/contract.md HTTP/1.1" 404 -
+code 404, message No such route
+"GET /.codex/config.toml HTTP/1.1" 404 -
+code 404, message No such route
+"GET /scenarios/normal-completion.json HTTP/1.1" 404 -
+ok
+test_malformed_json_foreign_origin_and_duplicate_fields_rejected (test_service_qa.ServiceHTTPQA.test_malformed_json_foreign_origin_and_duplicate_fields_rejected) ... "POST /api/incidents HTTP/1.1" 400 -
+"POST /api/incidents HTTP/1.1" 415 -
+"POST /api/incidents HTTP/1.1" 403 -
+"POST /api/incidents HTTP/1.1" 400 -
+"POST /api/incidents HTTP/1.1" 400 -
+ok
+test_media_range_headers_and_route_allowlist (test_service_qa.ServiceHTTPQA.test_media_range_headers_and_route_allowlist) ... "GET /media/call-isolated.wav HTTP/1.1" 206 -
+"GET /media/call-isolated.wav HTTP/1.1" 416 -
+"GET /data/seed.json HTTP/1.1" 404 -
+"GET /service/store.py HTTP/1.1" 404 -
+"GET /replay/app.js HTTP/1.1" 404 -
+"GET / HTTP/1.1" 200 -
+ok
+test_real_http_full_operator_flow (test_service_qa.ServiceHTTPQA.test_real_http_full_operator_flow) ... "POST /api/incidents HTTP/1.1" 201 -
+"POST /api/incidents/INC-20261008-011/reports HTTP/1.1" 200 -
+"POST /api/incidents/INC-20261008-011/outcome HTTP/1.1" 200 -
+"POST /api/incidents/INC-20261008-011/reopen HTTP/1.1" 200 -
+"GET /api/incidents/INC-20261008-011 HTTP/1.1" 200 -
+ok
+test_additional_report_does_not_overwrite_original_or_implicitly_correct_count (test_service_qa.ServiceWorkflowQA.test_additional_report_does_not_overwrite_original_or_implicitly_correct_count) ... ok
+test_basis_cannot_come_from_other_incident_or_initial_report (test_service_qa.ServiceWorkflowQA.test_basis_cannot_come_from_other_incident_or_initial_report) ... ok
+test_closed_progress_rejected_and_important_edit_reopens (test_service_qa.ServiceWorkflowQA.test_closed_progress_rejected_and_important_edit_reopens) ... ok
+test_conflicting_additional_count_needs_explicit_correction (test_service_qa.ServiceWorkflowQA.test_conflicting_additional_count_needs_explicit_correction) ... ok
+test_count_correction_and_location_edit_preserve_audit (test_service_qa.ServiceWorkflowQA.test_count_correction_and_location_edit_preserve_audit) ... ok
+test_dispatched_team_is_released_only_after_valid_result (test_service_qa.ServiceWorkflowQA.test_dispatched_team_is_released_only_after_valid_result) ... ok
+test_new_information_reopens_closed_incident_and_preserves_result (test_service_qa.ServiceWorkflowQA.test_new_information_reopens_closed_incident_and_preserves_result) ... ok
+test_partial_report_and_sum_of_partial_reports_cannot_close (test_service_qa.ServiceWorkflowQA.test_partial_report_and_sum_of_partial_reports_cannot_close) ... ok
+test_reopen_requires_fresh_field_report_and_keeps_both_outcomes (test_service_qa.ServiceWorkflowQA.test_reopen_requires_fresh_field_report_and_keeps_both_outcomes) ... ok
+test_restart_preserves_changes_and_does_not_reload_seed (test_service_qa.ServiceWorkflowQA.test_restart_preserves_changes_and_does_not_reload_seed) ... ok
+test_seed_has_all_work_states_and_local_evidence (test_service_qa.ServiceWorkflowQA.test_seed_has_all_work_states_and_local_evidence) ... ok
+test_stale_revision_and_blank_reason_are_atomic (test_service_qa.ServiceWorkflowQA.test_stale_revision_and_blank_reason_are_atomic) ... ok
+test_team_assignment_race_has_one_winner (test_service_qa.ServiceWorkflowQA.test_team_assignment_race_has_one_winner) ... ok
+test_unknown_count_and_invalid_counts_never_confirm (test_service_qa.ServiceWorkflowQA.test_unknown_count_and_invalid_counts_never_confirm) ... ok
+test_upload_header_size_path_and_real_audio (test_service_qa.ServiceWorkflowQA.test_upload_header_size_path_and_real_audio) ... ok
+
+----------------------------------------------------------------------
+Ran 78 tests in 4.832s
+
+OK

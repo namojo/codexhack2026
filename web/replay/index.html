@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>아직 여기 — 구조 인계 검증</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="/">아직 여기<span>구조 요청을 끝까지 확인합니다</span></a>
+    <div class="disclosure"><strong>해커톤 모의 상황</strong><span id="mode">결과 불러오는 중</span></div>
+  </header>
+  <div class="workspace">
+    <aside class="case-panel" aria-label="사례 선택">
+      <h2>다매체 신고 사례</h2>
+      <p class="muted">사건을 재생하고, 남은 확인을 살펴보세요.</p>
+      <label for="channel">신고 채널</label>
+      <select id="channel"><option value="all">모든 채널</option><option value="sms">문자</option><option value="mms">사진·영상 첨부</option><option value="app">앱 위치 신고</option><option value="video_call">영상통화 기록</option><option value="web">인터넷 신고</option></select>
+      <nav id="cases" aria-label="검증 사례"></nav>
+      <p class="source-note">소방청 공개 채널 구성을 참고했습니다. 실제 119 접수·출동과 연결되지 않습니다.</p>
+    </aside>
+    <main id="main">
+      <div id="error" role="alert" hidden></div>
+      <section class="case-intro">
+        <div><p id="case-type" class="muted"></p><h1 id="title">모의 상황을 준비하고 있습니다</h1><p id="description"></p></div>
+        <div class="controls">
+          <div class="step-counter" id="step-count" aria-live="polite">0 / 0 사건</div>
+          <div class="button-row"><button id="reset" type="button">처음으로</button><button id="previous" type="button">이전 사건</button><button id="next" class="primary" type="button">다음 사건</button></div>
+          <button id="finish" class="text-button" type="button">마지막 사건까지 보기</button>
+        </div>
+      </section>
+      <div class="current-summary" aria-live="polite"><span id="remaining">접수 전</span><span id="summary-detail"></span></div>
+      <div class="operations">
+        <section class="requests-section"><div class="section-title"><h2>요청별 확인 현황</h2><span id="request-total"></span></div><div id="questions"></div><div id="requests"></div></section>
+        <section class="evidence-section"><h2>현재 사건과 원문 근거</h2><div id="event"></div><details id="evidence-details"><summary>이전 신고·현장 보고 보기</summary><div id="evidence"></div></details></section>
+      </div>
+      <section class="trace-section"><div class="section-title"><h2>사건 진행</h2><span class="muted">배열 순서는 수신 순서입니다</span></div><ol id="timeline"></ol></section>
+      <details class="checks-section"><summary id="check-summary">검증 기대값</summary><p class="muted">전체 사건 재생 결과입니다. 현재 단계의 결과와 구분해서 읽어주세요.</p><div id="checks"></div></details>
+      <p id="demo-note" class="demo-note"></p>
+      <footer>모든 신고·전사·첨부 설명은 합성입니다. 사진·영상은 텍스트 설명으로 재현하며 실제 OCR·음성 인식을 수행하지 않습니다. 상태 검증 통과는 AI 추출 정확도나 생존율 개선을 의미하지 않습니다.</footer>
+    </main>
+  </div>
+</body>
+</html>

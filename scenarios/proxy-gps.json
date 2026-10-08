@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "test_kind": "input_case",
+  "id": "proxy-gps",
+  "title": "대리 신고자의 GPS",
+  "synthetic": true,
+  "description": "신고자 GPS를 구조 대상 좌표로 잘못 확정하는 위험. 모든 인물·ID·장소·좌표는 합성이며 fixture_analysis는 인간작성 분석이다. 실제 LLM·OCR·ASR 미실행.",
+  "channels": [
+    "app"
+  ],
+  "events": [
+    {
+      "id": "E1",
+      "channel": "app",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:01:00+09:00",
+      "received_at": "2026-07-15T10:01:00+09:00",
+      "text": "저는 합성 대피소에 있습니다. 부모님 두 분은 합성 은하빌라 201호에 고립됐습니다. 앱 GPS는 제 위치입니다.",
+      "request_id": "R-A",
+      "building_id": "SYN-B1",
+      "location": {
+        "latitude": 0.001,
+        "longitude": 0.002,
+        "accuracy_m": 30,
+        "captured_at": "2026-07-15T10:01:00+09:00",
+        "subject": "reporter"
+      }
+    }
+  ],
+  "fixture_analysis": {
+    "E1": {
+      "event_id": "E1",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-A"
+          ],
+          "people_count": 2,
+          "location_text": "합성 은하빌라 201호",
+          "needs": [
+            "고립"
+          ],
+          "evidence_quote": "저는 합성 대피소에 있습니다. 부모님 두 분은 합성 은하빌라 201호에 고립됐습니다. 앱 GPS는 제 위치입니다."
+        },
+        {
+          "kind": "location_conflict",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "앱 GPS는 제 위치입니다."
+        }
+      ]
+    }
+  },
+  "expectations": [
+    {
+      "path": "requests.R-A.location_text",
+      "equals": "합성 은하빌라 201호",
+      "label": "대상 텍스트 위치 유지",
+      "after": "E1"
+    },
+    {
+      "path": "alerts",
+      "contains_code": "location_conflict",
+      "active": true,
+      "label": "신고자와 대상 위치 확인",
+      "after": "E1"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "GPS만으로 완료 금지"
+    },
+    {
+      "path": "requests.R-A.revision",
+      "equals": 1,
+      "label": "접수 최초 버전"
+    }
+  ],
+  "demo_notes": "GPS subject=reporter를 근거 패널에서 보여주고 대상 위치와 분리한다."
+}

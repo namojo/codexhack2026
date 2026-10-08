@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.venv/
+node_modules/
+artifacts/local-*/
+
+# Local service runtime; seed/media remain tracked
+data/*.sqlite3*
+data/media/uploads/
+service/uploads/
+service/*.sqlite3*
+
+# Machine-specific run state and generated site (public summaries live in docs/)
+.harness/runs/
+_workspace/
+artifacts/
+dist/
+
+# Netlify machine-local account and project link
+.netlify/

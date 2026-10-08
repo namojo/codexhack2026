@@ -1,0 +1,44 @@
+{
+  "run_id": "rescue-v1",
+  "task_id": "engine",
+  "status": "completed",
+  "summary": "표준 라이브러리 replay 엔진 구현. 원본·개별 카드·근거 이력 보존, 분석 원자적 검증, 위치 시각 비교, 담당자 승인·인원·revision·근거 검증, 중복 자동 병합 방지, 완료 이후 새 정보 재확인, 중간 snapshot 기대값 DSL과 metrics를 구현했다. 개인 smoke 28개 및 합성 사례 20개/57사건/91기대값이 통과했다.",
+  "artifacts": [
+    "rescue/__init__.py",
+    "rescue/engine.py",
+    "rescue/smoke.py",
+    "rescue/verify.py",
+    "rescue/verification-rescue-v1.json"
+  ],
+  "checks": [
+    {
+      "name": "엔진 개인 smoke",
+      "status": "passed",
+      "required": true,
+      "command": "python3 -B -m rescue.verify > rescue/verification-rescue-v1.json",
+      "exit_code": 0,
+      "evidence": "rescue/verification-rescue-v1.json: smoke.tests=28, failures=0, errors=0, 실제 unittest 출력 OK 보존. 별도 python3 -B -m rescue.smoke도 exit=0 및 28 tests OK."
+    },
+    {
+      "name": "전체 현재 합성 사례 기대값 재생",
+      "status": "passed",
+      "required": true,
+      "command": "python3 -B -m rescue.verify > rescue/verification-rescue-v1.json",
+      "exit_code": 0,
+      "evidence": "rescue/verification-rescue-v1.json: fixture 20/20 사례, 57사건, 91기대값 PASS. 엔진·개인 검증·계약 및 사례별 SHA256과 각 실제 assertion 결과 보존."
+    },
+    {
+      "name": "독립 QA",
+      "status": "not_run",
+      "required": false,
+      "evidence": "별도 QA 작업자의 소유 범위이며 이 워커는 개인 smoke만 실행했다."
+    },
+    {
+      "name": "실제 LLM·OCR·ASR·브라우저",
+      "status": "not_run",
+      "required": false,
+      "evidence": "fixture는 수작업 분석이다. 실제 모델 정확도 및 실제 브라우저 실행은 이 엔진 작업의 검증 범위에 포함하지 않았다."
+    }
+  ],
+  "issues": []
+}

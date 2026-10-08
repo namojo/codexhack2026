@@ -1,0 +1,1595 @@
+{
+  "synthetic": true,
+  "resources": [
+    {
+      "id": "TEAM-01",
+      "name": "가상 구조1팀",
+      "type": "구조",
+      "status": "assigned",
+      "incident_id": "INC-20261008-002",
+      "crew_count": 3
+    },
+    {
+      "id": "TEAM-02",
+      "name": "가상 구조2팀",
+      "type": "구조",
+      "status": "assigned",
+      "incident_id": "INC-20261008-003",
+      "crew_count": 4
+    },
+    {
+      "id": "TEAM-03",
+      "name": "가상 현장확인팀",
+      "type": "현장 확인",
+      "status": "assigned",
+      "incident_id": "INC-20261008-004",
+      "crew_count": 2
+    },
+    {
+      "id": "TEAM-04",
+      "name": "가상 지원팀",
+      "type": "현장 지원",
+      "status": "available",
+      "incident_id": null,
+      "crew_count": 3
+    }
+  ],
+  "incidents": [
+    {
+      "id": "INC-20261008-001",
+      "title": "새봄빌라 201호 두 명 고립",
+      "category": "flood",
+      "location": "가상동 새봄길 12, 새봄빌라 201호",
+      "priority": "high",
+      "status": "received",
+      "summary": "두 명 접수. 보행이 어려운 가족이 있어 현장팀 배정과 대상 확인이 필요하다.",
+      "people_count": 2,
+      "revision": 1,
+      "created_at": "2026-10-08T13:20:00+09:00",
+      "updated_at": "2026-10-08T13:20:00+09:00",
+      "assigned_team_id": null,
+      "synthetic": true,
+      "reports": [
+        {
+          "id": "REP-001-01",
+          "channel": "voice",
+          "actor": "가상 신고자-001",
+          "text": "물 때문에 밖으로 나갈 수 없어요. 가상동 새봄빌라 이층 이백일호예요. 어머니와 저, 두 명이고요. 어머니는 걷기 어려우세요. 일층 입구로 물이 들어와요.",
+          "kind": "additional",
+          "people_count": 2,
+          "location": "가상동 새봄길 12, 새봄빌라 201호",
+          "received_at": "2026-10-08T13:20:00+09:00",
+          "occurred_at": "2026-10-08T13:20:00+09:00",
+          "attachments": [
+            {
+              "id": "MEDIA-CALL-ISOLATED",
+              "url": "/media/call-isolated.wav",
+              "filename": "call-isolated.wav",
+              "media_type": "audio",
+              "caption": "가상동 새봄빌라 201호의 두 명 고립 신고를 읽은 합성 음성. 실제 신고 녹음이나 ASR 결과가 아니다.",
+              "source": "tts_synthetic",
+              "transcript": "물 때문에 밖으로 나갈 수 없어요. 가상동 새봄빌라 이층 이백일호예요. 어머니와 저, 두 명이고요. 어머니는 걷기 어려우세요. 일층 입구로 물이 들어와요."
+            }
+          ]
+        }
+      ],
+      "progress": [],
+      "audit": [
+        {
+          "id": "AUD-001-01",
+          "action": "created",
+          "actor": "상황실 김담당",
+          "reason": "합성 신고 원문 접수",
+          "created_at": "2026-10-08T13:20:00+09:00",
+          "before": {},
+          "after": {
+            "title": "새봄빌라 201호 두 명 고립",
+            "location": "가상동 새봄길 12, 새봄빌라 201호",
+            "priority": "high",
+            "status": "received",
+            "people_count": 2,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        }
+      ],
+      "outcome": null,
+      "outcome_history": [],
+      "checks": [
+        {
+          "id": "CHK-001-01",
+          "level": "warning",
+          "title": "같은 건물의 다른 세대",
+          "detail": "202호 사건 INC-20261008-002와 같은 건물이지만 201호 두 명의 원문·ID를 별도로 유지한다. 건물 단위 보고로 두 세대를 함께 완료할 수 없다.",
+          "report_ids": [
+            "REP-001-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "INC-20261008-002",
+      "title": "새봄빌라 202호 세 명 확인 요청",
+      "category": "flood",
+      "location": "가상동 새봄길 12, 새봄빌라 202호",
+      "priority": "high",
+      "status": "dispatched",
+      "summary": "201호와 다른 세대의 세 명 요청. 가상 구조1팀 출동 중.",
+      "people_count": 3,
+      "revision": 2,
+      "created_at": "2026-10-08T13:05:00+09:00",
+      "updated_at": "2026-10-08T13:12:00+09:00",
+      "assigned_team_id": "TEAM-01",
+      "synthetic": true,
+      "reports": [
+        {
+          "id": "REP-002-01",
+          "channel": "sms",
+          "actor": "가상 신고자-002",
+          "text": "새봄빌라 202호예요. 아이 둘하고 저, 세 명 있습니다. 201호랑 다른 집입니다. 현관 앞 물이 올라와 문을 열기 어려워요.",
+          "kind": "additional",
+          "people_count": 3,
+          "location": "가상동 새봄길 12, 새봄빌라 202호",
+          "received_at": "2026-10-08T13:05:00+09:00",
+          "occurred_at": "2026-10-08T13:05:00+09:00",
+          "attachments": []
+        }
+      ],
+      "progress": [
+        {
+          "id": "PRG-002-01",
+          "status": "dispatched",
+          "team_id": "TEAM-01",
+          "note": "가상 구조1팀에 202호 세 명 요청을 인계. 같은 건물 201호 두 명 요청과 분리하여 대상 확인.",
+          "actor": "상황실 김담당",
+          "created_at": "2026-10-08T13:12:00+09:00"
+        }
+      ],
+      "audit": [
+        {
+          "id": "AUD-002-01",
+          "action": "created",
+          "actor": "상황실 김담당",
+          "reason": "합성 신고 원문 접수",
+          "created_at": "2026-10-08T13:05:00+09:00",
+          "before": {},
+          "after": {
+            "title": "새봄빌라 202호 세 명 확인 요청",
+            "location": "가상동 새봄길 12, 새봄빌라 202호",
+            "priority": "high",
+            "status": "received",
+            "people_count": 3,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-002-02",
+          "action": "progress_changed",
+          "actor": "상황실 김담당",
+          "reason": "가상 구조1팀에 202호 세 명 요청을 인계. 같은 건물 201호 두 명 요청과 분리하여 대상 확인.",
+          "created_at": "2026-10-08T13:12:00+09:00",
+          "before": {
+            "title": "새봄빌라 202호 세 명 확인 요청",
+            "location": "가상동 새봄길 12, 새봄빌라 202호",
+            "priority": "high",
+            "status": "received",
+            "people_count": 3,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "새봄빌라 202호 세 명 확인 요청",
+            "location": "가상동 새봄길 12, 새봄빌라 202호",
+            "priority": "high",
+            "status": "dispatched",
+            "people_count": 3,
+            "revision": 2,
+            "assigned_team_id": "TEAM-01",
+            "outcome": null
+          }
+        }
+      ],
+      "outcome": null,
+      "outcome_history": [],
+      "checks": [
+        {
+          "id": "CHK-002-01",
+          "level": "warning",
+          "title": "동일 건물·별도 세대",
+          "detail": "같은 건물 INC-20261008-001의 201호 두 명과 다른 요청이다. 해당 세대 확인 근거를 따로 남긴다.",
+          "report_ids": [
+            "REP-002-01"
+          ]
+        },
+        {
+          "id": "CHK-002-02",
+          "level": "info",
+          "title": "출동은 처리 완료가 아님",
+          "detail": "배정·출동 이후에도 현장 보고와 담당자의 인원 대조가 필요하다.",
+          "report_ids": [
+            "REP-002-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "INC-20261008-003",
+      "title": "해솔다세대 세 명 중 두 명 구조 보고",
+      "category": "flood",
+      "location": "가상동 해솔길 7, 해솔다세대 301호",
+      "priority": "urgent",
+      "status": "rescuing",
+      "summary": "세 명 접수에 현장 두 명 구조 보고. 한 명이 남아 있어 부분 구조를 완료로 처리할 수 없다.",
+      "people_count": 3,
+      "revision": 6,
+      "created_at": "2026-10-08T12:40:00+09:00",
+      "updated_at": "2026-10-08T13:11:00+09:00",
+      "assigned_team_id": "TEAM-02",
+      "synthetic": true,
+      "reports": [
+        {
+          "id": "REP-003-01",
+          "channel": "web",
+          "actor": "가상 신고자-003",
+          "text": "해솔다세대 301호에 세 명 남아 있습니다. 계단 아래에 물이 차서 내려가기 어렵습니다.",
+          "kind": "additional",
+          "people_count": 3,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "received_at": "2026-10-08T12:40:00+09:00",
+          "occurred_at": "2026-10-08T12:40:00+09:00",
+          "attachments": []
+        },
+        {
+          "id": "REP-003-02",
+          "channel": "mms",
+          "actor": "가상 신고자-003",
+          "text": "계단 아래가 이렇습니다. 지금 세 명 모두 301호에 있습니다.",
+          "kind": "additional",
+          "received_at": "2026-10-08T12:44:00+09:00",
+          "occurred_at": "2026-10-08T12:44:00+09:00",
+          "attachments": [
+            {
+              "id": "MEDIA-STAIRWELL",
+              "url": "/media/flood-stairwell.png",
+              "filename": "flood-stairwell.png",
+              "media_type": "image",
+              "caption": "가상 다세대 주택의 실내 계단 하단과 바닥에 흙탕물이 고여 있는 합성 이미지. 위층 계단은 보이며 사람은 보이지 않는다.",
+              "source": "ai_generated"
+            }
+          ],
+          "people_count": 3
+        },
+        {
+          "id": "REP-003-03",
+          "channel": "field",
+          "actor": "가상 현장 확인자",
+          "text": "301호 세 명 중 두 명만 구조했습니다. 한 명은 아직 안에 남아 있으며 전원 구조가 아닙니다.",
+          "kind": "field",
+          "received_at": "2026-10-08T13:10:00+09:00",
+          "occurred_at": "2026-10-08T13:10:00+09:00",
+          "attachments": [],
+          "people_count": 2
+        }
+      ],
+      "progress": [
+        {
+          "id": "PRG-003-01",
+          "status": "dispatched",
+          "team_id": "TEAM-02",
+          "note": "가상 구조2팀 배정. 접수 세 명과 층·호수 원문 인계.",
+          "actor": "상황실 김담당",
+          "created_at": "2026-10-08T12:50:00+09:00"
+        },
+        {
+          "id": "PRG-003-02",
+          "status": "on_scene",
+          "team_id": "TEAM-02",
+          "note": "가상 구조2팀 현장 도착. 세 명 접수 대상 확인 중.",
+          "actor": "상황실 김담당",
+          "created_at": "2026-10-08T13:00:00+09:00"
+        },
+        {
+          "id": "PRG-003-03",
+          "status": "rescuing",
+          "team_id": "TEAM-02",
+          "note": "두 명 부분 구조를 기록하고 남은 한 명의 확인을 계속한다. 접수 인원 세 명을 두 명으로 바꾸지 않는다.",
+          "actor": "상황실 김담당",
+          "created_at": "2026-10-08T13:11:00+09:00"
+        }
+      ],
+      "audit": [
+        {
+          "id": "AUD-003-01",
+          "action": "created",
+          "actor": "상황실 김담당",
+          "reason": "합성 신고 원문 접수",
+          "created_at": "2026-10-08T12:40:00+09:00",
+          "before": {},
+          "after": {
+            "title": "해솔다세대 세 명 중 두 명 구조 보고",
+            "location": "가상동 해솔길 7, 해솔다세대 301호",
+            "priority": "urgent",
+            "status": "received",
+            "people_count": 3,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-003-02",
+          "action": "report_added",
+          "actor": "가상 신고자-003",
+          "reason": "추가 원문 보존",
+          "created_at": "2026-10-08T12:44:00+09:00",
+          "before": {
+            "title": "해솔다세대 세 명 중 두 명 구조 보고",
+            "location": "가상동 해솔길 7, 해솔다세대 301호",
+            "priority": "urgent",
+            "status": "received",
+            "people_count": 3,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "해솔다세대 세 명 중 두 명 구조 보고",
+            "location": "가상동 해솔길 7, 해솔다세대 301호",
+            "priority": "urgent",
+            "status": "received",
+            "people_count": 3,
+            "revision": 2,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-003-03",
+          "action": "progress_changed",
+          "actor": "상황실 김담당",
+          "reason": "가상 구조2팀 배정. 접수 세 명과 층·호수 원문 인계.",
+          "created_at": "2026-10-08T12:50:00+09:00",
+          "before": {
+            "title": "해솔다세대 세 명 중 두 명 구조 보고",
+            "location": "가상동 해솔길 7, 해솔다세대 301호",
+            "priority": "urgent",
+            "status": "received",
+            "people_count": 3,
+            "revision": 2,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "해솔다세대 세 명 중 두 명 구조 보고",
+            "location": "가상동 해솔길 7, 해솔다세대 301호",
+            "priority": "urgent",
+            "status": "dispatched",
+            "people_count": 3,
+            "revision": 3,
+            "assigned_team_id": "TEAM-02",
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-003-04",
+          "action": "progress_changed",
+          "actor": "상황실 김담당",
+          "reason": "가상 구조2팀 현장 도착. 세 명 접수 대상 확인 중.",
+          "created_at": "2026-10-08T13:00:00+09:00",
+          "before": {
+            "title": "해솔다세대 세 명 중 두 명 구조 보고",
+            "location": "가상동 해솔길 7, 해솔다세대 301호",
+            "priority": "urgent",
+            "status": "dispatched",
+            "people_count": 3,
+            "revision": 3,
+            "assigned_team_id": "TEAM-02",
+            "outcome": null
+          },
+          "after": {
+            "title": "해솔다세대 세 명 중 두 명 구조 보고",
+            "location": "가상동 해솔길 7, 해솔다세대 301호",
+            "priority": "urgent",
+            "status": "on_scene",
+            "people_count": 3,
+            "revision": 4,
+            "assigned_team_id": "TEAM-02",
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-003-05",
+          "action": "report_added",
+          "actor": "가상 현장 확인자",
+          "reason": "추가 원문 보존",
+          "created_at": "2026-10-08T13:10:00+09:00",
+          "before": {
+            "title": "해솔다세대 세 명 중 두 명 구조 보고",
+            "location": "가상동 해솔길 7, 해솔다세대 301호",
+            "priority": "urgent",
+            "status": "on_scene",
+            "people_count": 3,
+            "revision": 4,
+            "assigned_team_id": "TEAM-02",
+            "outcome": null
+          },
+          "after": {
+            "title": "해솔다세대 세 명 중 두 명 구조 보고",
+            "location": "가상동 해솔길 7, 해솔다세대 301호",
+            "priority": "urgent",
+            "status": "on_scene",
+            "people_count": 3,
+            "revision": 5,
+            "assigned_team_id": "TEAM-02",
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-003-06",
+          "action": "progress_changed",
+          "actor": "상황실 김담당",
+          "reason": "두 명 부분 구조를 기록하고 남은 한 명의 확인을 계속한다. 접수 인원 세 명을 두 명으로 바꾸지 않는다.",
+          "created_at": "2026-10-08T13:11:00+09:00",
+          "before": {
+            "title": "해솔다세대 세 명 중 두 명 구조 보고",
+            "location": "가상동 해솔길 7, 해솔다세대 301호",
+            "priority": "urgent",
+            "status": "on_scene",
+            "people_count": 3,
+            "revision": 5,
+            "assigned_team_id": "TEAM-02",
+            "outcome": null
+          },
+          "after": {
+            "title": "해솔다세대 세 명 중 두 명 구조 보고",
+            "location": "가상동 해솔길 7, 해솔다세대 301호",
+            "priority": "urgent",
+            "status": "rescuing",
+            "people_count": 3,
+            "revision": 6,
+            "assigned_team_id": "TEAM-02",
+            "outcome": null
+          }
+        }
+      ],
+      "outcome": null,
+      "outcome_history": [],
+      "checks": [
+        {
+          "id": "CHK-003-01",
+          "level": "warning",
+          "title": "부분 구조 인원 불일치",
+          "detail": "접수 세 명과 현장 구조 두 명이 다르다. 이 보고로 확인 인원 3명 또는 2명를 입력해도 전원 완료할 수 없다. 전원 보고를 새로 받아야 한다.",
+          "report_ids": [
+            "REP-003-01",
+            "REP-003-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "INC-20261008-004",
+      "title": "나래주택 출입구 침수·현장 확인",
+      "category": "flood",
+      "location": "가상동 나래길 19, 나래주택 1층",
+      "priority": "high",
+      "status": "on_scene",
+      "summary": "한 명 고립 신고. 가상 현장확인팀 도착 후 원문 위치와 대상 대조 중.",
+      "people_count": 1,
+      "revision": 3,
+      "created_at": "2026-10-08T13:00:00+09:00",
+      "updated_at": "2026-10-08T13:18:00+09:00",
+      "assigned_team_id": "TEAM-03",
+      "synthetic": true,
+      "reports": [
+        {
+          "id": "REP-004-01",
+          "channel": "mms",
+          "actor": "가상 신고자-004",
+          "text": "나래주택 1층에 혼자 있어요. 출입구 앞에 물이 들어왔습니다. 사진처럼 문 앞 낮은 계단까지 잠겼어요.",
+          "kind": "additional",
+          "people_count": 1,
+          "location": "가상동 나래길 19, 나래주택 1층",
+          "received_at": "2026-10-08T13:00:00+09:00",
+          "occurred_at": "2026-10-08T13:00:00+09:00",
+          "attachments": [
+            {
+              "id": "MEDIA-ENTRANCE",
+              "url": "/media/flood-entrance.png",
+              "filename": "flood-entrance.png",
+              "media_type": "image",
+              "caption": "가상 주택 출입구의 바닥에 흙탕물이 차 있고 출입문 앞 낮은 계단이 일부 잠긴 합성 이미지. 사람은 보이지 않는다.",
+              "source": "ai_generated"
+            }
+          ]
+        }
+      ],
+      "progress": [
+        {
+          "id": "PRG-004-01",
+          "status": "dispatched",
+          "team_id": "TEAM-03",
+          "note": "가상 현장확인팀 배정. 사진은 출입구 침수 상태 참고이며 대상 안전을 확정하는 근거가 아니다.",
+          "actor": "상황실 김담당",
+          "created_at": "2026-10-08T13:06:00+09:00"
+        },
+        {
+          "id": "PRG-004-02",
+          "status": "on_scene",
+          "team_id": "TEAM-03",
+          "note": "현장 도착. 출입구 상황을 확인 중이며 한 명의 현재 위치·상태를 확인한다.",
+          "actor": "상황실 김담당",
+          "created_at": "2026-10-08T13:18:00+09:00"
+        }
+      ],
+      "audit": [
+        {
+          "id": "AUD-004-01",
+          "action": "created",
+          "actor": "상황실 김담당",
+          "reason": "합성 신고 원문 접수",
+          "created_at": "2026-10-08T13:00:00+09:00",
+          "before": {},
+          "after": {
+            "title": "나래주택 출입구 침수·현장 확인",
+            "location": "가상동 나래길 19, 나래주택 1층",
+            "priority": "high",
+            "status": "received",
+            "people_count": 1,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-004-02",
+          "action": "progress_changed",
+          "actor": "상황실 김담당",
+          "reason": "가상 현장확인팀 배정. 사진은 출입구 침수 상태 참고이며 대상 안전을 확정하는 근거가 아니다.",
+          "created_at": "2026-10-08T13:06:00+09:00",
+          "before": {
+            "title": "나래주택 출입구 침수·현장 확인",
+            "location": "가상동 나래길 19, 나래주택 1층",
+            "priority": "high",
+            "status": "received",
+            "people_count": 1,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "나래주택 출입구 침수·현장 확인",
+            "location": "가상동 나래길 19, 나래주택 1층",
+            "priority": "high",
+            "status": "dispatched",
+            "people_count": 1,
+            "revision": 2,
+            "assigned_team_id": "TEAM-03",
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-004-03",
+          "action": "progress_changed",
+          "actor": "상황실 김담당",
+          "reason": "현장 도착. 출입구 상황을 확인 중이며 한 명의 현재 위치·상태를 확인한다.",
+          "created_at": "2026-10-08T13:18:00+09:00",
+          "before": {
+            "title": "나래주택 출입구 침수·현장 확인",
+            "location": "가상동 나래길 19, 나래주택 1층",
+            "priority": "high",
+            "status": "dispatched",
+            "people_count": 1,
+            "revision": 2,
+            "assigned_team_id": "TEAM-03",
+            "outcome": null
+          },
+          "after": {
+            "title": "나래주택 출입구 침수·현장 확인",
+            "location": "가상동 나래길 19, 나래주택 1층",
+            "priority": "high",
+            "status": "on_scene",
+            "people_count": 1,
+            "revision": 3,
+            "assigned_team_id": "TEAM-03",
+            "outcome": null
+          }
+        }
+      ],
+      "outcome": null,
+      "outcome_history": [],
+      "checks": [
+        {
+          "id": "CHK-004-01",
+          "level": "info",
+          "title": "사진만으로 안전 확정 불가",
+          "detail": "합성 출입구 이미지는 장소 상황 참고다. 사람 수·현재 안전·전원 결과는 별도 현장 보고로 대조한다.",
+          "report_ids": [
+            "REP-004-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "INC-20261008-005",
+      "title": "푸른빌라 302호 대리 신고·위치 대조",
+      "category": "flood",
+      "location": "가상동 푸른길 28, 푸른빌라 302호",
+      "priority": "high",
+      "status": "reviewing",
+      "summary": "다른 곳의 가족이 대신 신고. 앱의 신고자 위치와 구조 대상 주소를 분리해 확인한다.",
+      "people_count": 1,
+      "revision": 3,
+      "created_at": "2026-10-08T13:10:00+09:00",
+      "updated_at": "2026-10-08T13:16:00+09:00",
+      "assigned_team_id": null,
+      "synthetic": true,
+      "reports": [
+        {
+          "id": "REP-005-01",
+          "channel": "voice",
+          "actor": "가상 신고자-005",
+          "text": "저는 다른 곳에 있는 아들입니다. 어머니가 가상동 푸른빌라 삼층 삼백이호에 혼자 계세요. 제 휴대폰 위치는 어머니 집이 아니에요. 연락이 끊겨서 대신 신고합니다.",
+          "kind": "additional",
+          "people_count": 1,
+          "location": "가상동 푸른길 28, 푸른빌라 302호",
+          "received_at": "2026-10-08T13:10:00+09:00",
+          "occurred_at": "2026-10-08T13:10:00+09:00",
+          "attachments": [
+            {
+              "id": "MEDIA-CALL-PROXY",
+              "url": "/media/call-proxy.wav",
+              "filename": "call-proxy.wav",
+              "media_type": "audio",
+              "caption": "가상동 푸른빌라 302호에 혼자 있는 어머니를 대신 신고하는 합성 음성. 실제 신고 녹음이나 ASR 결과가 아니다.",
+              "source": "tts_synthetic",
+              "transcript": "저는 다른 곳에 있는 아들입니다. 어머니가 가상동 푸른빌라 삼층 삼백이호에 혼자 계세요. 제 휴대폰 위치는 어머니 집이 아니에요. 연락이 끊겨서 대신 신고합니다."
+            }
+          ]
+        },
+        {
+          "id": "REP-005-02",
+          "channel": "app",
+          "actor": "가상 대리 신고자-005",
+          "text": "앱 위치는 신고자 제 휴대폰 위치입니다. 어머니 집이 아니에요. 구조 대상은 가상동 푸른길 28 푸른빌라 302호입니다. 위치표시는 가상 데이터이며 좌표를 제공하지 않습니다.",
+          "kind": "additional",
+          "received_at": "2026-10-08T13:14:00+09:00",
+          "occurred_at": "2026-10-08T13:14:00+09:00",
+          "attachments": [],
+          "people_count": 1
+        }
+      ],
+      "progress": [
+        {
+          "id": "PRG-005-01",
+          "status": "reviewing",
+          "team_id": null,
+          "note": "신고자 GPS를 구조 대상 위치로 사용하지 않고 302호 대상과 연락 상태를 대조한다.",
+          "actor": "상황실 김담당",
+          "created_at": "2026-10-08T13:16:00+09:00"
+        }
+      ],
+      "audit": [
+        {
+          "id": "AUD-005-01",
+          "action": "created",
+          "actor": "상황실 김담당",
+          "reason": "합성 신고 원문 접수",
+          "created_at": "2026-10-08T13:10:00+09:00",
+          "before": {},
+          "after": {
+            "title": "푸른빌라 302호 대리 신고·위치 대조",
+            "location": "가상동 푸른길 28, 푸른빌라 302호",
+            "priority": "high",
+            "status": "received",
+            "people_count": 1,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-005-02",
+          "action": "report_added",
+          "actor": "가상 대리 신고자-005",
+          "reason": "추가 원문 보존",
+          "created_at": "2026-10-08T13:14:00+09:00",
+          "before": {
+            "title": "푸른빌라 302호 대리 신고·위치 대조",
+            "location": "가상동 푸른길 28, 푸른빌라 302호",
+            "priority": "high",
+            "status": "received",
+            "people_count": 1,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "푸른빌라 302호 대리 신고·위치 대조",
+            "location": "가상동 푸른길 28, 푸른빌라 302호",
+            "priority": "high",
+            "status": "received",
+            "people_count": 1,
+            "revision": 2,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-005-03",
+          "action": "progress_changed",
+          "actor": "상황실 김담당",
+          "reason": "신고자 GPS를 구조 대상 위치로 사용하지 않고 302호 대상과 연락 상태를 대조한다.",
+          "created_at": "2026-10-08T13:16:00+09:00",
+          "before": {
+            "title": "푸른빌라 302호 대리 신고·위치 대조",
+            "location": "가상동 푸른길 28, 푸른빌라 302호",
+            "priority": "high",
+            "status": "received",
+            "people_count": 1,
+            "revision": 2,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "푸른빌라 302호 대리 신고·위치 대조",
+            "location": "가상동 푸른길 28, 푸른빌라 302호",
+            "priority": "high",
+            "status": "reviewing",
+            "people_count": 1,
+            "revision": 3,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        }
+      ],
+      "outcome": null,
+      "outcome_history": [],
+      "checks": [
+        {
+          "id": "CHK-005-01",
+          "level": "warning",
+          "title": "신고자 GPS·대상 위치 구분",
+          "detail": "앱 위치의 subject는 신고자(reporter). 구조 대상은 원문의 푸른빌라 302호이며 좌표를 새로 만들지 않는다.",
+          "report_ids": [
+            "REP-005-01",
+            "REP-005-02"
+          ]
+        },
+        {
+          "id": "CHK-005-02",
+          "level": "warning",
+          "title": "연락 두절은 미확인",
+          "detail": "대리 신고 원문의 연락 단절을 완료·사망·대피로 추론하지 않는다.",
+          "report_ids": [
+            "REP-005-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "INC-20261008-006",
+      "title": "소담주택 연락 두절 재확인",
+      "category": "flood",
+      "location": "가상동 소담길 4, 소담주택 2층",
+      "priority": "high",
+      "status": "reviewing",
+      "summary": "두 명 접수 이후 재연락 응답 없음. 원문과 인원을 유지한 채 확인 담당자에게 인계한다.",
+      "people_count": 2,
+      "revision": 3,
+      "created_at": "2026-10-08T12:55:00+09:00",
+      "updated_at": "2026-10-08T13:24:00+09:00",
+      "assigned_team_id": null,
+      "synthetic": true,
+      "reports": [
+        {
+          "id": "REP-006-01",
+          "channel": "sms",
+          "actor": "가상 신고자-006",
+          "text": "소담주택 2층에 두 명입니다. 밖으로 못 나가고 휴대폰 배터리가 거의 없어요. 물이 더 들어오면 다시 보낼게요.",
+          "kind": "additional",
+          "people_count": 2,
+          "location": "가상동 소담길 4, 소담주택 2층",
+          "received_at": "2026-10-08T12:55:00+09:00",
+          "occurred_at": "2026-10-08T12:55:00+09:00",
+          "attachments": []
+        },
+        {
+          "id": "REP-006-02",
+          "channel": "field",
+          "actor": "가상 연락 확인 담당자",
+          "text": "재연락을 시도했으나 응답 없음. 연락 두절 상태이며 두 명의 안전이나 대피 여부를 확인하지 못했습니다.",
+          "kind": "field",
+          "received_at": "2026-10-08T13:22:00+09:00",
+          "occurred_at": "2026-10-08T13:22:00+09:00",
+          "attachments": []
+        }
+      ],
+      "progress": [
+        {
+          "id": "PRG-006-01",
+          "status": "reviewing",
+          "team_id": null,
+          "note": "연락 두절 원문을 기록하고 현재 위치·대상 안전 확인을 인계한다. 무응답을 완료로 처리하지 않는다.",
+          "actor": "상황실 김담당",
+          "created_at": "2026-10-08T13:24:00+09:00"
+        }
+      ],
+      "audit": [
+        {
+          "id": "AUD-006-01",
+          "action": "created",
+          "actor": "상황실 김담당",
+          "reason": "합성 신고 원문 접수",
+          "created_at": "2026-10-08T12:55:00+09:00",
+          "before": {},
+          "after": {
+            "title": "소담주택 연락 두절 재확인",
+            "location": "가상동 소담길 4, 소담주택 2층",
+            "priority": "high",
+            "status": "received",
+            "people_count": 2,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-006-02",
+          "action": "report_added",
+          "actor": "가상 연락 확인 담당자",
+          "reason": "추가 원문 보존",
+          "created_at": "2026-10-08T13:22:00+09:00",
+          "before": {
+            "title": "소담주택 연락 두절 재확인",
+            "location": "가상동 소담길 4, 소담주택 2층",
+            "priority": "high",
+            "status": "received",
+            "people_count": 2,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "소담주택 연락 두절 재확인",
+            "location": "가상동 소담길 4, 소담주택 2층",
+            "priority": "high",
+            "status": "received",
+            "people_count": 2,
+            "revision": 2,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-006-03",
+          "action": "progress_changed",
+          "actor": "상황실 김담당",
+          "reason": "연락 두절 원문을 기록하고 현재 위치·대상 안전 확인을 인계한다. 무응답을 완료로 처리하지 않는다.",
+          "created_at": "2026-10-08T13:24:00+09:00",
+          "before": {
+            "title": "소담주택 연락 두절 재확인",
+            "location": "가상동 소담길 4, 소담주택 2층",
+            "priority": "high",
+            "status": "received",
+            "people_count": 2,
+            "revision": 2,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "소담주택 연락 두절 재확인",
+            "location": "가상동 소담길 4, 소담주택 2층",
+            "priority": "high",
+            "status": "reviewing",
+            "people_count": 2,
+            "revision": 3,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        }
+      ],
+      "outcome": null,
+      "outcome_history": [],
+      "checks": [
+        {
+          "id": "CHK-006-01",
+          "level": "warning",
+          "title": "연락 두절·현재 상태 미확인",
+          "detail": "재연락 응답 없음은 구조 완료 근거가 아니다. 현재 접수 두 명과 마지막 위치를 유지한다.",
+          "report_ids": [
+            "REP-006-01",
+            "REP-006-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "INC-20261008-007",
+      "title": "별빛빌라 영상통화 모의 전사 접수",
+      "category": "flood",
+      "location": "가상동 별빛길 16, 별빛빌라 203호",
+      "priority": "normal",
+      "status": "received",
+      "summary": "담당자가 작성한 합성 영상통화 전사. 실제 영상 연결·ASR 실행 없이 두 명의 요청 원문을 보존한다.",
+      "people_count": 2,
+      "revision": 1,
+      "created_at": "2026-10-08T13:26:00+09:00",
+      "updated_at": "2026-10-08T13:26:00+09:00",
+      "assigned_team_id": null,
+      "synthetic": true,
+      "reports": [
+        {
+          "id": "REP-007-01",
+          "channel": "video_call",
+          "actor": "가상 신고자-007",
+          "text": "[합성 영상통화 담당자 작성 전사] 별빛빌라 203호에 두 명 있어요. 창 밖으로 물이 보이고 계단 쪽은 확인을 못 했습니다. 저희는 아직 집 안입니다.",
+          "kind": "additional",
+          "people_count": 2,
+          "location": "가상동 별빛길 16, 별빛빌라 203호",
+          "received_at": "2026-10-08T13:26:00+09:00",
+          "occurred_at": "2026-10-08T13:26:00+09:00",
+          "attachments": []
+        }
+      ],
+      "progress": [],
+      "audit": [
+        {
+          "id": "AUD-007-01",
+          "action": "created",
+          "actor": "상황실 김담당",
+          "reason": "합성 신고 원문 접수",
+          "created_at": "2026-10-08T13:26:00+09:00",
+          "before": {},
+          "after": {
+            "title": "별빛빌라 영상통화 모의 전사 접수",
+            "location": "가상동 별빛길 16, 별빛빌라 203호",
+            "priority": "normal",
+            "status": "received",
+            "people_count": 2,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        }
+      ],
+      "outcome": null,
+      "outcome_history": [],
+      "checks": [
+        {
+          "id": "CHK-007-01",
+          "level": "info",
+          "title": "모의 전사·현장 결과 미확정",
+          "detail": "담당자 작성 합성 전사이며 실제 영상·음성 인식 결과가 아니다. 접수 두 명의 현장 보고가 아직 없다.",
+          "report_ids": [
+            "REP-007-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "INC-20261008-008",
+      "title": "가온주택 세 명 구조 완료",
+      "category": "flood",
+      "location": "가상동 가온길 9, 가온주택 2층",
+      "priority": "high",
+      "status": "closed",
+      "summary": "이전 인계 결과를 재개 이력에 보존하고 새 현장 근거로 세 명 구조를 최종 확정했다.",
+      "people_count": 3,
+      "revision": 6,
+      "created_at": "2026-10-08T10:10:00+09:00",
+      "updated_at": "2026-10-08T11:20:00+09:00",
+      "assigned_team_id": null,
+      "synthetic": true,
+      "reports": [
+        {
+          "id": "REP-008-01",
+          "channel": "app",
+          "actor": "가상 신고자-008",
+          "text": "가온주택 2층에 가족 세 명이 있습니다. 앱에는 가상 주소만 입력했습니다. 문 앞 물 때문에 밖으로 못 나갑니다.",
+          "kind": "additional",
+          "people_count": 3,
+          "location": "가상동 가온길 9, 가온주택 2층",
+          "received_at": "2026-10-08T10:10:00+09:00",
+          "occurred_at": "2026-10-08T10:10:00+09:00",
+          "attachments": []
+        },
+        {
+          "id": "REP-008-02",
+          "channel": "field",
+          "actor": "가상 현장 확인자",
+          "text": "가온주택 2층 접수 세 명 모두를 가상 협력팀에 인계했습니다. 같은 요청의 세 명을 대조했으며 인계 대상·인원이 일치합니다.",
+          "kind": "field",
+          "received_at": "2026-10-08T10:35:00+09:00",
+          "occurred_at": "2026-10-08T10:35:00+09:00",
+          "attachments": [],
+          "people_count": 3
+        },
+        {
+          "id": "REP-008-03",
+          "channel": "sms",
+          "actor": "가상 신고자-008",
+          "text": "인계된 세 명이 아직 가상 대기공간에서 도움을 기다립니다. 같은 세 명의 후속 확인을 부탁드립니다.",
+          "kind": "additional",
+          "received_at": "2026-10-08T11:05:00+09:00",
+          "occurred_at": "2026-10-08T11:05:00+09:00",
+          "attachments": [],
+          "people_count": 3
+        },
+        {
+          "id": "REP-008-04",
+          "channel": "field",
+          "actor": "가상 현장 확인자",
+          "text": "가온주택 요청의 동일 세 명 모두를 가상 구조팀이 확인하여 구조 완료했습니다. 접수 세 명과 전원 인원이 일치합니다.",
+          "kind": "field",
+          "received_at": "2026-10-08T11:15:00+09:00",
+          "occurred_at": "2026-10-08T11:15:00+09:00",
+          "attachments": [],
+          "people_count": 3
+        }
+      ],
+      "progress": [],
+      "audit": [
+        {
+          "id": "AUD-008-01",
+          "action": "created",
+          "actor": "상황실 김담당",
+          "reason": "합성 신고 원문 접수",
+          "created_at": "2026-10-08T10:10:00+09:00",
+          "before": {},
+          "after": {
+            "title": "가온주택 세 명 구조 완료",
+            "location": "가상동 가온길 9, 가온주택 2층",
+            "priority": "high",
+            "status": "received",
+            "people_count": 3,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-008-02",
+          "action": "report_added",
+          "actor": "가상 현장 확인자",
+          "reason": "추가 원문 보존",
+          "created_at": "2026-10-08T10:35:00+09:00",
+          "before": {
+            "title": "가온주택 세 명 구조 완료",
+            "location": "가상동 가온길 9, 가온주택 2층",
+            "priority": "high",
+            "status": "received",
+            "people_count": 3,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "가온주택 세 명 구조 완료",
+            "location": "가상동 가온길 9, 가온주택 2층",
+            "priority": "high",
+            "status": "received",
+            "people_count": 3,
+            "revision": 2,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-008-03",
+          "action": "outcome_confirmed",
+          "actor": "상황실 김담당",
+          "reason": "해당 사건 세 명의 인계 현장 보고와 접수 인원을 대조하여 가상 담당자가 확정.",
+          "created_at": "2026-10-08T10:40:00+09:00",
+          "before": {
+            "title": "가온주택 세 명 구조 완료",
+            "location": "가상동 가온길 9, 가온주택 2층",
+            "priority": "high",
+            "status": "received",
+            "people_count": 3,
+            "revision": 2,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "가온주택 세 명 구조 완료",
+            "location": "가상동 가온길 9, 가온주택 2층",
+            "priority": "high",
+            "status": "closed",
+            "people_count": 3,
+            "revision": 3,
+            "assigned_team_id": null,
+            "outcome": {
+              "outcome": "transferred",
+              "confirmed_count": 3,
+              "basis_report_id": "REP-008-02",
+              "note": "해당 사건 세 명의 인계 현장 보고와 접수 인원을 대조하여 가상 담당자가 확정.",
+              "actor": "상황실 김담당",
+              "confirmed_at": "2026-10-08T10:40:00+09:00"
+            }
+          }
+        },
+        {
+          "id": "AUD-008-04",
+          "action": "report_added",
+          "actor": "가상 신고자-008",
+          "reason": "추가 원문 보존",
+          "created_at": "2026-10-08T11:05:00+09:00",
+          "before": {
+            "title": "가온주택 세 명 구조 완료",
+            "location": "가상동 가온길 9, 가온주택 2층",
+            "priority": "high",
+            "status": "closed",
+            "people_count": 3,
+            "revision": 3,
+            "assigned_team_id": null,
+            "outcome": {
+              "outcome": "transferred",
+              "confirmed_count": 3,
+              "basis_report_id": "REP-008-02",
+              "note": "해당 사건 세 명의 인계 현장 보고와 접수 인원을 대조하여 가상 담당자가 확정.",
+              "actor": "상황실 김담당",
+              "confirmed_at": "2026-10-08T10:40:00+09:00"
+            }
+          },
+          "after": {
+            "title": "가온주택 세 명 구조 완료",
+            "location": "가상동 가온길 9, 가온주택 2층",
+            "priority": "high",
+            "status": "reviewing",
+            "people_count": 3,
+            "revision": 4,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-008-05",
+          "action": "report_added",
+          "actor": "가상 현장 확인자",
+          "reason": "추가 원문 보존",
+          "created_at": "2026-10-08T11:15:00+09:00",
+          "before": {
+            "title": "가온주택 세 명 구조 완료",
+            "location": "가상동 가온길 9, 가온주택 2층",
+            "priority": "high",
+            "status": "reviewing",
+            "people_count": 3,
+            "revision": 4,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "가온주택 세 명 구조 완료",
+            "location": "가상동 가온길 9, 가온주택 2층",
+            "priority": "high",
+            "status": "reviewing",
+            "people_count": 3,
+            "revision": 5,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-008-06",
+          "action": "outcome_confirmed",
+          "actor": "상황실 김담당",
+          "reason": "후속 재개 원문과 전원 구조 근거를 대조. 이전 transferred 결과는 이력 보존 후 현재 rescued 확정.",
+          "created_at": "2026-10-08T11:20:00+09:00",
+          "before": {
+            "title": "가온주택 세 명 구조 완료",
+            "location": "가상동 가온길 9, 가온주택 2층",
+            "priority": "high",
+            "status": "reviewing",
+            "people_count": 3,
+            "revision": 5,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "가온주택 세 명 구조 완료",
+            "location": "가상동 가온길 9, 가온주택 2층",
+            "priority": "high",
+            "status": "closed",
+            "people_count": 3,
+            "revision": 6,
+            "assigned_team_id": null,
+            "outcome": {
+              "outcome": "rescued",
+              "confirmed_count": 3,
+              "basis_report_id": "REP-008-04",
+              "note": "후속 재개 원문과 전원 구조 근거를 대조. 이전 transferred 결과는 이력 보존 후 현재 rescued 확정.",
+              "actor": "상황실 김담당",
+              "confirmed_at": "2026-10-08T11:20:00+09:00"
+            }
+          }
+        }
+      ],
+      "outcome": {
+        "outcome": "rescued",
+        "confirmed_count": 3,
+        "basis_report_id": "REP-008-04",
+        "note": "후속 재개 원문과 전원 구조 근거를 대조. 이전 transferred 결과는 이력 보존 후 현재 rescued 확정.",
+        "actor": "상황실 김담당",
+        "confirmed_at": "2026-10-08T11:20:00+09:00"
+      },
+      "outcome_history": [
+        {
+          "outcome": "transferred",
+          "confirmed_count": 3,
+          "basis_report_id": "REP-008-02",
+          "note": "해당 사건 세 명의 인계 현장 보고와 접수 인원을 대조하여 가상 담당자가 확정.",
+          "actor": "상황실 김담당",
+          "confirmed_at": "2026-10-08T10:40:00+09:00",
+          "reopened_at": "2026-10-08T11:05:00+09:00",
+          "reopen_reason": "완료 이후 새 신고 원문을 접수하여 대상·인원을 다시 확인",
+          "reopened_by": "상황실 김담당"
+        }
+      ],
+      "checks": [
+        {
+          "id": "CHK-008-01",
+          "level": "info",
+          "title": "이전 결과와 재확정 이력",
+          "detail": "10:40 인계 결과와 11:05 재개 사유를 보존했다. 현재 결과는 11:15 전원 현장 보고를 근거로 한 11:20 구조 확정이다.",
+          "report_ids": [
+            "REP-008-02",
+            "REP-008-03",
+            "REP-008-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "INC-20261008-009",
+      "title": "한결주택 한 명 자력 대피 확인",
+      "category": "flood",
+      "location": "가상동 한결길 11, 한결주택 1층",
+      "priority": "normal",
+      "status": "closed",
+      "summary": "처음의 대피 의향과 실제 대피 확인을 구분. 현장 한 명 대조 후 담당자가 자력 대피 결과 확정.",
+      "people_count": 1,
+      "revision": 3,
+      "created_at": "2026-10-08T11:30:00+09:00",
+      "updated_at": "2026-10-08T11:48:00+09:00",
+      "assigned_team_id": null,
+      "synthetic": true,
+      "reports": [
+        {
+          "id": "REP-009-01",
+          "channel": "sms",
+          "actor": "가상 신고자-009",
+          "text": "한결주택 1층에 혼자 있습니다. 물이 들어와서 밖의 가상 대기장소로 나가 보려고 합니다. 아직 이동하지 않았어요.",
+          "kind": "additional",
+          "people_count": 1,
+          "location": "가상동 한결길 11, 한결주택 1층",
+          "received_at": "2026-10-08T11:30:00+09:00",
+          "occurred_at": "2026-10-08T11:30:00+09:00",
+          "attachments": []
+        },
+        {
+          "id": "REP-009-02",
+          "channel": "field",
+          "actor": "가상 현장 확인자",
+          "text": "한결주택 접수 한 명이 가상 대기장소로 자력 대피한 것을 직접 확인했습니다. 다른 요청의 사람이 아니며 접수 한 명과 대조했습니다.",
+          "kind": "field",
+          "received_at": "2026-10-08T11:45:00+09:00",
+          "occurred_at": "2026-10-08T11:45:00+09:00",
+          "attachments": [],
+          "people_count": 1
+        }
+      ],
+      "progress": [],
+      "audit": [
+        {
+          "id": "AUD-009-01",
+          "action": "created",
+          "actor": "상황실 김담당",
+          "reason": "합성 신고 원문 접수",
+          "created_at": "2026-10-08T11:30:00+09:00",
+          "before": {},
+          "after": {
+            "title": "한결주택 한 명 자력 대피 확인",
+            "location": "가상동 한결길 11, 한결주택 1층",
+            "priority": "normal",
+            "status": "received",
+            "people_count": 1,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-009-02",
+          "action": "report_added",
+          "actor": "가상 현장 확인자",
+          "reason": "추가 원문 보존",
+          "created_at": "2026-10-08T11:45:00+09:00",
+          "before": {
+            "title": "한결주택 한 명 자력 대피 확인",
+            "location": "가상동 한결길 11, 한결주택 1층",
+            "priority": "normal",
+            "status": "received",
+            "people_count": 1,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "한결주택 한 명 자력 대피 확인",
+            "location": "가상동 한결길 11, 한결주택 1층",
+            "priority": "normal",
+            "status": "received",
+            "people_count": 1,
+            "revision": 2,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-009-03",
+          "action": "outcome_confirmed",
+          "actor": "상황실 김담당",
+          "reason": "대피 의향 문자 대신 해당 사건 한 명의 현장 확인 보고를 근거로 자력 대피 확정.",
+          "created_at": "2026-10-08T11:48:00+09:00",
+          "before": {
+            "title": "한결주택 한 명 자력 대피 확인",
+            "location": "가상동 한결길 11, 한결주택 1층",
+            "priority": "normal",
+            "status": "received",
+            "people_count": 1,
+            "revision": 2,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "한결주택 한 명 자력 대피 확인",
+            "location": "가상동 한결길 11, 한결주택 1층",
+            "priority": "normal",
+            "status": "closed",
+            "people_count": 1,
+            "revision": 3,
+            "assigned_team_id": null,
+            "outcome": {
+              "outcome": "self_evacuated",
+              "confirmed_count": 1,
+              "basis_report_id": "REP-009-02",
+              "note": "대피 의향 문자 대신 해당 사건 한 명의 현장 확인 보고를 근거로 자력 대피 확정.",
+              "actor": "상황실 김담당",
+              "confirmed_at": "2026-10-08T11:48:00+09:00"
+            }
+          }
+        }
+      ],
+      "outcome": {
+        "outcome": "self_evacuated",
+        "confirmed_count": 1,
+        "basis_report_id": "REP-009-02",
+        "note": "대피 의향 문자 대신 해당 사건 한 명의 현장 확인 보고를 근거로 자력 대피 확정.",
+        "actor": "상황실 김담당",
+        "confirmed_at": "2026-10-08T11:48:00+09:00"
+      },
+      "outcome_history": [],
+      "checks": [
+        {
+          "id": "CHK-009-01",
+          "level": "info",
+          "title": "결과 종류 자력 대피",
+          "detail": "구조 rescued와 구분하여 self_evacuated를 기록했다. 접수 한 명과 현장 한 명이 일치한다.",
+          "report_ids": [
+            "REP-009-01",
+            "REP-009-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "INC-20261008-010",
+      "title": "온유빌라 완료 후 인원 정정 재확인",
+      "category": "flood",
+      "location": "가상동 온유길 22, 온유빌라 301호",
+      "priority": "high",
+      "status": "reviewing",
+      "summary": "두 명 구조 확정 뒤 세 명이라는 정정 신고로 자동 재개. 이전 결과·근거는 이력에 남고 현재 결과는 미확정이다.",
+      "people_count": 3,
+      "revision": 4,
+      "created_at": "2026-10-08T12:05:00+09:00",
+      "updated_at": "2026-10-08T12:45:00+09:00",
+      "assigned_team_id": null,
+      "synthetic": true,
+      "reports": [
+        {
+          "id": "REP-010-01",
+          "channel": "sms",
+          "actor": "가상 신고자-010",
+          "text": "온유빌라 301호 두 명 고립입니다. 두 명인 줄 알고 신고합니다.",
+          "kind": "additional",
+          "people_count": 2,
+          "location": "가상동 온유길 22, 온유빌라 301호",
+          "received_at": "2026-10-08T12:05:00+09:00",
+          "occurred_at": "2026-10-08T12:05:00+09:00",
+          "attachments": []
+        },
+        {
+          "id": "REP-010-02",
+          "channel": "field",
+          "actor": "가상 현장 확인자",
+          "text": "온유빌라 301호 요청의 두 명을 구조했고 접수 두 명과 대조했습니다.",
+          "kind": "field",
+          "received_at": "2026-10-08T12:20:00+09:00",
+          "occurred_at": "2026-10-08T12:20:00+09:00",
+          "attachments": [],
+          "people_count": 2
+        },
+        {
+          "id": "REP-010-03",
+          "channel": "sms",
+          "actor": "가상 신고자-010",
+          "text": "인원을 정정합니다. 실제로는 세 명이었고 두 명 구조 뒤 한 명이 301호에 남아 있습니다. 기존 두 명 완료를 다시 확인해 주세요.",
+          "kind": "correction",
+          "received_at": "2026-10-08T12:45:00+09:00",
+          "occurred_at": "2026-10-08T12:45:00+09:00",
+          "attachments": [],
+          "people_count": 3
+        }
+      ],
+      "progress": [],
+      "audit": [
+        {
+          "id": "AUD-010-01",
+          "action": "created",
+          "actor": "상황실 김담당",
+          "reason": "합성 신고 원문 접수",
+          "created_at": "2026-10-08T12:05:00+09:00",
+          "before": {},
+          "after": {
+            "title": "온유빌라 완료 후 인원 정정 재확인",
+            "location": "가상동 온유길 22, 온유빌라 301호",
+            "priority": "high",
+            "status": "received",
+            "people_count": 2,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-010-02",
+          "action": "report_added",
+          "actor": "가상 현장 확인자",
+          "reason": "추가 원문 보존",
+          "created_at": "2026-10-08T12:20:00+09:00",
+          "before": {
+            "title": "온유빌라 완료 후 인원 정정 재확인",
+            "location": "가상동 온유길 22, 온유빌라 301호",
+            "priority": "high",
+            "status": "received",
+            "people_count": 2,
+            "revision": 1,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "온유빌라 완료 후 인원 정정 재확인",
+            "location": "가상동 온유길 22, 온유빌라 301호",
+            "priority": "high",
+            "status": "received",
+            "people_count": 2,
+            "revision": 2,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        },
+        {
+          "id": "AUD-010-03",
+          "action": "outcome_confirmed",
+          "actor": "상황실 김담당",
+          "reason": "당시 접수 두 명과 두 명 현장 보고를 대조하여 완료 확정.",
+          "created_at": "2026-10-08T12:24:00+09:00",
+          "before": {
+            "title": "온유빌라 완료 후 인원 정정 재확인",
+            "location": "가상동 온유길 22, 온유빌라 301호",
+            "priority": "high",
+            "status": "received",
+            "people_count": 2,
+            "revision": 2,
+            "assigned_team_id": null,
+            "outcome": null
+          },
+          "after": {
+            "title": "온유빌라 완료 후 인원 정정 재확인",
+            "location": "가상동 온유길 22, 온유빌라 301호",
+            "priority": "high",
+            "status": "closed",
+            "people_count": 2,
+            "revision": 3,
+            "assigned_team_id": null,
+            "outcome": {
+              "outcome": "rescued",
+              "confirmed_count": 2,
+              "basis_report_id": "REP-010-02",
+              "note": "당시 접수 두 명과 두 명 현장 보고를 대조하여 완료 확정.",
+              "actor": "상황실 김담당",
+              "confirmed_at": "2026-10-08T12:24:00+09:00"
+            }
+          }
+        },
+        {
+          "id": "AUD-010-04",
+          "action": "report_added",
+          "actor": "가상 신고자-010",
+          "reason": "추가 원문 보존 및 명시적 정정",
+          "created_at": "2026-10-08T12:45:00+09:00",
+          "before": {
+            "title": "온유빌라 완료 후 인원 정정 재확인",
+            "location": "가상동 온유길 22, 온유빌라 301호",
+            "priority": "high",
+            "status": "closed",
+            "people_count": 2,
+            "revision": 3,
+            "assigned_team_id": null,
+            "outcome": {
+              "outcome": "rescued",
+              "confirmed_count": 2,
+              "basis_report_id": "REP-010-02",
+              "note": "당시 접수 두 명과 두 명 현장 보고를 대조하여 완료 확정.",
+              "actor": "상황실 김담당",
+              "confirmed_at": "2026-10-08T12:24:00+09:00"
+            }
+          },
+          "after": {
+            "title": "온유빌라 완료 후 인원 정정 재확인",
+            "location": "가상동 온유길 22, 온유빌라 301호",
+            "priority": "high",
+            "status": "reviewing",
+            "people_count": 3,
+            "revision": 4,
+            "assigned_team_id": null,
+            "outcome": null
+          }
+        }
+      ],
+      "outcome": null,
+      "outcome_history": [
+        {
+          "outcome": "rescued",
+          "confirmed_count": 2,
+          "basis_report_id": "REP-010-02",
+          "note": "당시 접수 두 명과 두 명 현장 보고를 대조하여 완료 확정.",
+          "actor": "상황실 김담당",
+          "confirmed_at": "2026-10-08T12:24:00+09:00",
+          "reopened_at": "2026-10-08T12:45:00+09:00",
+          "reopen_reason": "완료 이후 새 신고 원문을 접수하여 대상·인원을 다시 확인",
+          "reopened_by": "상황실 김담당"
+        }
+      ],
+      "checks": [
+        {
+          "id": "CHK-010-01",
+          "level": "warning",
+          "title": "완료 후 새 인원·결과 재확인",
+          "detail": "현재 접수는 정정된 세 명이다. 이전 두 명 구조 결과와 근거는 outcome_history에 보존하며 현재 outcome은 비워 둔다.",
+          "report_ids": [
+            "REP-010-01",
+            "REP-010-02",
+            "REP-010-03"
+          ]
+        },
+        {
+          "id": "CHK-010-02",
+          "level": "warning",
+          "title": "과거 근거로 새 인원 완료 불가",
+          "detail": "두 명 field 보고를 근거로 현재 세 명을 완료할 수 없다. 남은 대상 확인과 전원 현장 보고가 필요하다.",
+          "report_ids": [
+            "REP-010-02",
+            "REP-010-03"
+          ]
+        }
+      ]
+    }
+  ]
+}

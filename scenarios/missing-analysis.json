@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "test_kind": "output_fault",
+  "id": "missing-analysis",
+  "title": "누락된 분석의 명시적 거절",
+  "synthetic": true,
+  "description": "해당 이벤트 분석이 없으면 fixture나 추론으로 임의 보충하지 않는다. 모든 인물·ID·장소·좌표는 합성이며 fixture_analysis는 인간작성 분석이다. 실제 LLM·OCR·ASR 미실행.",
+  "channels": [
+    "sms",
+    "field"
+  ],
+  "events": [
+    {
+      "id": "E1",
+      "channel": "sms",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:01:00+09:00",
+      "received_at": "2026-07-15T10:01:00+09:00",
+      "text": "합성 은하빌라 201호에 2명이 고립됐어요.",
+      "request_id": "R-A",
+      "building_id": "SYN-B1"
+    },
+    {
+      "id": "E2",
+      "channel": "field",
+      "actor": "합성 현장팀-A",
+      "occurred_at": "2026-07-15T10:02:00+09:00",
+      "received_at": "2026-07-15T10:02:00+09:00",
+      "text": "R-A 두 명 구조 보고입니다.",
+      "candidate_request_ids": [
+        "R-A"
+      ]
+    }
+  ],
+  "fixture_analysis": {
+    "E1": {
+      "event_id": "E1",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "합성 은하빌라 201호에 2명이 고립됐어요.",
+          "people_count": 2,
+          "location_text": "201호",
+          "needs": [
+            "고립"
+          ]
+        }
+      ]
+    }
+  },
+  "expectations": [
+    {
+      "path": "alerts",
+      "contains_code": "analysis_rejected",
+      "active": true,
+      "label": "누락 분석 명시 표시",
+      "after": "E2"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "누락 분석으로 완료 금지"
+    },
+    {
+      "path": "requests.R-A.people_count",
+      "equals": 2,
+      "label": "접수 원본 인원 보존"
+    }
+  ],
+  "demo_notes": "분석 누락과 원문 보존을 보인다. live에서도 fixture fallback이 금지된다."
+}

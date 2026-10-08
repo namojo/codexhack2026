@@ -1,0 +1,84 @@
+{
+  "run_id": "service-v7",
+  "objective": "최종 UX 코드와 독립 QA 보고서 지문 완료 확인",
+  "tasks": [
+    {
+      "id": "frontend",
+      "role": "service_frontend",
+      "dependencies": [],
+      "ownership": [
+        "web/app.js"
+      ],
+      "inputs": [
+        "AGENTS.md",
+        "docs/service-contract.md",
+        "docs/service-design-brief.md",
+        "docs/attention-contract.md",
+        "docs/interaction-contract.md",
+        "docs/interaction-followup-contract.md"
+      ],
+      "context": {
+        "decisions": [
+          "서비스 API/DB/seed 변경 없음",
+          "이번 interaction 계약 우선",
+          "기존 유휴 작업자 재사용 및 역할파일 명시 fallback",
+          "CSP 유지, inline style 제거",
+          "실제 브라우저는 메인 담당",
+          "service-v5 브라우저 발견 assign-resource 경합 보완"
+        ],
+        "skill_paths": [
+          ".agents/skills/service-operations/SKILL.md"
+        ]
+      },
+      "acceptance": [
+        "넓은 선택 영역 및 내부 독립 버튼",
+        "키보드와 hover/focus 피드백",
+        "버튼·필터·탭 배치 정상",
+        "실제 검사 및 미실행 범위"
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "required": true
+    },
+    {
+      "id": "qa",
+      "role": "service_qa",
+      "dependencies": [
+        "frontend"
+      ],
+      "ownership": [
+        ".harness/runs/service-v7/task-qa/outputs/"
+      ],
+      "inputs": [
+        "AGENTS.md",
+        "docs/service-contract.md",
+        "docs/service-design-brief.md",
+        "docs/attention-contract.md",
+        "docs/interaction-contract.md",
+        "docs/interaction-followup-contract.md"
+      ],
+      "context": {
+        "decisions": [
+          "서비스 API/DB/seed 변경 없음",
+          "이번 interaction 계약 우선",
+          "기존 유휴 작업자 재사용 및 역할파일 명시 fallback",
+          "CSP 유지, inline style 제거",
+          "실제 브라우저는 메인 담당",
+          "service-v5 브라우저 발견 assign-resource 경합 보완"
+        ],
+        "skill_paths": [
+          ".agents/skills/service-operations/SKILL.md"
+        ]
+      },
+      "acceptance": [
+        "넓은 선택 영역 및 내부 독립 버튼",
+        "키보드와 hover/focus 피드백",
+        "버튼·필터·탭 배치 정상",
+        "실제 검사 및 미실행 범위"
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "required": true
+    }
+  ]
+}

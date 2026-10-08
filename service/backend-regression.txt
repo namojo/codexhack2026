@@ -1,0 +1,49 @@
+test_adapter_exit_timeout_invalid_json_os_failure_no_fallback (test_rescue_qa.AdapterAndCLITests.test_adapter_exit_timeout_invalid_json_os_failure_no_fallback) ... ok
+test_cli_invalid_mode_configuration_does_not_create_output (test_rescue_qa.AdapterAndCLITests.test_cli_invalid_mode_configuration_does_not_create_output) ... ok
+test_fixture_cli_hashes_command_and_existing_output_protection (test_rescue_qa.AdapterAndCLITests.test_fixture_cli_hashes_command_and_existing_output_protection) ... ok
+test_live_missing_analysis_files_and_output_fault_exclusion (test_rescue_qa.AdapterAndCLITests.test_live_missing_analysis_files_and_output_fault_exclusion) ... ok
+test_packet_contains_only_current_event_and_prior_state (test_rescue_qa.AdapterAndCLITests.test_packet_contains_only_current_event_and_prior_state) ... ok
+test_real_local_subprocess_failure_never_falls_back (test_rescue_qa.AdapterAndCLITests.test_real_local_subprocess_failure_never_falls_back) ... ok
+test_real_local_subprocess_timeout_never_falls_back (test_rescue_qa.AdapterAndCLITests.test_real_local_subprocess_timeout_never_falls_back) ... ok
+test_all_twenty_cases_and_every_expectation (test_rescue_qa.EngineBoundaryTests.test_all_twenty_cases_and_every_expectation) ... ok
+test_bad_analysis_fields_ids_quotes_counts_and_shapes_rejected (test_rescue_qa.EngineBoundaryTests.test_bad_analysis_fields_ids_quotes_counts_and_shapes_rejected) ... ok
+test_completion_then_new_location_count_or_need_reopens (test_rescue_qa.EngineBoundaryTests.test_completion_then_new_location_count_or_need_reopens) ... ok
+test_dispatch_and_rescue_report_do_not_automatically_complete (test_rescue_qa.EngineBoundaryTests.test_dispatch_and_rescue_report_do_not_automatically_complete) ... ok
+test_late_location_preserves_latest_location_and_old_evidence (test_rescue_qa.EngineBoundaryTests.test_late_location_preserves_latest_location_and_old_evidence) ... ok
+test_link_resolved_and_open_or_different_counts_is_rejected (test_rescue_qa.EngineBoundaryTests.test_link_resolved_and_open_or_different_counts_is_rejected) ... ok
+test_manual_link_does_not_propagate_completion (test_rescue_qa.EngineBoundaryTests.test_manual_link_does_not_propagate_completion) ... ok
+test_missing_expectations_or_assertion_path_fails (test_rescue_qa.EngineBoundaryTests.test_missing_expectations_or_assertion_path_fails) ... ok
+test_missing_live_analysis_never_falls_back (test_rescue_qa.EngineBoundaryTests.test_missing_live_analysis_never_falls_back) ... ok
+test_no_response_and_delivery_failure_remain_unresolved (test_rescue_qa.EngineBoundaryTests.test_no_response_and_delivery_failure_remain_unresolved) ... ok
+test_partial_report_cannot_confirm_current_total (test_rescue_qa.EngineBoundaryTests.test_partial_report_cannot_confirm_current_total) ... ok
+test_rejected_analysis_is_atomic_and_preserves_receipt (test_rescue_qa.EngineBoundaryTests.test_rejected_analysis_is_atomic_and_preserves_receipt) ... ok
+test_reports_must_not_sum_into_total (test_rescue_qa.EngineBoundaryTests.test_reports_must_not_sum_into_total) ... ok
+test_required_original_times_and_operator_identity (test_rescue_qa.EngineBoundaryTests.test_required_original_times_and_operator_identity) ... ok
+test_same_building_preserves_ids_and_every_raw_event (test_rescue_qa.EngineBoundaryTests.test_same_building_preserves_ids_and_every_raw_event) ... ok
+test_stale_revision_approval_blocks (test_rescue_qa.EngineBoundaryTests.test_stale_revision_approval_blocks) ... ok
+test_api_bundle_matches_fixture_and_is_synthetic (test_rescue_qa.HTTPBoundaryTests.test_api_bundle_matches_fixture_and_is_synthetic) ... "GET /api/bundle HTTP/1.1" 200 -
+ok
+test_post_has_no_state_changing_route (test_rescue_qa.HTTPBoundaryTests.test_post_has_no_state_changing_route) ... code 501, message Unsupported method ('POST')
+"POST /api/bundle HTTP/1.1" 501 -
+ok
+test_static_allowlist_is_accessible (test_rescue_qa.HTTPBoundaryTests.test_static_allowlist_is_accessible) ... "GET / HTTP/1.1" 200 -
+"GET /index.html HTTP/1.1" 200 -
+"GET /app.js HTTP/1.1" 200 -
+"GET /style.css HTTP/1.1" 200 -
+ok
+test_unknown_and_traversal_routes_are_denied (test_rescue_qa.HTTPBoundaryTests.test_unknown_and_traversal_routes_are_denied) ... code 404, message No such route
+"GET /docs/contract.md HTTP/1.1" 404 -
+code 404, message No such route
+"GET /../docs/contract.md HTTP/1.1" 404 -
+code 404, message No such route
+"GET /%2e%2e/docs/contract.md HTTP/1.1" 404 -
+code 404, message No such route
+"GET /.codex/config.toml HTTP/1.1" 404 -
+code 404, message No such route
+"GET /scenarios/normal-completion.json HTTP/1.1" 404 -
+ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 2.908s
+
+OK

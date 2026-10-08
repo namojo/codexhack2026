@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "test_kind": "output_fault",
+  "id": "fabricated-evidence",
+  "title": "원문에 없는 근거 인용 거절",
+  "synthetic": true,
+  "description": "허위 구조 완료 근거가 분석에 들어온 모의 오류. 모든 인물·ID·장소·좌표는 합성이며 fixture_analysis는 인간작성 분석이다. 실제 LLM·OCR·ASR 미실행.",
+  "channels": [
+    "sms",
+    "field"
+  ],
+  "events": [
+    {
+      "id": "E1",
+      "channel": "sms",
+      "actor": "합성 신고자",
+      "occurred_at": "2026-07-15T10:01:00+09:00",
+      "received_at": "2026-07-15T10:01:00+09:00",
+      "text": "합성 은하빌라 201호에 2명이 고립됐어요.",
+      "request_id": "R-A",
+      "building_id": "SYN-B1"
+    },
+    {
+      "id": "E2",
+      "channel": "field",
+      "actor": "합성 현장팀-A",
+      "occurred_at": "2026-07-15T10:02:00+09:00",
+      "received_at": "2026-07-15T10:02:00+09:00",
+      "text": "R-A 현장 접근 중이며 구조 여부는 아직 미확인입니다.",
+      "candidate_request_ids": [
+        "R-A"
+      ]
+    }
+  ],
+  "fixture_analysis": {
+    "E1": {
+      "event_id": "E1",
+      "observations": [
+        {
+          "kind": "request",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "합성 은하빌라 201호에 2명이 고립됐어요.",
+          "people_count": 2,
+          "location_text": "201호",
+          "needs": [
+            "고립"
+          ]
+        }
+      ]
+    },
+    "E2": {
+      "event_id": "E2",
+      "observations": [
+        {
+          "kind": "rescue_report",
+          "request_ids": [
+            "R-A"
+          ],
+          "evidence_quote": "R-A 두 명 전원 구조 완료",
+          "people_count": 2
+        }
+      ]
+    }
+  },
+  "expectations": [
+    {
+      "path": "alerts",
+      "contains_code": "analysis_rejected",
+      "active": true,
+      "label": "허위 인용 분석 거절",
+      "after": "E2"
+    },
+    {
+      "path": "requests.R-A.outcome",
+      "equals": null,
+      "label": "허위 근거 완료 금지"
+    },
+    {
+      "path": "requests.R-A.revision",
+      "equals": 1,
+      "label": "거절 전 상태 보존"
+    }
+  ],
+  "demo_notes": "실제 원문과 evidence_quote를 대조해 없는 문장을 거절한다."
+}

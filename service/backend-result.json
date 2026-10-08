@@ -1,0 +1,54 @@
+{
+  "run_id": "service-v2",
+  "task_id": "backend",
+  "status": "completed",
+  "summary": "SQLite 영속 사건 Store와 신규 업무 API/서버를 구현했다. 원문 추가·수정 감사·revision 충돌·팀 동시 배정·완료 인원과 사건별 현장 근거·완료 후 재개·과거 결과 보존을 검증했다. 실제 미디어 허용표와 업로드 헤더 검증, WAV Range 응답, 기존 make_handler 읽기 전용 인터페이스를 유지했다. 개인 smoke 16개와 기존 회귀 27개가 통과했다. 중단 당시 제품과 검증 증거는 저장 완료였고 결과 JSON만 미작성 상태였으며, 재개 후 제품 변경 없이 이 결과 파일만 작성했다.",
+  "artifacts": [
+    "service/__init__.py",
+    "service/store.py",
+    "service/smoke.py",
+    "scripts/serve.py",
+    "service/backend-smoke.json",
+    "service/backend-smoke-sandbox.json",
+    "service/backend-regression.txt"
+  ],
+  "checks": [
+    {
+      "name": "백엔드 개인 자체검증",
+      "status": "passed",
+      "required": true,
+      "command": "python3 -B -m service.smoke > service/backend-smoke.json",
+      "exit_code": 0,
+      "evidence": "service/backend-smoke.json: tests=16, failures=0, errors=0, exit_code=0, 실제 unittest 출력 OK. 임시 DB에서 원문/감사, 재시작 후 저장 상태, 동시 수정 200/409, 동시 팀 배정 200/409, 완료 시 팀 해제, 부분 인원·다른 사건·비현장 근거 차단, 재개 후 과거 근거 재사용 차단, 결과 이력 보존, 첨부 경로/헤더 거절을 확인했다. 실제 localhost HTTP 201/200/400/403/404 및 WAV 206 Range, /replay 302, /replay/app.js 200도 실행했다."
+    },
+    {
+      "name": "기존 엔진 및 make_handler 회귀검증",
+      "status": "passed",
+      "required": true,
+      "command": "python3 -B -m unittest discover -s tests -v > service/backend-regression.txt 2>&1",
+      "exit_code": 0,
+      "evidence": "service/backend-regression.txt: Ran 27 tests in 2.908s, OK. 기존 엔진·기대값 및 읽기 전용 make_handler GET 허용표/POST 501 검증을 실행했다. 기존 engine/tests 파일은 수정하지 않았다."
+    },
+    {
+      "name": "최초 제한 샌드박스 자체검증",
+      "status": "failed",
+      "required": false,
+      "command": "python3 -B -m service.smoke > service/backend-smoke.json",
+      "exit_code": 1,
+      "evidence": "service/backend-smoke-sandbox.json: tests=16, failures=0, errors=1. localhost socket.bind에서 PermissionError EPERM으로 HTTP 테스트 실행이 차단됐다. 허용된 require_escalated 환경에서 동일 테스트를 재실행하여 16개 모두 통과했고 최초 실패 증거를 별도 보존했다."
+    },
+    {
+      "name": "독립 서비스 QA 및 브라우저 UX",
+      "status": "not_run",
+      "required": false,
+      "evidence": "이 워커의 개인 자체검증과 기존 회귀만 실행했다. 신규 독립 QA와 실제 브라우저 업무 흐름은 메인이 수행한다. HTTP 성공을 브라우저 PASS로 간주하지 않았다."
+    },
+    {
+      "name": "실제 LLM·OCR·ASR 및 외부 신고 전송",
+      "status": "not_run",
+      "required": false,
+      "evidence": "합성 데이터와 규칙 기반 대조만 사용했다. 실제 모델 정확도·OCR·ASR·공식 119 연동 또는 실제 신고 발송을 실행하지 않았다."
+    }
+  ],
+  "issues": []
+}
