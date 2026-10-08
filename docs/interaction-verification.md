@@ -45,3 +45,6 @@ QA가 최종 v6 코드에서 실제 실행: unittest71개, 엔진 smoke28개, fi
 최종 하네스: 구조 검사 PASS(8역할·3스킬·0errors), 실제 제작자·QA FINAL 종료 및 idle 기록 확인. v6 완료 통지 이후 QA 보고서에 최신 메인 증거가 추가돼 등록 지문이 변경되었다. 동일 제품 지문과 보존된 실제 테스트 로그·최종 보고서를 v7에서 읽기 전용으로 재확인한다. 이전 service-v5 필수 실패는 유지한다.
 
 최종 완료 확인: `service-v7 --complete` PASS, 0completion errors. 프런트엔드·QA의 최종 저장 및 실제 FINAL 종료 후 등록했다. v7은 동일 제품 지문과 v6 실제 로그를 읽기 전용으로 재확인했으며 테스트/브라우저 재실행으로 주장하지 않는다.
+
+
+이 문서의 `_workspace/`·`.harness/runs/` 경로는 공개하지 않은 로컬 실행 원장의 위치다. GitHub에서 확인할 수 있는 선별 근거는 [공개 검증 로그](verification/README.md)와 [최신 Netlify 배포 검증](pages-verification.md)에 정리했다.

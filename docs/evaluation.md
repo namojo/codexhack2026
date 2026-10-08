@@ -46,3 +46,6 @@ CLI 재생: `artifacts/<실행 ID>/report.json` 및 `report.md`.
 
 서비스의 기본 동작은 DB와 UI를 통해 임의 사건을 접수·추가·진행·완료·정정하는 것이다. 완료근거 인원 일치, 오래된 revision, 다른 사건 report, 팀 중복배정, 원문 보존, 재개와 이전 결과 이력, 서버 재시작 보존, 첨부 파일 헤더/경로가 독립 QA 대상이다. 이미지 표시와 음성 재생은 실제 브라우저에서 관찰한다.
 현재 확인사항은 규칙 기반 대조다. TTS 대본·AI 생성 사진을 입력 자료로 제공하며 실제 ASR/OCR/LLM 추출, 실제 상황실 사용자 사용성 실험은 미실행이다. 정확한 실행 수와 결과는 `_workspace/verification/service-v2/` 및 해당 런 결과로 기록한다.
+
+
+이 문서의 `_workspace/`·`.harness/runs/` 경로는 공개하지 않은 로컬 실행 원장의 위치다. GitHub에서 확인할 수 있는 선별 근거는 [공개 검증 로그](verification/README.md)와 [최신 Netlify 배포 검증](pages-verification.md)에 정리했다.

@@ -11,3 +11,5 @@
 이전 단계의 원래 코드와 현재 정적 어댑터 확장을 구분한다. 추가 검사는 [배포 검증](../pages-verification.md)에 기록한다.
 
 정적 공개판의 첫 실패와 수정 후 독립 결과도 보존했다. `static-v1-failure.*`는 실제 실패이며 `static-v2-*`는 수정 후 재실행한 검사다. `static-browser-flow.json`은 메인의 실제 UI 흐름, `original-state-preserved.json`은 원본 DB 읽기 전용 대조 결과다.
+
+`netlify-*`는 실제 공개 HTTP·브라우저·배포의 선별 근거다. `github-ci.json`은 성공한 원격 Actions의 단계 상태다. 배포 토큰이나 원본 사용자 DB는 포함하지 않는다.

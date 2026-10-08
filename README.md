@@ -22,9 +22,9 @@
 
 카드·사건 행·배정된 자원은 넓은 영역에서 선택할 수 있다. 마우스 오버와 키보드 포커스를 표시하고 주요 버튼은 44px 클릭 영역을 갖춘다.
 
-![접수 원문과 보고 화면](docs/images/operator-console.jpg)
+![실제 Netlify 공개 대시보드](docs/images/netlify-console.png)
 
-위 이미지는 로컬 서버판의 합성 사례 검증 화면이다. 공개판도 같은 업무 UI를 사용한다.
+위 이미지는 실제 Netlify 공개판의 합성 사례 대시보드다. [접수 원문·보고 화면](docs/images/operator-console.jpg)과 [팀 배정 화면](docs/images/team-assignment.jpg)은 로컬 서버판 검증 증거로 보존했다.
 
 ## 공개판과 로컬 서버판
 

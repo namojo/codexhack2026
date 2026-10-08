@@ -1,6 +1,6 @@
 # 정적 체험판 검증과 배포
 
-사용자의 최종 배포 대상은 Netlify다. 소스·아이디어·작업 과정은 [namojo/hack-test](https://github.com/namojo/hack-test)에 정리하고 사이트는 [namojo-hack-test.netlify.app](https://namojo-hack-test.netlify.app/)에 게시한다. 배포 후 commit·deploy ID·공개 브라우저 확인을 아래에 추가한다.
+사용자의 최종 배포 대상은 Netlify다. 소스·아이디어·작업 과정은 [namojo/hack-test](https://github.com/namojo/hack-test)에 정리하고 사이트는 [namojo-hack-test.netlify.app](https://namojo-hack-test.netlify.app/)에 배포했다. 다음은 실제 완료한 배포와 검증 기록이다.
 
 ## 실제 실행한 검사
 
@@ -37,4 +37,16 @@ v2는 payload를 uploads에 한 번 저장하고 보고에는 논리 첨부 URL�
 
 ## 공개 배포 확인
 
-배포 완료 후 실제 코드 commit, GitHub Actions, Netlify deploy ID, HTTPS 자산·헤더와 공개 화면 검증을 기록한다.
+- 코드 배포 commit: [`935423cfcd660d71334cdfb8fe05065b59daa446`](https://github.com/namojo/hack-test/commit/935423cfcd660d71334cdfb8fe05065b59daa446).
+- [GitHub Actions 실행 37773325577](https://github.com/namojo/hack-test/actions/runs/37773325577): completed / success. 원격에서도 unittest 78·smoke 28·fixture 20사례/91검사·Node 21개와 정적 빌드 성공. [실제 CI 상태](verification/github-ci.json).
+- Netlify 팀: namojo (Andy), 별도 새 사이트 namojo-hack-test. 기존 여섯 사이트는 변경하지 않았다.
+- production deploy: `6ac784cf886e9f013f351579`, state ready, context production, CLI 배포. [불변 배포 주소](https://6ac784cf886e9f013f351579--namojo-hack-test.netlify.app/) · [배포 설정](https://app.netlify.com/projects/namojo-hack-test/deploys/6ac784cf886e9f013f351579) · [선별한 배포 상태](verification/netlify-production.json).
+- HTTPS 공개 자산 11개는 모두 200. JS·CSS·seed·매체·build-info 10개 SHA는 빌드와 동일하다. HTML은 Netlify가 넣은 호스팅 안내 주석만 제외하면 정확히 동일하다. `.nojekyll`은 Netlify가 공개하지 않는 숨김 제어 파일로 404이며 서비스가 요청하는 자산이 아니다. [자산·헤더 기록](verification/netlify-http.json).
+- `Content-Security-Policy`, nosniff, Referrer-Policy가 실제 응답에 있고 seed/build-info는 no-cache다. Python의 로컬 인증서 저장소 오류 후, 인증서 검증을 유지하는 curl로 HTTPS를 확인했다.
+- 업무 화면을 가리는 기본 홍보 배지는 이 새 프로젝트에서만 공식 설정으로 껐다. [Netlify 공식 배지 설정 안내](https://docs.netlify.com/manage/projects/powered-by-netlify-badge/).
+
+공개 HTTPS 브라우저에서 신규 사건에 실제 WAV를 첨부해 접수하고, reload 후 dataURI 음성의 10.718초 길이와 재생 상태를 확인했다. 팀 배정→전원 확인 현장 보고→결과 확정→reload→이전 결과 보존 재개·이력을 실제 수행했다. 부분 구조 seed의 완료 제출은 거절되고 입력이 유지됐다. 생성 사진 확대는 1448px 원본이 로드됐다. 390px CSS 뷰포트에서 가로 넘침 없음, 보고 필터 44px, 첨부 필터 동작을 확인하고 크기를 복구했다. 공개 탭의 warning/error 로그는 비어 있다. [공개 브라우저 기록](verification/netlify-browser-flow.json).
+
+![실제 Netlify 공개 대시보드](images/netlify-console.png)
+
+이 이미지는 공개 seed 10사건 상태의 실제 HTTPS 화면이다. 이후 브라우저 검증에서 만든 합성 사건 1건은 검증 브라우저에만 남고 다른 방문자의 seed에는 포함되지 않는다. 후속 문서 커밋은 배포·검증 기록과 화면 증거를 추가하며 제품 코드와 production 빌드는 변경하지 않는다.

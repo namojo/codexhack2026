@@ -33,3 +33,6 @@
 기존 실제 유휴 작업자 `/root/engine`은 backend, `/root/cases`는 frontend, `/root/qa`는 이번 backend/frontend 제작에 참여하지 않은 독립 테스트를 맡았다. 프로젝트 역할 파일을 읽어 기존 에이전트를 재사용했으며 자동 native 역할 로딩이나 새 컨텍스트 생성으로 주장하지 않는다. QA는 이전 seed 제작자이므로 자기 seed의 독립 검증을 주장하지 않는다. 이번에는 seed를 변경하지 않았다. 실제 브라우저는 메인이 수행했고 QA는 증거를 별도로 검토했다.
 
 미실행: 실제 LLM/OCR/ASR, 실제119연계, 실제 피해자의 신고, 운영자 현장 사용성 및 대응 시간/구조 성과 측정. 규칙은 지정한 합성 사례의 확인 과제를 만드는 범위이며 자연어 의미를 일반적으로 이해하는 모델로 검증되지 않았다.
+
+
+이 문서의 `_workspace/`·`.harness/runs/` 경로는 공개하지 않은 로컬 실행 원장의 위치다. GitHub에서 확인할 수 있는 선별 근거는 [공개 검증 로그](verification/README.md)와 [최신 Netlify 배포 검증](pages-verification.md)에 정리했다.

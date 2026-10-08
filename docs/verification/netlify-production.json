@@ -1,0 +1,16 @@
+{
+  "site_id": "d82092f1-1013-4095-9bb4-ee2920bc72a0",
+  "site_name": "namojo-hack-test",
+  "team": "namojo",
+  "url": "https://namojo-hack-test.netlify.app",
+  "badge_enabled": false,
+  "production": {
+    "id": "6ac784cf886e9f013f351579",
+    "state": "ready",
+    "context": "production",
+    "deploy_source": "cli",
+    "published_at": "2026-10-08T11:56:03.437Z",
+    "ssl_url": "https://namojo-hack-test.netlify.app"
+  },
+  "code_commit": "935423cfcd660d71334cdfb8fe05065b59daa446"
+}

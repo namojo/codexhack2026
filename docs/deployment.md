@@ -27,7 +27,7 @@ python3 -B scripts/serve.py --port 8765
 python3 -B scripts/build_pages.py --output dist/pages
 ```
 
-이 출력 폴더만 Netlify에 올린다. 사용자 DB, 업로드, 환경 키와 개발 재생기는 포함하지 않는다. 정적 자산과 매체는 Netlify 루트와 `/hack-test/` 서브경로를 지원한다. 빌드 정보에 소스 SHA와 Git commit을 남긴다.
+이 출력 폴더만 Netlify에 올린다. 사용자 DB, 업로드, 환경 키와 개발 재생기는 포함하지 않는다. 정적 자산과 매체는 상대경로를 사용한다. 현재 Netlify에는 루트에 배포했으며, `/hack-test/` 서브경로는 별도 로컬 미리보기에서 검증했다. 빌드 정보에 소스 SHA와 Git commit을 남긴다.
 
 `.github/workflows/verify.yml`은 제품 변경 때 서비스 검사·엔진 smoke·fixture·브라우저 어댑터 검사 후 빌드한다. 배포는 연결된 Netlify CLI 계정으로 수행한다. 저장소에 배포 토큰을 넣지 않는다. `netlify.toml`에 빌드 명령, 공개 폴더와 보안 헤더를 정의했다.
 

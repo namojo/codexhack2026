@@ -1,0 +1,154 @@
+{
+  "url": "https://namojo-hack-test.netlify.app/",
+  "git_commit": "935423cfcd660d71334cdfb8fe05065b59daa446",
+  "transport": "curl standard TLS verification; no insecure flags",
+  "excluded_control_file": ".nojekyll (Netlify hidden file 404; not a served app asset)",
+  "checks": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 4181,
+      "sha256_match": false,
+      "headers": {
+        "cache-control": "public,max-age=0,must-revalidate",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+        "content-type": "text/html; charset=UTF-8",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff"
+      },
+      "netlify_comment_normalized_match": true,
+      "host_transformation": "Netlify inserted informational hosting comment only; no app changes"
+    },
+    {
+      "path": "build-info.json",
+      "status": 200,
+      "bytes": 2568,
+      "sha256_match": true,
+      "headers": {
+        "cache-control": "no-cache",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+        "content-type": "application/json",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff"
+      }
+    },
+    {
+      "path": "app.js",
+      "status": 200,
+      "bytes": 55160,
+      "sha256_match": true,
+      "headers": {
+        "cache-control": "public,max-age=0,must-revalidate",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+        "content-type": "application/javascript; charset=UTF-8",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff"
+      }
+    },
+    {
+      "path": "media/call-isolated.wav",
+      "status": 200,
+      "bytes": 476772,
+      "sha256_match": true,
+      "headers": {
+        "cache-control": "public,max-age=0,must-revalidate",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+        "content-type": "audio/x-wav",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff"
+      }
+    },
+    {
+      "path": "media/call-proxy.wav",
+      "status": 200,
+      "bytes": 507524,
+      "sha256_match": true,
+      "headers": {
+        "cache-control": "public,max-age=0,must-revalidate",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+        "content-type": "audio/x-wav",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff"
+      }
+    },
+    {
+      "path": "media/flood-entrance.png",
+      "status": 200,
+      "bytes": 3006972,
+      "sha256_match": true,
+      "headers": {
+        "cache-control": "public,max-age=0,must-revalidate",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+        "content-type": "image/png",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff"
+      }
+    },
+    {
+      "path": "media/flood-stairwell.png",
+      "status": 200,
+      "bytes": 2396885,
+      "sha256_match": true,
+      "headers": {
+        "cache-control": "public,max-age=0,must-revalidate",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+        "content-type": "image/png",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff"
+      }
+    },
+    {
+      "path": "media/provenance.json",
+      "status": 200,
+      "bytes": 2778,
+      "sha256_match": true,
+      "headers": {
+        "cache-control": "public,max-age=0,must-revalidate",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+        "content-type": "application/json",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff"
+      }
+    },
+    {
+      "path": "pages-store.js",
+      "status": 200,
+      "bytes": 34512,
+      "sha256_match": true,
+      "headers": {
+        "cache-control": "public,max-age=0,must-revalidate",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+        "content-type": "application/javascript; charset=UTF-8",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff"
+      }
+    },
+    {
+      "path": "seed.json",
+      "status": 200,
+      "bytes": 73765,
+      "sha256_match": true,
+      "headers": {
+        "cache-control": "no-cache",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+        "content-type": "application/json",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff"
+      }
+    },
+    {
+      "path": "style.css",
+      "status": 200,
+      "bytes": 33967,
+      "sha256_match": true,
+      "headers": {
+        "cache-control": "public,max-age=0,must-revalidate",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+        "content-type": "text/css; charset=UTF-8",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff"
+      }
+    }
+  ],
+  "passed": true
+}
