@@ -24,7 +24,9 @@ MEDIA = {'flood-entrance.png': 'image/png', 'flood-stairwell.png': 'image/png',
          'call-isolated.wav': 'audio/wav', 'call-proxy.wav': 'audio/wav'}
 SPATIAL_FILES = ('index.html', 'app.js', 'style.css', 'assets/floor-model.json',
                  'assets/analysis.json', 'assets/report.json', 'assets/provenance.json',
-                 'assets/synthetic-report.png')
+                 'assets/synthetic-report.png', 'assets/walkthrough.mp4',
+                 'assets/walkthrough-poster.png', 'assets/walkthrough.ko.vtt',
+                 'assets/walkthrough.json')
 
 
 def digest(path: Path) -> str:

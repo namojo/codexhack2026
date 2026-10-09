@@ -13,7 +13,9 @@ from scripts.build_pages import build
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_SPATIAL = {'index.html', 'app.js', 'style.css', 'assets/floor-model.json',
                   'assets/analysis.json', 'assets/report.json', 'assets/provenance.json',
-                  'assets/synthetic-report.png'}
+                  'assets/synthetic-report.png', 'assets/walkthrough.mp4',
+                  'assets/walkthrough-poster.png', 'assets/walkthrough.ko.vtt',
+                  'assets/walkthrough.json'}
 
 
 class Document(HTMLParser):
@@ -59,6 +61,10 @@ for(const [width,height] of [[1000,560],[390,350]]){
  el('scene').onpointerdown({clientX:10,clientY:10,pointerId:1});previous=state();el('scene').onpointermove({clientX:50,clientY:30});assert(state().yaw>previous.yaw);el('scene').onpointercancel();
  el('report-image').click();assert.equal(el('dialog-image').src,'assets/synthetic-report.png');assert.equal(el('image-dialog').open,true);assert.match(el('dialog-title').textContent,/합성/);el('close-dialog').click();assert.equal(el('image-dialog').open,false);
  el('scene').onkeydown({key:'Escape',preventDefault(){}});assert.equal(state().mode,'building');assert.equal(state().selectedFloor,3);assert.equal(state().ambiguous,false);assert.equal(state().zoom,1);labels();
+ let playCalls=0;el('walkthrough-video').play=()=>{playCalls++;return Promise.resolve();};
+ el('floor-select').onchange({target:{value:'16'}});el('walk-entry').click();assert.equal(el('walkthrough-video').currentTime,10.5);assert.equal(state().selectedFloor,16);assert.match(el('walkthrough-status').textContent,/현관/);
+ el('walk-window').click();assert.equal(el('walkthrough-video').currentTime,22.5);assert.equal(el('walk-window').attrs['aria-pressed'],'true');assert.match(el('walkthrough-status').textContent,/미확정/);
+ el('walkthrough-video').currentTime=0;el('walkthrough-video').ontimeupdate();assert.equal(el('walk-stairs').attrs['aria-pressed'],'true');assert.equal(playCalls,2);
  assert.equal(el('source-open').onclick,undefined);assert.equal(el('source-preview').onclick,undefined);
  assert.equal(requests.length,0);assert.equal(writes.length,0);assert.deepEqual(JSON.parse(el('spatial-data').textContent),data);assert(!paint.some(t=>t.includes('?')||t.includes(data.report.text)));
  cases.push({width,height,mode:'mock_DOM_canvas',navigation:true,unknownFloor:true,candidates:true,photo:true,immutableInputs:true,noNetworkOrWrites:true,labels:true});

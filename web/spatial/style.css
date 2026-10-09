@@ -20,3 +20,8 @@
 @media(max-width:720px){.app-shell>main{padding:22px 16px 16px}.topbar{flex-wrap:nowrap}.sidebar nav a{flex:0 0 auto;white-space:nowrap}}
 
 .sidebar .nav-label{margin:0}.sidebar-bottom p{margin-right:0;margin-bottom:0;margin-left:0}
+
+/* Architectural model surface; styles remain local to the spatial page. */
+.canvas-shell{background:#edf1f2}.scene-caption{border-radius:8px;background:#ffffffed;box-shadow:0 2px 10px #20354408}.dot.common{background:#cfdee1}.dot.window{background:#a8cbd0}.dot.candidate{background:#edbd69}
+
+.walkthrough-screen{background:#183449}.walkthrough-screen video{display:block;width:100%;aspect-ratio:16/9;max-height:650px;object-fit:contain}.walkthrough-chapters{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0}.walkthrough-chapters button{font-size:13px}.walkthrough-status{padding:10px 12px;background:#edf4f7;border-left:3px solid #6889a6;font-size:14px}.walkthrough-evidence{display:grid;gap:8px;margin:14px 0}.walkthrough-evidence p{margin:0;font-size:13px}.walkthrough-evidence strong{display:inline-block;color:#825d1d;margin-right:6px}@media(max-width:600px){.walkthrough-chapters{gap:5px}.walkthrough-chapters button{flex:1 1 30%;padding:7px 8px}}

@@ -122,6 +122,10 @@ def make_service_handler(store, bundle=None, dev_tools=False):
                         '/spatial/style.css': ('spatial/style.css', 'text/css'),
                         '/spatial/assets/floorplan-source.jpg': ('spatial/assets/floorplan-source.jpg', 'image/jpeg'),
                         '/spatial/assets/synthetic-report.png': ('spatial/assets/synthetic-report.png', 'image/png'),
+                        '/spatial/assets/walkthrough.mp4': ('spatial/assets/walkthrough.mp4', 'video/mp4'),
+                        '/spatial/assets/walkthrough-poster.png': ('spatial/assets/walkthrough-poster.png', 'image/png'),
+                        '/spatial/assets/walkthrough.ko.vtt': ('spatial/assets/walkthrough.ko.vtt', 'text/vtt'),
+                        '/spatial/assets/walkthrough.json': ('spatial/assets/walkthrough.json', 'application/json'),
                     })
                     if route not in files:
                         raise APIError(404, '허용된 페이지가 아닙니다.')
@@ -129,8 +133,30 @@ def make_service_handler(store, bundle=None, dev_tools=False):
                     path = ROOT / 'web' / filename
                     if not path.is_file():
                         raise APIError(404, '페이지가 준비되지 않았습니다.')
-                    content_type = mime if mime.startswith('image/') else mime + '; charset=utf-8'
-                    self.respond(200, path.read_bytes(), content_type, head=head)
+                    content_type = mime if mime.startswith(('image/', 'video/')) else mime + '; charset=utf-8'
+                    payload = path.read_bytes()
+                    if mime == 'video/mp4':
+                        # Native video scrubbing needs byte ranges (also for local Safari).
+                        extra = {'Accept-Ranges': 'bytes'}
+                        code = 200
+                        requested = self.headers.get('Range')
+                        if requested:
+                            match = re.fullmatch(r'bytes=(\d*)-(\d*)', requested)
+                            if not match or not any(match.groups()) or any(len(p) > 18 for p in match.groups()):
+                                self.respond(416, b'', mime, {'Content-Range': f'bytes */{len(payload)}'}, head=head)
+                                return
+                            a, b = match.groups()
+                            start = int(a) if a else max(0, len(payload) - int(b))
+                            end = min(int(b), len(payload) - 1) if a and b else len(payload) - 1
+                            if start >= len(payload) or end < start:
+                                self.respond(416, b'', mime, {'Content-Range': f'bytes */{len(payload)}'}, head=head)
+                                return
+                            extra['Content-Range'] = f'bytes {start}-{end}/{len(payload)}'
+                            payload = payload[start:end + 1]
+                            code = 206
+                        self.respond(code, payload, mime, extra, head=head)
+                    else:
+                        self.respond(200, payload, content_type, head=head)
             except APIError as exc:
                 self.failure(exc, head=head)
             except (OSError, sqlite3.Error):

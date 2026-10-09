@@ -46,3 +46,23 @@
 ![실제 공간정보 화면](images/spatial-public-desktop.png)
 
 독립 QA는 공간 전용8검사, 전체 Python101, AI API37, Codex23, 저장 어댑터21을 통과했다. 샌드박스 포트 권한 실패4개는 원로그로 보존하고 승인된 루프백 실행에서101전부 통과했다. cloud/offline의8공간자산·해시·JPEG제외·메뉴·llms/sitemap·원형JSON·20합성보고 보존을 확인했다. 1000/390px DOM/Canvas 모의 조작은 실제 모바일 브라우저 검사와 구분한다. 공개 production 6ac86f4ce7f637fb92519a2a(f31767c)에서 메뉴 → 공간화면 → 16층 평면 → 3층 신고 복귀 → 초기화를 실제 브라우저로 확인했다. console error는0개였다. 공개8자산·메뉴/llms/sitemap링크·원본JPEG404와 소스SHA를 확인했다. HTML은 Netlify의 호스팅 주석·상대 복귀 링크 변환으로 최초 바이트 비교가 실패했으며, 관찰된 두 변환만 제거하면 정확히 일치한다. 나머지7자산은 원본SHA가 그대로 일치한다. GitHub CI 37884669624는 success다. [실제 공개 검증](verification/spatial-netlify.json), [CI](https://github.com/namojo/codexhack2026/actions/runs/37884669624). 하네스 spatial-public-v2 완료 검사는0오류로 통과했다. 공간 페이지를 열어 새 모델 호출 또는 Supabase 사건 갱신을 수행하지 않는다.
+
+
+## v4 디자인 개선 검증 — 2026-10-09
+- 공간 전용 HTML·JS·CSS 변경. 원 분석 JSON·합성 신고·원본 도면·기존 공개 자산 allowlist는 보존했다. 외벽 창의 평면 위치와 B3 욕실 구획은 보관 도면에 직접 대조한 표시용 근사값이다. 높이·두께·재질은 가정이다.
+- `node --check web/spatial/app.js` PASS.
+- `python3 -B -m unittest tests.test_spatial_render tests.test_spatial_public -v`: **12개 PASS**. 공개 cloud/offline 복사·원본 JPEG 제외·JSON 원형·무네트워크/무저장 경계, 층 이동·후보·사진 모달 등을 재확인했다.
+- 새 회귀는 실제 JS 소프트웨어 깊이 버퍼를 실행한다. 후보·주방·창의 픽셀이 바닥에 가려지지 않음, 복수 후보의 표시 증가, 16층에서 신고 후보 없음, 4방향 회전, 벽 토글, 390px/DPR 2 크기와 픽셀 전송 좌표계를 검사한다. DOM/CSS 브라우저 검사가 아니다.
+- 직접 Canvas 라벨 검사 81조합 PASS. DPR 2에서 전체 건물·층 절개·평면·360px 모형을 렌더하여 육안 확인했다. 고해상도 Canvas 구현 간 픽셀 전송 변환 차이를 발견해 장치 좌표계를 명시하고 재확인했다.
+- 실제 브라우저 검증은 이번 버전에서 NOT_RUN. 앞선 공개 버전의 브라우저 검증 결과를 새 버전 검증으로 재사용하지 않는다. 실제 CSS 배치·모바일 장치 성능은 미확인이다. 새 배포·Git push는 하지 않았다.
+- 작업 전 공간 외 `web/` 11파일 SHA256을 기록하고 작업 후 모두 동일함을 확인했다. 기존 동료의 작업 파일은 수정하지 않았다. 회복본: `_workspace/spatial-mvp/design-backup/`의 HTML·JS·CSS와 비교 해시. 최종 직접 렌더 미리보기는 `_workspace/spatial-mvp/*-preview.png`, 자체 포함 결과 문서는 `docs/spatial-design-review-2026-10-09.html`이다.
+
+
+## v5 1인칭 이동 영상 검증 — 2026-10-09
+- `scripts/build_spatial_walkthrough.cjs`로 기존 공간 모형을 추출해 960×540/24fps/H.264/yuv420p/28초/무음 MP4를 로컬 생성했다. 672프레임, 파일619,116바이트. 별도 모델 호출이나 외부 영상 서비스는 사용하지 않았다.
+- 673개 카메라 위치에서 눈높이의 표시 벽 관통0건, 프레임당 최대 이동0.268 표시 단위, 마지막 위치가 기존 창가 후보 bbox 안에 있음을 검사했다. 실제 몸 크기·장비·통과 폭·현장 장애물·안전성을 검증하는 충돌 검사가 아니다.
+- 계단·복도·현관·실내·창가의 대표6프레임을 직접 확인했다. FFprobe로 길이·코덱·해상도를 확인하고 FFmpeg로 전체 파일을 오류 없이 디코딩했다. 실제 브라우저 재생·오디오·모바일 장치 성능은 미검증(음성 트랙 자체 없음).
+- 공간/영상/정적 공개 빌드 **24검사 PASS**. 영상·포스터·VTT 해시, 형상 소스/생성기 해시, 수동 재생, 구간 점프, 층 선택과 독립, 캡션5구간, MP4 GET/HEAD/부분 바이트/잘못된 범위,12공간 공개 자산과 원본 JPEG 제외를 확인했다. 영상 제공 handler 검사는 포트를 열지 않고 실제 handler 응답을 직접 검사했다.
+- 기존 서비스 회귀 **18검사 PASS**. 첫 실행은 샌드박스의127.0.0.1 임시 포트 바인딩 제한으로 HTTP setUpClass가 실패했다. 승인된 로컬 테스트 권한으로 다시 실행해18검사 전체 통과했다. 사용자 DB가 아닌 테스트용 합성 저장소다.
+- 제품 변경은 공간 전용 페이지와 영상 자산, 공개 빌더 allowlist 및 로컬 서버의 해당 미디어 제공 경로다. 기존 다른 web 페이지11파일은 기존 비교 해시와 동일하다. 실제 브라우저 검증·외부 배포·Git push는 실행하지 않았다.
+- 생성 기록과 재실행: `web/spatial/assets/walkthrough.json`, `CANVAS_MODULE=<@napi-rs/canvas 모듈 경로> node scripts/build_spatial_walkthrough.cjs`. `--test`는 캔버스 라이브러리 없이 경로/형상 검사, `--preview`는 대표 PNG만 생성한다. 전체 생성에는 FFmpeg가 필요하다. 복구본: `_workspace/spatial-mvp/walkthrough-backup/`.

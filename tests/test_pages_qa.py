@@ -36,7 +36,9 @@ class PagesIndependentQA(unittest.TestCase):
                     'public-guide.css', 'llms.txt', 'llms-full.txt', 'sitemap.xml', 'robots.txt',
                     'spatial/index.html', 'spatial/app.js', 'spatial/style.css', 'spatial/assets/floor-model.json',
                     'spatial/assets/analysis.json', 'spatial/assets/report.json', 'spatial/assets/provenance.json',
-                    'spatial/assets/synthetic-report.png'}
+                    'spatial/assets/synthetic-report.png', 'spatial/assets/walkthrough.mp4',
+                    'spatial/assets/walkthrough-poster.png', 'spatial/assets/walkthrough.ko.vtt',
+                    'spatial/assets/walkthrough.json'}
         self.assertEqual({str(p.relative_to(output)) for p in output.rglob('*') if p.is_file()}, expected)
         bundle = json.loads((output / 'seed.json').read_text())
         self.assertTrue(bundle['synthetic'])
