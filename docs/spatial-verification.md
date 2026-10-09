@@ -45,4 +45,4 @@
 
 ![실제 공간정보 화면](images/spatial-public-desktop.png)
 
-독립 QA는 공간 전용8검사, 전체 Python101, AI API37, Codex23, 저장 어댑터21을 통과했다. 샌드박스 포트 권한 실패4개는 원로그로 보존하고 승인된 루프백 실행에서101전부 통과했다. cloud/offline의8공간자산·해시·JPEG제외·메뉴·llms/sitemap·원형JSON·20합성보고 보존을 확인했다. 1000/390px DOM/Canvas 모의 조작은 실제 모바일 브라우저 검사와 구분한다. 실제 공개 배포는 최종 통합 이후 별도 기록한다. 공간 페이지를 열어 새 모델 호출 또는 Supabase 사건 갱신을 수행하지 않는다.
+독립 QA는 공간 전용8검사, 전체 Python101, AI API37, Codex23, 저장 어댑터21을 통과했다. 샌드박스 포트 권한 실패4개는 원로그로 보존하고 승인된 루프백 실행에서101전부 통과했다. cloud/offline의8공간자산·해시·JPEG제외·메뉴·llms/sitemap·원형JSON·20합성보고 보존을 확인했다. 1000/390px DOM/Canvas 모의 조작은 실제 모바일 브라우저 검사와 구분한다. 공개 production 6ac86f4ce7f637fb92519a2a(f31767c)에서 메뉴 → 공간화면 → 16층 평면 → 3층 신고 복귀 → 초기화를 실제 브라우저로 확인했다. console error는0개였다. 공개8자산·메뉴/llms/sitemap링크·원본JPEG404와 소스SHA를 확인했다. HTML은 Netlify의 호스팅 주석·상대 복귀 링크 변환으로 최초 바이트 비교가 실패했으며, 관찰된 두 변환만 제거하면 정확히 일치한다. 나머지7자산은 원본SHA가 그대로 일치한다. GitHub CI 37884669624는 success다. [실제 공개 검증](verification/spatial-netlify.json), [CI](https://github.com/namojo/codexhack2026/actions/runs/37884669624). 하네스 spatial-public-v2 완료 검사는0오류로 통과했다. 공간 페이지를 열어 새 모델 호출 또는 Supabase 사건 갱신을 수행하지 않는다.

@@ -1,0 +1,110 @@
+{
+  "status": "passed",
+  "checked_at": "2026-10-09T04:38:17.975Z",
+  "site": "https://namojo-hack-test.netlify.app",
+  "deploy_id": "6ac86f4ce7f637fb92519a2a",
+  "source_commit": "f31767ccc52077abbf2b5ea8cd5b979cccd4a77f",
+  "ci": {
+    "run_id": 37884669624,
+    "status": "success"
+  },
+  "checks": [
+    {
+      "path": "spatial/app.js",
+      "status": 200,
+      "sha256": "38f679b9e98d56d710a9d355386f5355e91f07d737f11b62ae2564776de263c9"
+    },
+    {
+      "path": "spatial/assets/analysis.json",
+      "status": 200,
+      "sha256": "aa1486467fc5d9ec71193aea75d1568322d63613e3b3f4202bc4d9eaecd20c8c"
+    },
+    {
+      "path": "spatial/assets/floor-model.json",
+      "status": 200,
+      "sha256": "958224fedb03d7fad7af6795533d095e72282ede076d5383e2a2ee5460039d97"
+    },
+    {
+      "path": "spatial/assets/provenance.json",
+      "status": 200,
+      "sha256": "7f2fac08884f7c03a809a7100ab9d0672a3b534d35bcbc021f47c10e8b20832a"
+    },
+    {
+      "path": "spatial/assets/report.json",
+      "status": 200,
+      "sha256": "af449adb87efd401a578e470343e60ebacb48a53717ce2b57b40f31d57690542"
+    },
+    {
+      "path": "spatial/assets/synthetic-report.png",
+      "status": 200,
+      "sha256": "3d046c6ba59396b76dfd6d9f25bf3a083fa87e18974047250e7d73b41baff0e8"
+    },
+    {
+      "path": "spatial/index.html",
+      "status": 200,
+      "source_hash_matches_after_known_platform_transforms": true,
+      "transforms": [
+        "Netlify hosting comment",
+        "relative back-link rewritten to /"
+      ]
+    },
+    {
+      "path": "spatial/style.css",
+      "status": 200,
+      "sha256": "6b36029733acb419e77f46f5d61d5e566428c1054f7dacfd117596557e429217"
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "spatial_link": true
+    },
+    {
+      "path": "/judge/",
+      "status": 200,
+      "spatial_link": true
+    },
+    {
+      "path": "/llms.txt",
+      "status": 200,
+      "spatial_link": true
+    },
+    {
+      "path": "/llms-full.txt",
+      "status": 200,
+      "spatial_link": true
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "spatial_link": true
+    },
+    {
+      "path": "/spatial/assets/floorplan-source.jpg",
+      "status": 404
+    },
+    {
+      "path": "/api/config",
+      "provider": "disabled"
+    }
+  ],
+  "browser": {
+    "actual": true,
+    "actions": [
+      "public menu opens spatial",
+      "16F top view no request",
+      "request focus returns 3F",
+      "reset"
+    ],
+    "console_errors": 0,
+    "screenshot": "docs/images/spatial-netlify.png"
+  },
+  "prior_strict_hash_failure": {
+    "path": "spatial/index.html",
+    "reason": "Netlify inserts hosting comment and rewrites relative back-link; byte equality fails, exact comparison after these two observed transforms passes"
+  },
+  "limitations": [
+    "Actual 390px mobile browser not run",
+    "Spatial is preserved model analysis, no live model invocation",
+    "Public OpenAI activation approval pending"
+  ]
+}
