@@ -6,7 +6,7 @@
 
 Netlify Functions(Node 22, native fetch)에서 같은 출처 /api/를 처리한다. Supabase Postgres에 사건/보고/검토 초안/감사/팀/첨부 메타데이터를 영속 저장하고 Storage의 비공개 버킷에 업로드 바이트를 저장한다. MVP는 revision이 있는 workspace JSON 문서를 단일 DB 행에서 CAS RPC로 원자 갱신해도 된다. 원문과 개별 ID 및 이력은 문서에 남고, 분석 작업은 별도 행으로 저장한다. SQL migration은 재실행 가능하고 기존 데이터 삭제/자동 초기화 금지. RLS와 revoke로 anon/authenticated의 직접 테이블 쓰기·RPC 실행을 막고 server service-role만 접근한다. 서비스 키와 OpenAI 키는 서버 환경변수만 사용한다.
 
-기본 공개 사이트는 합성 자료를 공유하는 해커톤 데모이다. 모든 신규 분석에 synthetic:true가 필요하며 일일 AI 분석 수를 서버 DB에서 제한한다(기본 20회, AI_DAILY_LIMIT 설정 가능). 분석 제한은 원문을 잃게 하거나 AI 결과를 위조하지 않는다. DB/키 미설정이면 API가 명시적 503을 반환한다. 화면의 별도 '합성 사례 둘러보기'만 기존 visitor localStorage 오프라인 모드로 들어간다. 실제 AI 실패에 fixture를 조용히 대체하지 않는다.
+기본 공개 사이트는 합성 자료를 공유하는 해커톤 데모이다. 모든 신규 분석에 synthetic:true가 필요하다. 분석 실패 시 원문을 보존하며 AI 결과를 위조하지 않는다. DB/키 미설정이면 API가 명시적 503을 반환한다. 화면의 별도 '합성 사례 둘러보기'만 기존 visitor localStorage 오프라인 모드로 들어간다. 실제 AI 실패에 fixture를 조용히 대체하지 않는다.
 
 root는 빌더/Netlify 설정/공개 문서/공통 계약과 통합을 소유한다. backend는 service/, scripts/analyzer_openai.py, netlify/functions/, supabase/, web/pages-store.js 및 backend 전용 검사 산출물을 소유한다. frontend는 web/app.js, index.html, style.css, cloud-client.js 및 frontend 산출물. QA는 tests/test_ai_*.py, tests/ai_*.cjs와 전용 QA 산출물만 소유한다. 기존 seed와 사용자 SQLite는 root 승인 없이 수정하지 않는다.
 

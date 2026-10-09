@@ -33,12 +33,12 @@ AI 심사는 [서비스·원문 안내](https://namojo-hack-test.netlify.app/jud
 |초기 데이터|합성 사건 10건·보고 20건·대응팀 4개|공개판과 같은 Supabase|
 |사진·음성|생성 PNG 2장·한국어 TTS WAV 2개|같은 실제 첨부 파일|
 |업무 상태 저장|Netlify API → Supabase 공용 합성 workspace|로컬 Node API → 같은 Supabase|
-|실제 AI|기본 비활성; API 잔액·서버 설정 후 활성화|ChatGPT 로그인된 Codex CLI + 로컬 Whisper|
+|실제 AI|OpenAI API 문자·사진 분석과 실제 음성 전사|ChatGPT 로그인된 Codex CLI + 로컬 Whisper|
 |접수·보고·배정·결과·정정|브라우저에서 체험|서버에 영속 저장|
 
 모든 사례는 합성이다. 공식 119 접수·출동과 연결되지 않는다. 대시보드의 **규칙 기반 대조**와 **실제 AI 분석 초안**을 구분한다. 해커톤의 실제 분석은 로컬 Codex CLI가 기존 ChatGPT 로그인을 사용한다. 문자와 실제 PNG를 분석하고 WAV는 로컬 Whisper가 실제 전사한다. 별도 앱 OAuth를 구현한 것은 아니며, Netlify 서버는 CLI 로그인 토큰을 보관하지 않는다.
 
-[Codex 시연 실행 안내](docs/codex-demo.md) · [현재 실제 검증](docs/ai-verification.md). OpenAI API도 충전 이후 문자·실제 사진·실제 WAV 전사의 세 사례가 모두 검증을 통과했다. 공개 활성화는 승인 대기이며, 서버 키·모델·활성 설정으로 전환한다. 충전 전 429와 최초 인용·근거 실패 기록도 보존했다. 생성 사진·TTS 음성은 실제 피해 자료가 아니며 seed의 대본과 실제 ASR 결과를 구분한다.
+[Codex 시연 실행 안내](docs/codex-demo.md) · [현재 실제 검증](docs/ai-verification.md). OpenAI API도 충전 이후 문자·실제 사진·실제 WAV 전사의 세 사례가 모두 검증을 통과했다. 제공자 연결 상태는 콘솔 설정에서 확인한다. 충전 전 429와 최초 인용·근거 실패 기록도 보존했다. 생성 사진·TTS 음성은 실제 피해 자료가 아니며 seed의 대본과 실제 ASR 결과를 구분한다.
 
 ## 대표 사례와 지켜야 할 조건
 
@@ -93,7 +93,7 @@ python3 -B .agents/skills/harness/scripts/validate.py --project .
 
 신규 신고 또는 현장 메뉴에서 원문과 사진·음성을 입력하면 background 분석 작업이 생성된다. 사건은 자동 변경되지 않는다. 담당자가 119 접수 항목, 근거, 중복 후보·남은 인원·위치 출처·확인 질문을 수정하고 검토 사유와 확인을 등록해야 원문·분석·감사 이력이 함께 저장된다. 신고 진위와 동일인 여부를 자동 확정하지 않는다.
 
-`scripts/analyzer_codex.mjs`는 ChatGPT 로그인된 CLI의 실제 문자·사진 분석과 로컬 Whisper 전사를 사용한다. `service/ai.py`와 `scripts/analyzer_openai.py --service`, Netlify 함수는 나중 사용할 OpenAI Responses·전사 API 경로다. 두 제공자는 같은 strict JSON 스키마와 Supabase 작업·담당자 확정 흐름을 사용한다. 공급된 TTS 대본을 ASR 결과로 사용하지 않는다.
+`scripts/analyzer_codex.mjs`는 ChatGPT 로그인된 CLI의 실제 문자·사진 분석과 로컬 Whisper 전사를 사용한다. `service/ai.py`와 `scripts/analyzer_openai.py --service`, Netlify 함수는 OpenAI Responses·전사 API 경로다. 두 제공자는 같은 strict JSON 스키마와 Supabase 작업·담당자 확정 흐름을 사용한다. 공급된 TTS 대본을 ASR 결과로 사용하지 않는다.
 
 |119 정보|저장 내용|
 |---|---|

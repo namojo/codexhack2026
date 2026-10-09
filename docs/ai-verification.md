@@ -27,7 +27,7 @@ SQL editor에서 마이그레이션을 적용하고 `rescue_workspace`, 분석 �
 
 ## OpenAI API
 
-충전 전 실제 요청은 HTTP429 `credit_balance_exhausted`였다. [실측 오류](verification/openai-credit-failure.json)를 보존한다. 사용자 충전 이후 세 실제 모델 응답은 도착했지만 필드 근거 누락·다른 인용 때문에 strict 검증에 실패했다. [충전 직후 결과](verification/openai-funded-first.json)를 보존하며 성공으로 표시하지 않는다. 동일 원문·실제 사진·실제 전사와 허용 출처를 명시하고 최대 한 번 재생성하도록 구현했다. [최신 실제 실행](verification/openai-funded-passed.json)은 문자·사진·음성 모두 검증 통과이며 gpt-4.1-mini, 실제 전사 gpt-4o-mini-transcribe, Responses ID와 usage를 남겼다. 세 최신 사례는 강화된 첫 입력에서 통과하여 실제 재생성은 0회다. 재생성 동작 자체는 독립 모의 검사와 구분한다. 공개 활성화는 자동 승인 검토가 추가 명시 승인을 요구하여 대기 중이다.
+충전 전 실제 요청은 HTTP429 `credit_balance_exhausted`였다. [실측 오류](verification/openai-credit-failure.json)를 보존한다. 사용자 충전 이후 세 실제 모델 응답은 도착했지만 필드 근거 누락·다른 인용 때문에 strict 검증에 실패했다. [충전 직후 결과](verification/openai-funded-first.json)를 보존하며 성공으로 표시하지 않는다. 동일 원문·실제 사진·실제 전사와 허용 출처를 명시하고 최대 한 번 재생성하도록 구현했다. [최신 실제 실행](verification/openai-funded-passed.json)은 문자·사진·음성 모두 검증 통과이며 gpt-4.1-mini, 실제 전사 gpt-4o-mini-transcribe, Responses ID와 usage를 남겼다. 세 최신 사례는 강화된 첫 입력에서 통과하여 실제 재생성은 0회다. 재생성 동작 자체는 독립 모의 검사와 구분한다.
 
 실제 OpenAI 브라우저 초안을 검토·확정한 뒤 새로고침과 API 조회에서 보존을 확인했다. 모델이 접수 담당자 actor를 신고자 이름으로 오인한 실제 오류는 담당자가 119 이름·연락처·관계를 미확인 null로 정정했다. AI 원본과 정정 사유·감사 기록을 보존했다. 이전 Codex 초안은 새 보고 이후 확정 요청에 HTTP409를 반환했다. [담당자 확정·정정·오래된 초안](verification/openai-human-confirmed.json)을 참고한다.
 

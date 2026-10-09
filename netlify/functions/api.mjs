@@ -5,6 +5,14 @@ import {database} from './supabase.mjs';
 import {APIError,hash,signedPayload,schema,validateSchema} from './ai-core.mjs';
 const safeID=/^[A-Za-z0-9_-]{1,100}$/;
 const output=(statusCode,value)=>({statusCode,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'},body:JSON.stringify(value)});
+export function optionalDailyLimit(env=process.env){
+ const raw=env.AI_DAILY_LIMIT;
+ if(raw===undefined||raw===null||raw==='')return null;
+ if(!['string','number'].includes(typeof raw)||typeof raw==='string'&&!raw.trim())throw new APIError(503,'AI 일일 제한 설정이 잘못되었습니다.');
+ const limit=Number(raw);
+ if(!Number.isSafeInteger(limit)||limit<0||limit>1000)throw new APIError(503,'AI 일일 제한 설정이 잘못되었습니다.');
+ return limit===0?null:limit;
+}
 // rawUrl is supplied by Netlify; client Host / forwarded headers never select dispatch.
 export function backgroundOrigin(event,env=process.env){
  function secureURL(value,status){
@@ -63,7 +71,7 @@ export async function handle(event,env=process.env,hooks={}){const path=(event.p
   const reservedSources=new Set(['input',...ws.document.incidents.flatMap(i=>i.reports.map(r=>r.id))]);if(!Array.isArray(b.report.attachments)||b.report.attachments.some(a=>reservedSources.has(a?.id)))throw new APIError(400,'첨부 ID가 원문/보고 ID와 충돌합니다.');
   // Run the same registry validation used by CRUD on an isolated document; never commit the probe.
   await store.request('/api/incidents',{method:'POST',body:{title:'AI 입력 검증',location:'담당자 확인 전',text:b.report.text,channel:b.report.channel,actor:b.report.actor,attachments:b.report.attachments}});if(b.intake119!==undefined)validateIntake(b.intake119);
-  const timestamp=new Date().toISOString(),id='AI-'+randomUUID(),job={id,synthetic:true,status:'queued',incident_id:b.incident_id,expected_revision:b.expected_revision,created_at:timestamp,updated_at:timestamp,report:b.report,...(b.intake119?{intake119:b.intake119}:{}),analysis:null,execution:{mode:'live',provider,input_sha256:hash({report:b.report,intake119:b.intake119||null,incident_id:b.incident_id,expected_revision:b.expected_revision})},error:null,context_incidents:ws.document.incidents};let limit=Number(env.AI_DAILY_LIMIT||20);if(!Number.isSafeInteger(limit)||limit<1||limit>1000)throw new APIError(503,'AI 일일 제한 설정이 잘못되었습니다.');
+  const timestamp=new Date().toISOString(),id='AI-'+randomUUID(),job={id,synthetic:true,status:'queued',incident_id:b.incident_id,expected_revision:b.expected_revision,created_at:timestamp,updated_at:timestamp,report:b.report,...(b.intake119?{intake119:b.intake119}:{}),analysis:null,execution:{mode:'live',provider,input_sha256:hash({report:b.report,intake119:b.intake119||null,incident_id:b.incident_id,expected_revision:b.expected_revision})},error:null,context_incidents:ws.document.incidents};const limit=optionalDailyLimit(env);
   const trigger=hooks.dispatch?null:new URL('/.netlify/functions/ai-analysis-background',backgroundOrigin(event,env));
   await db.rpc('rescue_create_job',{p_job:job,p_limit:limit});try{if(hooks.dispatch)await hooks.dispatch(job);else{const response=await fetch(trigger,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(signedPayload(job,env.BACKGROUND_HMAC_SECRET)),redirect:'error',signal:AbortSignal.timeout(10000)});if(response.status!==202)throw 0;}}catch{await db.rpc('rescue_finish_job',{p_id:id,p_payload:{status:'failed',error:'background 분석 시작에 실패했습니다. 원문을 보존했습니다.'}});throw new APIError(502,'AI 작업 시작 실패: 원문이 작업 기록에 보존됩니다.','background_dispatch_failed');}return output(202,{id,status:'queued',incident_id:job.incident_id,expected_revision:job.expected_revision,created_at:timestamp});
  }

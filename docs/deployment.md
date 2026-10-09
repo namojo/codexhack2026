@@ -5,7 +5,7 @@
 
 ## 현재 배포 구조
 
-현재 확장판은 정적 HTML과 Netlify Functions가 Supabase 공용 합성 workspace 및 비공개 Storage를 사용한다. [AI 설정](ai-setup.md)과 [최신 검증](ai-verification.md)을 참고한다. 공개 AI 기본 모드는 비활성이다. 충전 후 로컬 서버에서 실제 OpenAI 문자·사진·음성 분석과 담당자 확정을 검증했다. ChatGPT 로그인 Codex CLI와 실제 Whisper ASR도 함께 사용할 수 있다. 공개 사이트의 지속적인 OpenAI 활성화는 방문자 입력 전송·API 비용에 대한 명시 승인 대기 중이다.
+현재 확장판은 정적 HTML과 Netlify Functions가 Supabase 공용 합성 workspace 및 비공개 Storage를 사용한다. [AI 설정](ai-setup.md)과 [최신 검증](ai-verification.md)을 참고한다. 실행 제공자는 콘솔 설정에서 확인한다. 충전 후 로컬 서버에서 실제 OpenAI 문자·사진·음성 분석과 담당자 확정을 검증했다. ChatGPT 로그인 Codex CLI와 실제 Whisper ASR도 함께 사용할 수 있다.
 
 아래 방문자별 localStorage 설명은 `--mode offline`로 빌드한 이전 정적 체험판에 해당한다. 현재 공개 사이트의 공유 DB 설명과 구분한다.
 
