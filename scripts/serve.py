@@ -102,13 +102,22 @@ def make_service_handler(store, bundle=None, dev_tools=False):
                         self.respond(302, b'', 'text/html', {'Location': '/replay/'}, head=head)
                         return
                     files = {'/': ('index.html', 'text/html'), '/index.html': ('index.html', 'text/html'), '/app.js': ('app.js', 'text/javascript'), '/style.css': ('style.css', 'text/css'), '/replay/': ('replay/index.html', 'text/html'), '/replay/index.html': ('replay/index.html', 'text/html'), '/replay/app.js': ('replay/app.js', 'text/javascript'), '/replay/style.css': ('replay/style.css', 'text/css')}
+                    files.update({
+                        '/spatial/index.html': ('spatial/index.html', 'text/html'),
+                        '/spatial/': ('spatial/index.html', 'text/html'),
+                        '/spatial/app.js': ('spatial/app.js', 'text/javascript'),
+                        '/spatial/style.css': ('spatial/style.css', 'text/css'),
+                        '/spatial/assets/floorplan-source.jpg': ('spatial/assets/floorplan-source.jpg', 'image/jpeg'),
+                        '/spatial/assets/synthetic-report.png': ('spatial/assets/synthetic-report.png', 'image/png'),
+                    })
                     if route not in files:
                         raise APIError(404, '허용된 페이지가 아닙니다.')
                     filename, mime = files[route]
                     path = ROOT / 'web' / filename
                     if not path.is_file():
                         raise APIError(404, '페이지가 준비되지 않았습니다.')
-                    self.respond(200, path.read_bytes(), mime + '; charset=utf-8', head=head)
+                    content_type = mime if mime.startswith('image/') else mime + '; charset=utf-8'
+                    self.respond(200, path.read_bytes(), content_type, head=head)
             except APIError as exc:
                 self.failure(exc)
             except (OSError, sqlite3.Error):

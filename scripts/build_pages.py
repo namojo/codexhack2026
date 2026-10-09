@@ -50,6 +50,8 @@ def build(output: Path) -> dict:
         bundle = Store(Path(temp) / 'seed.sqlite3', seed_path).list_incidents()
     bundle['synthetic'] = True
     html = (ROOT / 'web' / 'index.html').read_text(encoding='utf-8')
+    # Spatial source drawings are for local review; do not publish them or a broken link.
+    html = re.sub(r'\s*<a\b[^>]*data-local-only="spatial"[^>]*>.*?</a>', '', html, flags=re.S)
     html, css_count = re.subn(r'href=[\"\']/style\.css[\"\']', 'href="style.css"', html)
     html, app_count = re.subn(r'<script\s+src=[\"\']/app\.js[\"\']\s+defer\s*>\s*</script>',
                               '<script src="pages-store.js" defer></script>\n  <script src="app.js" defer></script>', html)

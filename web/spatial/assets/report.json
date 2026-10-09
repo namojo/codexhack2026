@@ -1,0 +1,13 @@
+{
+  "id": "SYN-SP-001",
+  "synthetic": true,
+  "occurred_at": "2026-10-09T10:00:00+09:00",
+  "received_at": "2026-10-09T10:00:05+09:00",
+  "building": "더포엠 역삼",
+  "floor": 3,
+  "unit_line": "3호 라인·B타입 (가상 지정)",
+  "text": "3층 B타입 3호 라인이에요. 현관에서 주방을 지나 큰 창문과 회색 커튼 옆에 두 명이 있어요. 현관 쪽에 뿌연 것이 보여 밖으로 나가지 못하고 있어요.",
+  "image": "assets/synthetic-report.png",
+  "image_source": "imagegen synthetic",
+  "actual_unit_verified": false
+}
