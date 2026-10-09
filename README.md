@@ -4,11 +4,11 @@
 
 집중호우로 고립된 주택·다세대 건물을 대상으로 한다. 소방청 다매체 신고의 공개 채널 구성을 참고해, 신고 원문과 현장 보고를 대조하고 인원·위치·연락·배정의 확인 과제를 보여준다. Track 1 **AI for Safety & Resilience** 해커톤 프로젝트다.
 
-**[Netlify 체험 사이트](https://namojo-hack-test.netlify.app/)** · [GitHub 저장소](https://github.com/namojo/hack-test)
+**[Netlify 체험 사이트](https://namojo-hack-test.netlify.app/)** · [GitHub 저장소](https://github.com/namojo/codexhack2026)
 
 실제 주소와 배포·검증 기록은 [배포 검증](docs/pages-verification.md)에 정리했다.
 
-[아이디어와 현재 기능](docs/project-overview.md) · [작업 과정과 결정](docs/development-log.md) · [배포와 저장 범위](docs/deployment.md) · [공개 근거](docs/sources.md)
+[저장소 관리](docs/repository-management.md) · [아이디어와 현재 기능](docs/project-overview.md) · [작업 과정과 결정](docs/development-log.md) · [배포와 저장 범위](docs/deployment.md) · [공개 근거](docs/sources.md)
 
 ## 무엇을 체험할 수 있나요?
 

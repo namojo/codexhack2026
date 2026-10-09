@@ -1,7 +1,7 @@
 # Netlify 공개 체험판과 로컬 서버판
 
 - 사이트: [아직 여기](https://namojo-hack-test.netlify.app/) (Netlify 팀 namojo)
-- 저장소: https://github.com/namojo/hack-test
+- 저장소: https://github.com/namojo/codexhack2026
 
 ## 공개 체험판의 저장 범위
 

@@ -1,6 +1,6 @@
 # 정적 체험판 검증과 배포
 
-사용자의 최종 배포 대상은 Netlify다. 소스·아이디어·작업 과정은 [namojo/hack-test](https://github.com/namojo/hack-test)에 정리하고 사이트는 [namojo-hack-test.netlify.app](https://namojo-hack-test.netlify.app/)에 배포했다. 다음은 실제 완료한 배포와 검증 기록이다.
+사용자의 최종 배포 대상은 Netlify다. 소스·아이디어·작업 과정은 현재 [namojo/codexhack2026](https://github.com/namojo/codexhack2026)에서 관리하고 사이트는 [namojo-hack-test.netlify.app](https://namojo-hack-test.netlify.app/)에 배포했다. 다음은 실제 완료한 배포와 검증 기록이다.
 
 ## 실제 실행한 검사
 
@@ -50,3 +50,6 @@ v2는 payload를 uploads에 한 번 저장하고 보고에는 논리 첨부 URL�
 ![실제 Netlify 공개 대시보드](images/netlify-console.png)
 
 이 이미지는 공개 seed 10사건 상태의 실제 HTTPS 화면이다. 이후 브라우저 검증에서 만든 합성 사건 1건은 검증 브라우저에만 남고 다른 방문자의 seed에는 포함되지 않는다. 후속 문서 커밋은 배포·검증 기록과 화면 증거를 추가하며 제품 코드와 production 빌드는 변경하지 않는다.
+
+
+2026-10-09에 관리 저장소를 `namojo/codexhack2026`으로 연결했다. 위의 이전 배포 commit·Actions 링크는 당시 검증 기록이며 보존한다. [저장소 관리](repository-management.md)를 참고한다.
