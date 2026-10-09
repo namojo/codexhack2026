@@ -1,0 +1,564 @@
+{
+  "type": "object",
+  "properties": {
+    "summary": {
+      "type": "string"
+    },
+    "proposed_changes": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "category": {
+          "enum": [
+            "flood",
+            "fire",
+            "rescue",
+            "medical",
+            "other",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "location": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "people_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "priority": {
+          "enum": [
+            "urgent",
+            "high",
+            "normal",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "summary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "title",
+        "category",
+        "location",
+        "people_count",
+        "priority",
+        "summary"
+      ],
+      "additionalProperties": false
+    },
+    "intake119": {
+      "type": "object",
+      "properties": {
+        "reporter": {
+          "type": "object",
+          "properties": {
+            "display_name": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reply_channel": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "phone": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "relationship": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "display_name",
+            "reply_channel",
+            "phone",
+            "relationship"
+          ],
+          "additionalProperties": false
+        },
+        "location": {
+          "type": "object",
+          "properties": {
+            "address_landmark": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "floor_unit": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "access_point": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "source": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "gps": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "latitude": {
+                      "type": "number",
+                      "minimum": -90,
+                      "maximum": 90
+                    },
+                    "longitude": {
+                      "type": "number",
+                      "minimum": -180,
+                      "maximum": 180
+                    }
+                  },
+                  "required": [
+                    "latitude",
+                    "longitude"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "verification": {
+              "enum": [
+                "unverified"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "address_landmark",
+            "floor_unit",
+            "access_point",
+            "source",
+            "gps",
+            "verification"
+          ],
+          "additionalProperties": false
+        },
+        "situation": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "enum": [
+                "flood",
+                "fire",
+                "rescue",
+                "medical",
+                "other",
+                null
+              ],
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "occurred_at": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "summary": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "category",
+            "occurred_at",
+            "summary"
+          ],
+          "additionalProperties": false
+        },
+        "rescue": {
+          "type": "object",
+          "properties": {
+            "people_count": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "injury": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "consciousness": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "breathing": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "isolation": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "people_count",
+            "injury",
+            "consciousness",
+            "breathing",
+            "isolation"
+          ],
+          "additionalProperties": false
+        },
+        "hazards": {
+          "type": "object",
+          "properties": {
+            "reported": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "observed": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "unconfirmed": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "reported",
+            "observed",
+            "unconfirmed"
+          ],
+          "additionalProperties": false
+        },
+        "review": {
+          "type": "object",
+          "properties": {
+            "missing_information": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "priority_warnings": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "missing_information",
+            "priority_warnings"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "reporter",
+        "location",
+        "situation",
+        "rescue",
+        "hazards",
+        "review"
+      ],
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "enum": [
+              "title",
+              "category",
+              "location",
+              "people_count",
+              "priority",
+              "summary",
+              "intake119",
+              "hazards",
+              "rescue",
+              "reporter",
+              "situation",
+              "remaining_people",
+              "handoff"
+            ],
+            "type": "string"
+          },
+          "source_id": {
+            "type": "string"
+          },
+          "quote": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "observation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "type": {
+            "enum": [
+              "text",
+              "audio_transcript",
+              "image_observation"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "field",
+          "source_id",
+          "quote",
+          "observation",
+          "type"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "duplicate_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "incident_id": {
+            "type": "string"
+          },
+          "report_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "needs_human_confirmation": {
+            "enum": [
+              true
+            ],
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "incident_id",
+          "report_id",
+          "reason",
+          "needs_human_confirmation"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "person_overlap": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "reason": {
+            "type": "string"
+          },
+          "needs_human_confirmation": {
+            "enum": [
+              true
+            ],
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "source_ids",
+          "reason",
+          "needs_human_confirmation"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "remaining_people": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "basis": {
+          "type": "string"
+        },
+        "needs_human_confirmation": {
+          "enum": [
+            true
+          ],
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "count",
+        "basis",
+        "needs_human_confirmation"
+      ],
+      "additionalProperties": false
+    },
+    "authenticity": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "unverified"
+          ],
+          "type": "string"
+        },
+        "signals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "status",
+        "signals",
+        "questions"
+      ],
+      "additionalProperties": false
+    },
+    "handoff": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "missing_information": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "urgent_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "transcripts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "attachment_id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "attachment_id",
+          "text",
+          "model"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "summary",
+    "proposed_changes",
+    "intake119",
+    "evidence",
+    "duplicate_candidates",
+    "person_overlap",
+    "remaining_people",
+    "authenticity",
+    "handoff",
+    "missing_information",
+    "urgent_reasons",
+    "transcripts",
+    "limitations"
+  ],
+  "additionalProperties": false
+}

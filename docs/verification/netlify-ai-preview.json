@@ -1,0 +1,137 @@
+{
+  "checked_at": "2026-10-09T04:14:57.477Z",
+  "site": "https://6ac869d66651e35575f2bd42--namojo-hack-test.netlify.app",
+  "status": "passed",
+  "checks": [
+    {
+      "path": "/",
+      "http": 200,
+      "bytes": 9322,
+      "content_type": "text/html; charset=UTF-8",
+      "no_js_intro": true,
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+    },
+    {
+      "path": "/about/",
+      "http": 200,
+      "bytes": 4968,
+      "content_type": "text/html; charset=UTF-8"
+    },
+    {
+      "path": "/guide/",
+      "http": 200,
+      "bytes": 4354,
+      "content_type": "text/html; charset=UTF-8"
+    },
+    {
+      "path": "/references/",
+      "http": 200,
+      "bytes": 5610,
+      "content_type": "text/html; charset=UTF-8"
+    },
+    {
+      "path": "/judge/",
+      "http": 200,
+      "bytes": 20868,
+      "content_type": "text/html; charset=UTF-8",
+      "contains_actual_ai": true,
+      "contains_10_seed": true
+    },
+    {
+      "path": "/llms.txt",
+      "http": 200,
+      "bytes": 1639,
+      "content_type": "text/plain; charset=UTF-8"
+    },
+    {
+      "path": "/llms-full.txt",
+      "http": 200,
+      "bytes": 69219,
+      "content_type": "text/plain; charset=UTF-8"
+    },
+    {
+      "path": "/judge/evidence.json",
+      "http": 200,
+      "bytes": 61590,
+      "content_type": "application/json"
+    },
+    {
+      "path": "/api/config",
+      "http": 200,
+      "bytes": 335,
+      "content_type": "application/json; charset=utf-8",
+      "value": {
+        "storage": "supabase",
+        "ai": {
+          "provider": "disabled",
+          "configured": false,
+          "enabled": false,
+          "model": null,
+          "local_demo": false,
+          "login": {
+            "status": "local_only",
+            "detail": "ChatGPT 로그인 Codex CLI는 로컬 시연 서버에서 사용합니다."
+          },
+          "asr": {
+            "available": false,
+            "provider": "none",
+            "model": null
+          }
+        },
+        "synthetic": true,
+        "offline_available": true
+      }
+    },
+    {
+      "path": "/api/settings",
+      "http": 200,
+      "bytes": 588,
+      "content_type": "application/json; charset=utf-8",
+      "value": {
+        "provider": "disabled",
+        "local_demo": false,
+        "mutable": false,
+        "capabilities": {
+          "codex_cli": {
+            "installed": false,
+            "logged_in": false,
+            "login_status": "로컬 시연 서버에서 codex login으로 ChatGPT 로그인"
+          },
+          "openai": {
+            "configured": true
+          },
+          "asr": {
+            "available": false,
+            "provider": "none",
+            "model": null
+          }
+        },
+        "instructions": [
+          "로컬 시연: node scripts/serve_codex_demo.mjs --env-stdin --static dist/ai-preview",
+          "Codex CLI 로그인: codex login",
+          "OpenAI API는 서버 OPENAI_API_KEY/OPENAI_MODEL 설정 후 AI_PROVIDER=openai로 활성화합니다. 브라우저에는 키를 입력하지 않습니다."
+        ]
+      }
+    },
+    {
+      "path": "/api/incidents",
+      "http": 200,
+      "bytes": 85174,
+      "content_type": "application/json; charset=utf-8",
+      "count": 11
+    },
+    {
+      "path": "POST /api/settings",
+      "http": 405
+    },
+    {
+      "path": "/api/media/UPL-927300de-0a49-4008-b75a-dab92552aff7-1",
+      "http": 200,
+      "sha256_matches": true
+    }
+  ],
+  "limitations": [
+    "공개 AI_PROVIDER=disabled; 활성화는 명시 승인 대기입니다.",
+    "공개 background의 실제 모델 성공은 아직 미실행입니다. 로컬 OpenAI 실분석과 구분합니다."
+  ]
+}

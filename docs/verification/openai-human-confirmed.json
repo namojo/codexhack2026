@@ -1,0 +1,822 @@
+{
+  "checked_at": "2026-10-09T04:13:52.264Z",
+  "status": "passed",
+  "job": {
+    "id": "AI-c63f85a6-30a6-43fc-bbbe-8a04da2a299b",
+    "error": null,
+    "report": {
+      "kind": "additional",
+      "text": "합성 추가 신고. 해솔다세대 301호 세 명 중 두 명만 구조했고 한 명은 아직 방 안에 남아 있습니다. 302호라는 위치 전달은 잘못되어 301호로 정정합니다. 아직 전원 구조가 아닙니다. 현장팀에 남은 한 명의 위치와 접근 경로 확인을 전달해주세요.",
+      "actor": "상황실 김담당",
+      "channel": "kakao",
+      "attachments": []
+    },
+    "status": "confirmed",
+    "analysis": {
+      "handoff": [
+        "현장팀에 남은 인원의 위치 및 접근 경로 확인 요청 전달"
+      ],
+      "summary": "해솔다세대 301호에서 세 명 중 두 명만 구조되었으며, 한 명은 아직 방 안에 남아 있습니다. 302호라는 위치 전달은 잘못되어 301호로 정정했습니다. 아직 전원 구조가 완료되지 않았습니다. 현장팀에 남은 한 명의 정확한 위치와 접근 경로 확인을 전달해야 합니다.",
+      "evidence": [
+        {
+          "type": "text",
+          "field": "title",
+          "quote": "합성 추가 신고. 해솔다세대 301호 세 명 중 두 명만 구조했고 한 명은 아직 방 안에 남아 있습니다.",
+          "source_id": "input",
+          "observation": null
+        },
+        {
+          "type": "text",
+          "field": "category",
+          "quote": "합성 추가 신고. 해솔다세대 301호 세 명 중 두 명만 구조했고 한 명은 아직 방 안에 남아 있습니다.",
+          "source_id": "input",
+          "observation": null
+        },
+        {
+          "type": "text",
+          "field": "location",
+          "quote": "302호라는 위치 전달은 잘못되어 301호로 정정합니다.",
+          "source_id": "input",
+          "observation": null
+        },
+        {
+          "type": "text",
+          "field": "people_count",
+          "quote": "해솔다세대 301호 세 명 중 두 명만 구조했고 한 명은 아직 방 안에 남아 있습니다.",
+          "source_id": "input",
+          "observation": null
+        },
+        {
+          "type": "text",
+          "field": "priority",
+          "quote": "아직 전원 구조가 아닙니다.",
+          "source_id": "input",
+          "observation": null
+        },
+        {
+          "type": "text",
+          "field": "summary",
+          "quote": "합성 추가 신고. 해솔다세대 301호 세 명 중 두 명만 구조했고 한 명은 아직 방 안에 남아 있습니다. 302호라는 위치 전달은 잘못되어 301호로 정정합니다. 아직 전원 구조가 아닙니다.",
+          "source_id": "input",
+          "observation": null
+        }
+      ],
+      "intake119": {
+        "rescue": {
+          "injury": null,
+          "breathing": null,
+          "isolation": null,
+          "people_count": 3,
+          "consciousness": null
+        },
+        "review": {
+          "priority_warnings": [
+            "전원 구조 아님",
+            "남은 한 명의 위치 미확인"
+          ],
+          "missing_information": [
+            "남은 한 명의 정확 위치",
+            "접근 경로"
+          ]
+        },
+        "hazards": {
+          "observed": [],
+          "reported": [],
+          "unconfirmed": []
+        },
+        "location": {
+          "gps": null,
+          "source": "input",
+          "floor_unit": null,
+          "access_point": null,
+          "verification": "unverified",
+          "address_landmark": "해솔다세대 301호"
+        },
+        "reporter": {
+          "phone": null,
+          "display_name": "상황실 김담당",
+          "relationship": null,
+          "reply_channel": "kakao"
+        },
+        "situation": {
+          "summary": "301호 세 명 중 두 명만 구조됐고 한 명은 방 안에 남아 있음. 302호 위치 정보는 잘못되어 301호로 정정됨.",
+          "category": "rescue",
+          "occurred_at": null
+        }
+      },
+      "limitations": [],
+      "transcripts": [],
+      "authenticity": {
+        "status": "unverified",
+        "signals": [
+          "신고자가 상황실 담당자임",
+          "동일 위치 및 인원 정보가 여러 신고에서 일관됨"
+        ],
+        "questions": [
+          "남아 있는 한 명의 정확 위치와 상태 확인 필요",
+          "접근 경로 정보 미확인"
+        ]
+      },
+      "person_overlap": [],
+      "urgent_reasons": [
+        "전원 구조가 완료되지 않음",
+        "남은 한 명의 위치 불명확"
+      ],
+      "proposed_changes": {
+        "title": "해솔다세대 301호 일부 인원 미구조 상황",
+        "summary": "해솔다세대 301호에 세 명 중 두 명만 구조되었으며 한 명은 아직 방 안에 남아 있습니다. 302호 위치는 잘못 전달되어 301호로 정정했습니다. 전원 구조가 아니므로 신속한 위치와 접근 경로 확인이 필요합니다.",
+        "category": "rescue",
+        "location": "해솔다세대 301호",
+        "priority": "urgent",
+        "people_count": 3
+      },
+      "remaining_people": {
+        "basis": "301호 세 명 중 두 명만 구조되어 한 명이 남아 있음.",
+        "count": 1,
+        "needs_human_confirmation": true
+      },
+      "missing_information": [
+        "남은 한 명의 위치",
+        "접근 경로"
+      ],
+      "duplicate_candidates": []
+    },
+    "execution": {
+      "mode": "live",
+      "model": "gpt-4.1-mini",
+      "usage": {
+        "input_tokens": 5085,
+        "total_tokens": 5969,
+        "output_tokens": 884
+      },
+      "attempts": [
+        {
+          "usage": {
+            "input_tokens": 5085,
+            "total_tokens": 5969,
+            "output_tokens": 884,
+            "input_tokens_details": {
+              "cached_tokens": 0,
+              "cache_write_tokens": 0
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          },
+          "status": "validated",
+          "attempt": 1,
+          "provider": "openai",
+          "started_at": "2026-10-09T04:10:29.196Z",
+          "response_id": "resp_035653023a1c8bd4016ac86937cb1487d19945b8f0644300f6",
+          "completed_at": "2026-10-09T04:10:37.955Z"
+        }
+      ],
+      "provider": "openai",
+      "started_at": "2026-10-09T04:10:29.193Z",
+      "response_id": "resp_035653023a1c8bd4016ac86937cb1487d19945b8f0644300f6",
+      "completed_at": "2026-10-09T04:10:37.956Z",
+      "input_sha256": "500adfd97bfb85a0c78936fa8e4f1640b7ed1438da248e474f6771a91258ae72",
+      "attempt_count": 1,
+      "regeneration_count": 0
+    },
+    "created_at": "2026-10-09T04:10:28.274Z",
+    "updated_at": "2026-10-09T04:11:37.141844+00:00",
+    "incident_id": "INC-20261008-003",
+    "expected_revision": 6
+  },
+  "incident": {
+    "id": "INC-20261008-003",
+    "revision": 8,
+    "status": "rescuing",
+    "people_count": 3,
+    "location": "가상동 해솔길 7, 해솔다세대 301호",
+    "intake119": {
+      "rescue": {
+        "injury": null,
+        "breathing": null,
+        "isolation": null,
+        "people_count": 3,
+        "consciousness": null
+      },
+      "review": {
+        "priority_warnings": [
+          "전원 구조 아님",
+          "남은 한 명의 위치 미확인"
+        ],
+        "missing_information": [
+          "남은 한 명의 정확 위치",
+          "접근 경로"
+        ]
+      },
+      "hazards": {
+        "observed": [],
+        "reported": [],
+        "unconfirmed": []
+      },
+      "location": {
+        "gps": null,
+        "source": "기존 합성 사건 주소와 추가 신고 원문; 담당자 대조",
+        "floor_unit": "301호",
+        "access_point": null,
+        "verification": "unverified",
+        "address_landmark": "가상동 해솔길 7, 해솔다세대"
+      },
+      "reporter": {
+        "phone": null,
+        "display_name": null,
+        "relationship": null,
+        "reply_channel": "kakao"
+      },
+      "situation": {
+        "summary": "301호 세 명 중 두 명만 구조됐고 한 명은 방 안에 남아 있음. 302호 위치 정보는 잘못되어 301호로 정정됨.",
+        "category": "rescue",
+        "occurred_at": null
+      }
+    },
+    "report_count": 4,
+    "report": {
+      "id": "REP-e46393c6-523b-44d0-ad7d-5b4e4596fdec-1",
+      "kind": "additional",
+      "text": "합성 추가 신고. 해솔다세대 301호 세 명 중 두 명만 구조했고 한 명은 아직 방 안에 남아 있습니다. 302호라는 위치 전달은 잘못되어 301호로 정정합니다. 아직 전원 구조가 아닙니다. 현장팀에 남은 한 명의 위치와 접근 경로 확인을 전달해주세요.",
+      "actor": "상황실 김담당",
+      "channel": "kakao",
+      "location": "가상동 해솔길 7, 해솔다세대 301호",
+      "ai_analysis": {
+        "analysis": {
+          "handoff": [
+            "현장팀에 남은 인원의 위치 및 접근 경로 확인 요청 전달"
+          ],
+          "summary": "해솔다세대 301호에서 세 명 중 두 명만 구조되었으며, 한 명은 아직 방 안에 남아 있습니다. 302호라는 위치 전달은 잘못되어 301호로 정정했습니다. 아직 전원 구조가 완료되지 않았습니다. 현장팀에 남은 한 명의 정확한 위치와 접근 경로 확인을 전달해야 합니다.",
+          "evidence": [
+            {
+              "type": "text",
+              "field": "title",
+              "quote": "합성 추가 신고. 해솔다세대 301호 세 명 중 두 명만 구조했고 한 명은 아직 방 안에 남아 있습니다.",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "category",
+              "quote": "합성 추가 신고. 해솔다세대 301호 세 명 중 두 명만 구조했고 한 명은 아직 방 안에 남아 있습니다.",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "location",
+              "quote": "302호라는 위치 전달은 잘못되어 301호로 정정합니다.",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "people_count",
+              "quote": "해솔다세대 301호 세 명 중 두 명만 구조했고 한 명은 아직 방 안에 남아 있습니다.",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "priority",
+              "quote": "아직 전원 구조가 아닙니다.",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "summary",
+              "quote": "합성 추가 신고. 해솔다세대 301호 세 명 중 두 명만 구조했고 한 명은 아직 방 안에 남아 있습니다. 302호라는 위치 전달은 잘못되어 301호로 정정합니다. 아직 전원 구조가 아닙니다.",
+              "source_id": "input",
+              "observation": null
+            }
+          ],
+          "intake119": {
+            "rescue": {
+              "injury": null,
+              "breathing": null,
+              "isolation": null,
+              "people_count": 3,
+              "consciousness": null
+            },
+            "review": {
+              "priority_warnings": [
+                "전원 구조 아님",
+                "남은 한 명의 위치 미확인"
+              ],
+              "missing_information": [
+                "남은 한 명의 정확 위치",
+                "접근 경로"
+              ]
+            },
+            "hazards": {
+              "observed": [],
+              "reported": [],
+              "unconfirmed": []
+            },
+            "location": {
+              "gps": null,
+              "source": "input",
+              "floor_unit": null,
+              "access_point": null,
+              "verification": "unverified",
+              "address_landmark": "해솔다세대 301호"
+            },
+            "reporter": {
+              "phone": null,
+              "display_name": "상황실 김담당",
+              "relationship": null,
+              "reply_channel": "kakao"
+            },
+            "situation": {
+              "summary": "301호 세 명 중 두 명만 구조됐고 한 명은 방 안에 남아 있음. 302호 위치 정보는 잘못되어 301호로 정정됨.",
+              "category": "rescue",
+              "occurred_at": null
+            }
+          },
+          "limitations": [],
+          "transcripts": [],
+          "authenticity": {
+            "status": "unverified",
+            "signals": [
+              "신고자가 상황실 담당자임",
+              "동일 위치 및 인원 정보가 여러 신고에서 일관됨"
+            ],
+            "questions": [
+              "남아 있는 한 명의 정확 위치와 상태 확인 필요",
+              "접근 경로 정보 미확인"
+            ]
+          },
+          "person_overlap": [],
+          "urgent_reasons": [
+            "전원 구조가 완료되지 않음",
+            "남은 한 명의 위치 불명확"
+          ],
+          "proposed_changes": {
+            "title": "해솔다세대 301호 일부 인원 미구조 상황",
+            "summary": "해솔다세대 301호에 세 명 중 두 명만 구조되었으며 한 명은 아직 방 안에 남아 있습니다. 302호 위치는 잘못 전달되어 301호로 정정했습니다. 전원 구조가 아니므로 신속한 위치와 접근 경로 확인이 필요합니다.",
+            "category": "rescue",
+            "location": "해솔다세대 301호",
+            "priority": "urgent",
+            "people_count": 3
+          },
+          "remaining_people": {
+            "basis": "301호 세 명 중 두 명만 구조되어 한 명이 남아 있음.",
+            "count": 1,
+            "needs_human_confirmation": true
+          },
+          "missing_information": [
+            "남은 한 명의 위치",
+            "접근 경로"
+          ],
+          "duplicate_candidates": []
+        },
+        "execution": {
+          "mode": "live",
+          "model": "gpt-4.1-mini",
+          "usage": {
+            "input_tokens": 5085,
+            "total_tokens": 5969,
+            "output_tokens": 884
+          },
+          "attempts": [
+            {
+              "usage": {
+                "input_tokens": 5085,
+                "total_tokens": 5969,
+                "output_tokens": 884,
+                "input_tokens_details": {
+                  "cached_tokens": 0,
+                  "cache_write_tokens": 0
+                },
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                }
+              },
+              "status": "validated",
+              "attempt": 1,
+              "provider": "openai",
+              "started_at": "2026-10-09T04:10:29.196Z",
+              "response_id": "resp_035653023a1c8bd4016ac86937cb1487d19945b8f0644300f6",
+              "completed_at": "2026-10-09T04:10:37.955Z"
+            }
+          ],
+          "provider": "openai",
+          "started_at": "2026-10-09T04:10:29.193Z",
+          "response_id": "resp_035653023a1c8bd4016ac86937cb1487d19945b8f0644300f6",
+          "completed_at": "2026-10-09T04:10:37.956Z",
+          "input_sha256": "500adfd97bfb85a0c78936fa8e4f1640b7ed1438da248e474f6771a91258ae72",
+          "attempt_count": 1,
+          "regeneration_count": 0
+        },
+        "analysis_id": "AI-c63f85a6-30a6-43fc-bbbe-8a04da2a299b",
+        "confirmed_by": "상황실 김담당",
+        "confirmed_reason": "합성 담당자 검토: 원문에서 총 접수 인원 3명, 구조 2명, 미확인 1명을 구분했습니다. 302호 전달을 301호로 정정하고 기존 합성 도로명 주소를 보존합니다. 현장팀의 남은 한 명 확인이 필요하며 전원 완료는 확정하지 않습니다. 신고 진위·동일인 여부는 아직 미확인입니다."
+      },
+      "attachments": [],
+      "occurred_at": "2026-10-09T04:11:34.835Z",
+      "received_at": "2026-10-09T04:11:34.835Z",
+      "people_count": 3
+    },
+    "progress": [
+      {
+        "id": "PRG-003-01",
+        "note": "가상 구조2팀 배정. 접수 세 명과 층·호수 원문 인계.",
+        "actor": "상황실 김담당",
+        "status": "dispatched",
+        "team_id": "TEAM-02",
+        "created_at": "2026-10-08T12:50:00+09:00"
+      },
+      {
+        "id": "PRG-003-02",
+        "note": "가상 구조2팀 현장 도착. 세 명 접수 대상 확인 중.",
+        "actor": "상황실 김담당",
+        "status": "on_scene",
+        "team_id": "TEAM-02",
+        "created_at": "2026-10-08T13:00:00+09:00"
+      },
+      {
+        "id": "PRG-003-03",
+        "note": "두 명 부분 구조를 기록하고 남은 한 명의 확인을 계속한다. 접수 인원 세 명을 두 명으로 바꾸지 않는다.",
+        "actor": "상황실 김담당",
+        "status": "rescuing",
+        "team_id": "TEAM-02",
+        "created_at": "2026-10-08T13:11:00+09:00"
+      }
+    ],
+    "audit": [
+      {
+        "id": "AUD-003-01",
+        "actor": "상황실 김담당",
+        "after": {
+          "title": "해솔다세대 세 명 중 두 명 구조 보고",
+          "status": "received",
+          "outcome": null,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "revision": 1,
+          "people_count": 3,
+          "assigned_team_id": null
+        },
+        "action": "created",
+        "before": {},
+        "reason": "합성 신고 원문 접수",
+        "created_at": "2026-10-08T12:40:00+09:00"
+      },
+      {
+        "id": "AUD-003-02",
+        "actor": "가상 신고자-003",
+        "after": {
+          "title": "해솔다세대 세 명 중 두 명 구조 보고",
+          "status": "received",
+          "outcome": null,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "revision": 2,
+          "people_count": 3,
+          "assigned_team_id": null
+        },
+        "action": "report_added",
+        "before": {
+          "title": "해솔다세대 세 명 중 두 명 구조 보고",
+          "status": "received",
+          "outcome": null,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "revision": 1,
+          "people_count": 3,
+          "assigned_team_id": null
+        },
+        "reason": "추가 원문 보존",
+        "created_at": "2026-10-08T12:44:00+09:00"
+      },
+      {
+        "id": "AUD-003-03",
+        "actor": "상황실 김담당",
+        "after": {
+          "title": "해솔다세대 세 명 중 두 명 구조 보고",
+          "status": "dispatched",
+          "outcome": null,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "revision": 3,
+          "people_count": 3,
+          "assigned_team_id": "TEAM-02"
+        },
+        "action": "progress_changed",
+        "before": {
+          "title": "해솔다세대 세 명 중 두 명 구조 보고",
+          "status": "received",
+          "outcome": null,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "revision": 2,
+          "people_count": 3,
+          "assigned_team_id": null
+        },
+        "reason": "가상 구조2팀 배정. 접수 세 명과 층·호수 원문 인계.",
+        "created_at": "2026-10-08T12:50:00+09:00"
+      },
+      {
+        "id": "AUD-003-04",
+        "actor": "상황실 김담당",
+        "after": {
+          "title": "해솔다세대 세 명 중 두 명 구조 보고",
+          "status": "on_scene",
+          "outcome": null,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "revision": 4,
+          "people_count": 3,
+          "assigned_team_id": "TEAM-02"
+        },
+        "action": "progress_changed",
+        "before": {
+          "title": "해솔다세대 세 명 중 두 명 구조 보고",
+          "status": "dispatched",
+          "outcome": null,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "revision": 3,
+          "people_count": 3,
+          "assigned_team_id": "TEAM-02"
+        },
+        "reason": "가상 구조2팀 현장 도착. 세 명 접수 대상 확인 중.",
+        "created_at": "2026-10-08T13:00:00+09:00"
+      },
+      {
+        "id": "AUD-003-05",
+        "actor": "가상 현장 확인자",
+        "after": {
+          "title": "해솔다세대 세 명 중 두 명 구조 보고",
+          "status": "on_scene",
+          "outcome": null,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "revision": 5,
+          "people_count": 3,
+          "assigned_team_id": "TEAM-02"
+        },
+        "action": "report_added",
+        "before": {
+          "title": "해솔다세대 세 명 중 두 명 구조 보고",
+          "status": "on_scene",
+          "outcome": null,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "revision": 4,
+          "people_count": 3,
+          "assigned_team_id": "TEAM-02"
+        },
+        "reason": "추가 원문 보존",
+        "created_at": "2026-10-08T13:10:00+09:00"
+      },
+      {
+        "id": "AUD-003-06",
+        "actor": "상황실 김담당",
+        "after": {
+          "title": "해솔다세대 세 명 중 두 명 구조 보고",
+          "status": "rescuing",
+          "outcome": null,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "revision": 6,
+          "people_count": 3,
+          "assigned_team_id": "TEAM-02"
+        },
+        "action": "progress_changed",
+        "before": {
+          "title": "해솔다세대 세 명 중 두 명 구조 보고",
+          "status": "on_scene",
+          "outcome": null,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "revision": 5,
+          "people_count": 3,
+          "assigned_team_id": "TEAM-02"
+        },
+        "reason": "두 명 부분 구조를 기록하고 남은 한 명의 확인을 계속한다. 접수 인원 세 명을 두 명으로 바꾸지 않는다.",
+        "created_at": "2026-10-08T13:11:00+09:00"
+      },
+      {
+        "id": "AUD-b44c1a58-c614-4ba0-b1ef-13a0e04d14d0-2",
+        "actor": "상황실 김담당",
+        "after": {
+          "title": "해솔다세대 세 명 중 두 명 구조 보고",
+          "status": "rescuing",
+          "outcome": null,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "revision": 7,
+          "intake119": null,
+          "people_count": 3,
+          "assigned_team_id": "TEAM-02"
+        },
+        "action": "report_added",
+        "before": {
+          "title": "해솔다세대 세 명 중 두 명 구조 보고",
+          "status": "rescuing",
+          "outcome": null,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "revision": 6,
+          "intake119": null,
+          "people_count": 3,
+          "assigned_team_id": "TEAM-02"
+        },
+        "reason": "합성 추가 신고. 해솔다세대 301호 세 명 중 두 명만 구조했고 한 명은 아직 방 안에 남아 있습니다. 302호라는 위치 전달은 잘못되어 301호로 정정합니다. 아직 전원 구조가 아닙니다. 현장팀에 남은 한 명의 위치와 접근 경로 확인을 전달해주세요.",
+        "created_at": "2026-10-09T04:11:34.835Z"
+      },
+      {
+        "id": "AUD-85db1459-4c33-40bd-95e4-a3fcc4d8cf17",
+        "actor": "상황실 김담당",
+        "after": {
+          "title": "해솔다세대 301호 일부 인원 미구조 상황",
+          "summary": "해솔다세대 301호에 세 명 중 두 명만 구조되었으며 한 명은 아직 방 안에 남아 있습니다. 302호 위치는 잘못 전달되어 301호로 정정했습니다. 전원 구조가 아니므로 신속한 위치와 접근 경로 확인이 필요합니다.",
+          "category": "rescue",
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "intake119": {
+            "rescue": {
+              "injury": null,
+              "breathing": null,
+              "isolation": null,
+              "people_count": 3,
+              "consciousness": null
+            },
+            "review": {
+              "priority_warnings": [
+                "전원 구조 아님",
+                "남은 한 명의 위치 미확인"
+              ],
+              "missing_information": [
+                "남은 한 명의 정확 위치",
+                "접근 경로"
+              ]
+            },
+            "hazards": {
+              "observed": [],
+              "reported": [],
+              "unconfirmed": []
+            },
+            "location": {
+              "gps": null,
+              "source": "input",
+              "floor_unit": null,
+              "access_point": null,
+              "verification": "unverified",
+              "address_landmark": "해솔다세대 301호"
+            },
+            "reporter": {
+              "phone": null,
+              "display_name": "상황실 김담당",
+              "relationship": null,
+              "reply_channel": "kakao"
+            },
+            "situation": {
+              "summary": "301호 세 명 중 두 명만 구조됐고 한 명은 방 안에 남아 있음. 302호 위치 정보는 잘못되어 301호로 정정됨.",
+              "category": "rescue",
+              "occurred_at": null
+            }
+          },
+          "people_count": 3
+        },
+        "action": "ai_review_confirmed",
+        "before": {
+          "title": "해솔다세대 세 명 중 두 명 구조 보고",
+          "summary": "세 명 접수에 현장 두 명 구조 보고. 한 명이 남아 있어 부분 구조를 완료로 처리할 수 없다.",
+          "category": "flood",
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "intake119": null,
+          "people_count": 3
+        },
+        "reason": "합성 담당자 검토: 원문에서 총 접수 인원 3명, 구조 2명, 미확인 1명을 구분했습니다. 302호 전달을 301호로 정정하고 기존 합성 도로명 주소를 보존합니다. 현장팀의 남은 한 명 확인이 필요하며 전원 완료는 확정하지 않습니다. 신고 진위·동일인 여부는 아직 미확인입니다.",
+        "created_at": "2026-10-09T04:11:34.835Z"
+      },
+      {
+        "id": "AUD-32a3aec8-bf99-4b2d-b2c9-93093390407d-1",
+        "actor": "합성 담당자 최종 정정",
+        "after": {
+          "title": "해솔다세대 301호 일부 인원 미구조 상황",
+          "status": "rescuing",
+          "outcome": null,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "revision": 8,
+          "intake119": {
+            "rescue": {
+              "injury": null,
+              "breathing": null,
+              "isolation": null,
+              "people_count": 3,
+              "consciousness": null
+            },
+            "review": {
+              "priority_warnings": [
+                "전원 구조 아님",
+                "남은 한 명의 위치 미확인"
+              ],
+              "missing_information": [
+                "남은 한 명의 정확 위치",
+                "접근 경로"
+              ]
+            },
+            "hazards": {
+              "observed": [],
+              "reported": [],
+              "unconfirmed": []
+            },
+            "location": {
+              "gps": null,
+              "source": "기존 합성 사건 주소와 추가 신고 원문; 담당자 대조",
+              "floor_unit": "301호",
+              "access_point": null,
+              "verification": "unverified",
+              "address_landmark": "가상동 해솔길 7, 해솔다세대"
+            },
+            "reporter": {
+              "phone": null,
+              "display_name": null,
+              "relationship": null,
+              "reply_channel": "kakao"
+            },
+            "situation": {
+              "summary": "301호 세 명 중 두 명만 구조됐고 한 명은 방 안에 남아 있음. 302호 위치 정보는 잘못되어 301호로 정정됨.",
+              "category": "rescue",
+              "occurred_at": null
+            }
+          },
+          "people_count": 3,
+          "assigned_team_id": "TEAM-02"
+        },
+        "action": "incident_updated",
+        "before": {
+          "title": "해솔다세대 301호 일부 인원 미구조 상황",
+          "status": "rescuing",
+          "outcome": null,
+          "location": "가상동 해솔길 7, 해솔다세대 301호",
+          "priority": "urgent",
+          "revision": 7,
+          "intake119": {
+            "rescue": {
+              "injury": null,
+              "breathing": null,
+              "isolation": null,
+              "people_count": 3,
+              "consciousness": null
+            },
+            "review": {
+              "priority_warnings": [
+                "전원 구조 아님",
+                "남은 한 명의 위치 미확인"
+              ],
+              "missing_information": [
+                "남은 한 명의 정확 위치",
+                "접근 경로"
+              ]
+            },
+            "hazards": {
+              "observed": [],
+              "reported": [],
+              "unconfirmed": []
+            },
+            "location": {
+              "gps": null,
+              "source": "input",
+              "floor_unit": null,
+              "access_point": null,
+              "verification": "unverified",
+              "address_landmark": "해솔다세대 301호"
+            },
+            "reporter": {
+              "phone": null,
+              "display_name": "상황실 김담당",
+              "relationship": null,
+              "reply_channel": "kakao"
+            },
+            "situation": {
+              "summary": "301호 세 명 중 두 명만 구조됐고 한 명은 방 안에 남아 있음. 302호 위치 정보는 잘못되어 301호로 정정됨.",
+              "category": "rescue",
+              "occurred_at": null
+            }
+          },
+          "people_count": 3,
+          "assigned_team_id": "TEAM-02"
+        },
+        "reason": "AI가 접수담당자 actor를 신고자 표시 이름으로 오인했습니다. 신고자 이름·연락처·관계는 원문에서 확인되지 않아 미확인 null로 정정합니다. 원래 AI 분석은 이력에 보존합니다.",
+        "created_at": "2026-10-09T04:13:50.292Z"
+      }
+    ]
+  },
+  "checks": {
+    "browser_human_confirmation": true,
+    "operator_correction_http": 200,
+    "original_ai_error_preserved": true,
+    "stale_draft_confirm_http": 409,
+    "ai_did_not_complete": true
+  },
+  "limitations": [
+    "모델이 접수 담당자를 신고자 이름으로 오인한 실제 오류를 담당자가 정정했다. 형식/인용 검증은 사실 정확성을 보장하지 않는다."
+  ]
+}

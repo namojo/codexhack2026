@@ -16,6 +16,7 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from service.store import Store, valid_header
+from scripts.judge_pages import write_public_pages
 
 PRODUCT = 'rescue-synthetic-static-v1'
 UI_FILES = ('index.html', 'app.js', 'style.css', 'pages-store.js')
@@ -27,7 +28,9 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def build(output: Path) -> dict:
+def build(output: Path, mode: str = 'offline') -> dict:
+    if mode not in ('offline', 'cloud'):
+        raise ValueError('빌드 모드는 offline 또는 cloud여야 합니다.')
     # Refuse replacing source directories, ancestors, symlinks or unrelated artifacts.
     if output.is_symlink():
         raise ValueError('출력 경로는 심볼릭 링크일 수 없습니다.')
@@ -50,12 +53,22 @@ def build(output: Path) -> dict:
         bundle = Store(Path(temp) / 'seed.sqlite3', seed_path).list_incidents()
     bundle['synthetic'] = True
     html = (ROOT / 'web' / 'index.html').read_text(encoding='utf-8')
+    html = re.sub(r'<script\s+src=[\"\']/cloud-client\.js[\"\']\s+defer\s*>\s*</script>\s*', '', html)
     html, css_count = re.subn(r'href=[\"\']/style\.css[\"\']', 'href="style.css"', html)
-    html, app_count = re.subn(r'<script\s+src=[\"\']/app\.js[\"\']\s+defer\s*>\s*</script>',
-                              '<script src="pages-store.js" defer></script>\n  <script src="app.js" defer></script>', html)
+    scripts = '<script src="pages-store.js" defer></script>\n  '
+    if mode == 'cloud':
+        scripts += '<script src="cloud-client.js" defer></script>\n  '
+        html = html.replace('<html lang="ko">', '<html lang="ko" data-service-mode="cloud">')
+    scripts += '<script src="app.js" defer></script>'
+    html, app_count = re.subn(r'<script\s+src=[\"\']/app\.js[\"\']\s+defer\s*>\s*</script>', scripts, html)
     if css_count != 1 or app_count != 1:
         raise ValueError('업무 HTML의 CSS·app defer 참조를 확인하세요.')
     source_paths = [ROOT / 'web' / f for f in UI_FILES] + [seed_path, ROOT / 'service' / 'store.py', ROOT / 'service' / 'attention.py', Path(__file__).resolve()]
+    source_paths.append(ROOT / 'scripts' / 'judge_pages.py')
+    if mode == 'cloud':
+        source_paths.append(ROOT / 'web' / 'cloud-client.js')
+    if (ROOT / 'docs/verification/ai-live.json').exists():
+        source_paths.append(ROOT / 'docs/verification/ai-live.json')
     source_paths += [ROOT / 'data' / 'media' / name for name in (*MEDIA, 'provenance.json')]
     if any(not p.is_file() or p.is_symlink() for p in source_paths):
         raise ValueError('공개 allowlist 소스는 실제 일반 파일이어야 합니다.')
@@ -68,15 +81,23 @@ def build(output: Path) -> dict:
     git = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=ROOT, capture_output=True, text=True, check=False)
     info = {'product': PRODUCT, 'synthetic': True, 'built_at': datetime.now(timezone.utc).isoformat(),
             'git_commit': git.stdout.strip() if git.returncode == 0 else None,
-            'storage': 'visitor-localStorage', 'incident_count': 10, 'report_count': 20,
+            'storage': 'supabase-configured-at-runtime' if mode == 'cloud' else 'visitor-localStorage',
+            'mode': mode, 'incident_count': 10, 'report_count': 20,
             'source_sha256': {str(p.relative_to(ROOT)): digest(p) for p in source_paths}}
     output.parent.mkdir(parents=True, exist_ok=True)
     stage = Path(tempfile.mkdtemp(prefix='.rescue-pages-build-', dir=output.parent))
     backup = None
     try:
+        public = write_public_pages(stage, ROOT, bundle, mode)
+        if '<!-- judge-snapshot -->' in html:
+            html = html.replace('<!-- judge-snapshot -->', public['snapshot'])
+        else:
+            html = html.replace('<div id="view">', public['snapshot'] + '<div id="view">')
         (stage / 'index.html').write_text(html, encoding='utf-8')
         for name in UI_FILES[1:]:
             shutil.copyfile(ROOT / 'web' / name, stage / name)
+        if mode == 'cloud':
+            shutil.copyfile(ROOT / 'web' / 'cloud-client.js', stage / 'cloud-client.js')
         (stage / 'seed.json').write_text(json.dumps(bundle, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         (stage / 'media').mkdir()
         for name in (*MEDIA, 'provenance.json'):
@@ -107,9 +128,10 @@ def build(output: Path) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, default=ROOT / 'dist' / 'pages')
+    parser.add_argument('--mode', choices=['offline', 'cloud'], default='offline')
     args = parser.parse_args()
     try:
-        print(json.dumps(build(args.output), ensure_ascii=False))
+        print(json.dumps(build(args.output, args.mode), ensure_ascii=False))
         return 0
     except (ValueError, OSError, KeyError) as error:
         print(str(error), file=sys.stderr)

@@ -45,3 +45,25 @@
 [프로젝트 개요](project-overview.md) · [UX 검증](interaction-verification.md) · [배포 검증](pages-verification.md) · [배포 안내](deployment.md)
 
 [선별한 실제 로그와 실패 기록](verification/README.md), [보고 패널](images/operator-console.jpg), [팀 배정 입력창](images/team-assignment.jpg)을 공개했다.
+
+
+## 2026-10-09 · AI Judge와 실제 분석·공유 저장 확장
+
+- 서비스 개요·이용법·공개 근거·합성 10사건/20원문의 HTML, llms.txt/full, sitemap, 실제 실행 evidence를 추가하여 JavaScript 없이도 심사자가 읽게 했다.
+- 119 접수 DTO, 실제 OpenAI 이미지/음성 전사/문자 분석 모듈, background 초안·담당자 수정/확정·원문/감사 이력의 Supabase 원자 저장을 구현했다. SQL은 해당 Supabase 프로젝트에 실제 적용하고 PNG/WAV 바이트 보존·DB 신규/추가 등록·stale409·잔여대상 완료차단을 실제 API로 확인했다.
+- Netlify Free의 Secret/scope 제한으로 일반 서버 환경변수 등록은 자동 검토에서 거절됐고, 사용자 명시적 승인 뒤 서버에 저장했다. 값은 제품·Git·검증 로그에 넣지 않았다.
+- 독립 QA가 Python NaN 검증 실패를 발견했다. strict JSON/유한수 검증으로 고쳤다. 실제 미리보기에서 background가 운영주소를 향하는 문제를 발견하여 same-site exact origin/redirect 차단으로 수정했다. 이후 실제 PostgreSQL jsonb의 키 정렬로 hash 불일치가 발생했고, 독립 QA 재현을 보존하여 canonical hash로 수정 대상으로 잡았다.
+- 실제 OpenAI 호출은 credit_balance_exhausted HTTP429였다. 성공한 LLM 분석으로 표시하지 않았다. 사용자는 ChatGPT 로그인/Codex CLI 로컬 시연으로 방향을 바꾸고 API 모듈은 나중 설정하도록 요청했다. 직접 Sign in with ChatGPT의 원격호스팅·음성지원 제한을 공식 문서로 확인하고, 사용자가 승인한 Codex CLI+선택적 로컬 Whisper 방식으로 구현한다.
+- 최신 실제 성공·실패·미실행 범위는 ai-verification.md에서 별도 확인한다. fixture/mock 성공을 실제 모델 정확도나 구조 성과로 간주하지 않는다.
+
+### ChatGPT 로그인된 Codex CLI 시연으로 전환
+
+- 사용자의 API 잔액0 확인 및 CLI 시연 허용에 따라 Netlify 공개 분석 기본값을 disabled로 변경하고 로컬 Codex 제공자를 구현했다. 별도 앱 SIWC OAuth를 구현한 것으로 표시하지 않는다.
+- CLI 0.162.0의 ChatGPT 로그인을 실제 확인했고 읽기 전용 격리 실행으로 부분 구조 텍스트의 strict JSON 분석이 성공했다. 프로젝트 전용 Whisper base와 small을 설치해 실제 합성 WAV를 전사했다. small도 “새봄”을 “세봄”으로 인식해 명칭 확인 필요를 드러냈다.
+- 로컬 서버 첫 통합 시도에서 파일 URL의 공백이 %20로 남아 schema/venv 경로를 찾지 못했다. 실제 실패 작업을 보존하고 fileURLToPath로 수정한 뒤 재검증했다.
+- UI에 설정 메뉴, 공개 읽기 전용 안내, 루프백 시연 링크, 로그인/전사 상태와 로컬 provider 변경을 추가했다. 설정 변경은 정확한 Origin/Host와 HttpOnly 세션·CSRF로 보호한다.
+- OpenAI API 모듈은 나중 서버 키/모델과 활성 설정으로 사용하는 경로로 유지했다. 현재 API 성공·정확도·시간 절감·현장 성과를 주장하지 않는다. 실제 통합 결과는 ai-verification.md와 verification/에 기록한다.
+
+### OpenAI 크레딧 충전 이후 실제 호출
+
+사용자가 충전을 알려 실제 API 검증을 다시 실행했다. 첫 세 사례는 응답은 도착했지만 title/category 근거 누락·원문과 다른 인용 때문에 서버가 거절했다. 각 non-null 필드의 근거와 허용 출처·정확한 인용을 명시하고 검증 실패 시 최대 한 번 재생성하는 경로를 추가했다. 이후 동일 문자·사진·음성 세 사례가 모두 첫 응답에서 통과했다. gpt-4.1-mini의 실제 Responses ID와 usage, gpt-4o-mini-transcribe의 실제 WAV 전사를 남겼다. 공개 AI_PROVIDER=openai 활성화는 자동 승인 검토가 방문자 입력 외부 전송·지속 과금에 대한 명시 승인을 요구해 대기하며 로컬 API 검사와 공개 활성 상태를 구분한다.

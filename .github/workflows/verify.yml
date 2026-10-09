@@ -2,7 +2,7 @@ name: Verify rescue console
 on:
   push:
     branches: [main]
-    paths: ['web/**', 'data/**', 'scripts/**', 'service/**', 'rescue/**', 'scenarios/**', 'tests/**', '.github/workflows/verify.yml']
+    paths: ['web/**', 'data/**', 'scripts/**', 'service/**', 'rescue/**', 'scenarios/**', 'tests/**', 'netlify/**', 'supabase/**', 'netlify.toml', '.github/workflows/verify.yml']
   pull_request:
   workflow_dispatch:
 permissions:
@@ -28,3 +28,9 @@ jobs:
         run: node tests/pages_qa.cjs
       - name: Build static site
         run: python3 -B scripts/build_pages.py --output dist/pages
+      - name: AI service independent contract checks
+        run: node tests/ai_service_qa.cjs
+      - name: Codex local demo independent boundary checks
+        run: node tests/codex_demo_qa.cjs
+      - name: Build cloud site with readable public documentation
+        run: python3 -B scripts/build_pages.py --mode cloud --output dist/cloud

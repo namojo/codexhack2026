@@ -101,7 +101,7 @@ def make_service_handler(store, bundle=None, dev_tools=False):
                     if route == '/replay':
                         self.respond(302, b'', 'text/html', {'Location': '/replay/'}, head=head)
                         return
-                    files = {'/': ('index.html', 'text/html'), '/index.html': ('index.html', 'text/html'), '/app.js': ('app.js', 'text/javascript'), '/style.css': ('style.css', 'text/css'), '/replay/': ('replay/index.html', 'text/html'), '/replay/index.html': ('replay/index.html', 'text/html'), '/replay/app.js': ('replay/app.js', 'text/javascript'), '/replay/style.css': ('replay/style.css', 'text/css')}
+                    files = {'/': ('index.html', 'text/html'), '/index.html': ('index.html', 'text/html'), '/app.js': ('app.js', 'text/javascript'), '/cloud-client.js': ('cloud-client.js', 'text/javascript'), '/style.css': ('style.css', 'text/css'), '/replay/': ('replay/index.html', 'text/html'), '/replay/index.html': ('replay/index.html', 'text/html'), '/replay/app.js': ('replay/app.js', 'text/javascript'), '/replay/style.css': ('replay/style.css', 'text/css')}
                     if route not in files:
                         raise APIError(404, '허용된 페이지가 아닙니다.')
                     filename, mime = files[route]

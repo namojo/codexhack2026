@@ -1,0 +1,45 @@
+{
+  "checked_at": "2026-10-09T03:24:16.553Z",
+  "site": "https://6ac85d44b3f60cad79864cb8--namojo-hack-test.netlify.app",
+  "checks": [
+    {
+      "name": "private Storage flood-entrance.png",
+      "status": "passed",
+      "bytes": 3006972,
+      "sha256": "a3fa6bba571418c61a686db51edc11a0e7a2c61d54ed40d7f73318fe3b710096",
+      "attachment_id": "UPL-19758b51-cc96-486c-9700-3f5d995a2056-1"
+    },
+    {
+      "name": "private Storage call-isolated.wav",
+      "status": "passed",
+      "bytes": 476772,
+      "sha256": "fbaf99e622057d151e4362d6a1d6d5a40ede30dc7e90ae31e7eb06ac1533d716",
+      "attachment_id": "UPL-72c035b4-4ec9-4fde-a57a-0366f27305d5-1"
+    },
+    {
+      "name": "stale revision rejected",
+      "status": "passed",
+      "http": 409
+    },
+    {
+      "name": "independent GET persisted reports and audit",
+      "status": "passed",
+      "incident_id": "INC-20261009-001",
+      "revision": 2,
+      "reports": 2
+    },
+    {
+      "name": "same numeric count but residual raw blocks closure",
+      "status": "passed",
+      "http": 400,
+      "body": {
+        "error": "현장 원문에 남은 대상이나 미확인 상태가 있습니다. 전체 대상의 안전 확인 근거가 필요합니다."
+      }
+    }
+  ],
+  "incident_id": "INC-20261009-001",
+  "initial_probe": {
+    "http": 400,
+    "reason": "unknown request field reason; excluded as closure evidence"
+  }
+}
