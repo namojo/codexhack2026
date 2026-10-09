@@ -27,7 +27,7 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def build(output: Path) -> dict:
+def build(output: Path, include_routes: bool = False) -> dict:
     # Refuse replacing source directories, ancestors, symlinks or unrelated artifacts.
     if output.is_symlink():
         raise ValueError('출력 경로는 심볼릭 링크일 수 없습니다.')
@@ -52,6 +52,8 @@ def build(output: Path) -> dict:
     html = (ROOT / 'web' / 'index.html').read_text(encoding='utf-8')
     # Spatial source drawings are for local review; do not publish them or a broken link.
     html = re.sub(r'\s*<a\b[^>]*data-local-only="spatial"[^>]*>.*?</a>', '', html, flags=re.S)
+    if not include_routes:
+        html = re.sub(r'\s*<a\b[^>]*data-local-only="routes"[^>]*>.*?</a>', '', html, flags=re.S)
     html, css_count = re.subn(r'href=[\"\']/style\.css[\"\']', 'href="style.css"', html)
     html, app_count = re.subn(r'<script\s+src=[\"\']/app\.js[\"\']\s+defer\s*>\s*</script>',
                               '<script src="pages-store.js" defer></script>\n  <script src="app.js" defer></script>', html)
@@ -59,6 +61,14 @@ def build(output: Path) -> dict:
         raise ValueError('업무 HTML의 CSS·app defer 참조를 확인하세요.')
     source_paths = [ROOT / 'web' / f for f in UI_FILES] + [seed_path, ROOT / 'service' / 'store.py', ROOT / 'service' / 'attention.py', Path(__file__).resolve()]
     source_paths += [ROOT / 'data' / 'media' / name for name in (*MEDIA, 'provenance.json')]
+    route_sources = {
+        'routes/index.html': ROOT / 'web/routes/index.html',
+        'routes/app.js': ROOT / 'web/routes/app.js',
+        'routes/style.css': ROOT / 'web/routes/style.css',
+        'routes/engine.js': ROOT / 'service/route-engine.js',
+        'routes/network.json': ROOT / 'data/routing/network.json',
+    } if include_routes else {}
+    source_paths += list(route_sources.values())
     if any(not p.is_file() or p.is_symlink() for p in source_paths):
         raise ValueError('공개 allowlist 소스는 실제 일반 파일이어야 합니다.')
     for name, mime in MEDIA.items():
@@ -79,6 +89,12 @@ def build(output: Path) -> dict:
         (stage / 'index.html').write_text(html, encoding='utf-8')
         for name in UI_FILES[1:]:
             shutil.copyfile(ROOT / 'web' / name, stage / name)
+        if route_sources:
+            (stage / 'routes').mkdir()
+            for name, source in route_sources.items():
+                shutil.copyfile(source, stage / name)
+            info['route_page'] = 'routes/index.html'
+            info['route_data_license'] = 'ODbL 1.0 — https://opendatacommons.org/licenses/odbl/1-0/'
         (stage / 'seed.json').write_text(json.dumps(bundle, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         (stage / 'media').mkdir()
         for name in (*MEDIA, 'provenance.json'):
@@ -109,9 +125,10 @@ def build(output: Path) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, default=ROOT / 'dist' / 'pages')
+    parser.add_argument('--include-routes', action='store_true', help='Include the local routing prototype and ODbL road snapshot; does not publish it')
     args = parser.parse_args()
     try:
-        print(json.dumps(build(args.output), ensure_ascii=False))
+        print(json.dumps(build(args.output, include_routes=args.include_routes), ensure_ascii=False))
         return 0
     except (ValueError, OSError, KeyError) as error:
         print(str(error), file=sys.stderr)

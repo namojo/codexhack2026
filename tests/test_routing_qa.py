@@ -1,0 +1,283 @@
+"""Independent routing contract verification; temporary DB and static build only."""
+import hashlib
+import contextlib
+from html.parser import HTMLParser
+import importlib.util
+import json
+import io
+import math
+from pathlib import Path
+import subprocess
+import tempfile
+import threading
+import unittest
+import urllib.error
+import urllib.request
+from urllib.parse import urljoin, urlparse
+from http.server import ThreadingHTTPServer
+
+from service.store import Store, ROOT
+
+
+def load_module(name, filename):
+    spec = importlib.util.spec_from_file_location(name, ROOT / 'scripts' / filename)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+builder = load_module('routing_qa_builder', 'build_pages.py')
+serve = load_module('routing_qa_http', 'serve.py')
+extractor = load_module('routing_qa_extractor', 'build_route_network.py')
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+class Markup(HTMLParser):
+    def __init__(self, text):
+        super().__init__()
+        self.ids, self.labels, self.scripts, self.attrs, self.links = [], [], [], {}, []
+        self.feed(text)
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if 'id' in attrs:
+            self.ids.append(attrs['id'])
+            self.attrs[attrs['id']] = attrs
+        if tag == 'label' and 'for' in attrs:
+            self.labels.append(attrs['for'])
+        if tag == 'script':
+            self.scripts.append(attrs.get('src'))
+        if tag == 'a':
+            self.links.append(attrs)
+
+
+class RoutingIndependentQA(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.network = json.loads((ROOT / 'data/routing/network.json').read_text())
+
+    def test_node_engine_fixtures_snapshot_and_mock_dom(self):
+        completed = subprocess.run(['node', 'tests/routing_qa.cjs'], cwd=ROOT,
+                                   capture_output=True, text=True, timeout=60)
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        result = json.loads(completed.stdout)
+        self.assertEqual(result['status'], 'passed')
+        self.assertGreaterEqual(result['count'], 40)
+        self.assertTrue(all(c['status'] == 'passed' for c in result['checks']))
+
+    def test_source_extraction_retains_node_and_way_conditional_limits(self):
+        # A synthetic OSM XML verifies that restrictions survive extraction.
+        xml = '''<osm version="0.6">
+          <node id="1" lat="37.4800" lon="126.9280"/>
+          <node id="2" lat="37.4801" lon="126.9281">
+            <tag k="maxwidth:physical" v="2.4"/>
+            <tag k="maxheight:physical:conditional" v="2 @ (wet)"/>
+            <tag k="access:conditional" v="no @ (wet)"/>
+            <tag k="maxwidth:forward" v="2.3"/>
+          </node>
+          <node id="3" lat="37.4802" lon="126.9282"/>
+          <way id="10"><nd ref="1"/><nd ref="2"/><tag k="name" v="관악소방서"/></way>
+          <way id="11"><nd ref="2"/><nd ref="3"/><tag k="name" v="신원시장"/></way>
+          <way id="20"><nd ref="1"/><nd ref="2"/><nd ref="3"/>
+            <tag k="name" v="합성 QA 도로"/><tag k="highway" v="residential"/>
+            <tag k="width:conditional" v="2 @ (wet)"/>
+            <tag k="maxheight:physical:conditional" v="2 @ (wet)"/>
+            <tag k="maxheight:physical" v="3.1"/>
+            <tag k="width:backward" v="2.2"/>
+          </way></osm>'''
+        with tempfile.TemporaryDirectory(prefix='routing-extract-qa-') as temp:
+            source, output = Path(temp) / 'synthetic.xml', Path(temp) / 'network.json'
+            source.write_text(xml)
+            with contextlib.redirect_stdout(io.StringIO()):
+                extractor.extract(source, output)
+            n = json.loads(output.read_text())
+        self.assertEqual(len(n['edges']), 4)
+        expected = {
+            'width:conditional': '2 @ (wet)',
+            'maxheight:physical:conditional': '2 @ (wet)',
+            'maxheight:physical': '3.1',
+            'width:backward': '2.2',
+            'node:2:maxwidth:physical': '2.4',
+            'node:2:maxheight:physical:conditional': '2 @ (wet)',
+            'node:2:access:conditional': 'no @ (wet)',
+            'node:2:maxwidth:forward': '2.3',
+        }
+        for edge in n['edges']:
+            for key, value in expected.items():
+                self.assertEqual(edge['tags'].get(key), value, key)
+
+    def test_network_provenance_synthetic_reports_and_excluded_segments(self):
+        n = self.network
+        self.assertEqual(n['schema_version'], 1)
+        meta = n['meta']
+        self.assertEqual(meta['source'], 'OpenStreetMap API 0.6')
+        self.assertTrue(meta['source_url'].startswith('https://www.openstreetmap.org/api/0.6/map?bbox='))
+        self.assertEqual(meta['downloaded_at'], '2026-10-09')
+        self.assertRegex(meta['source_sha256'], r'^[a-f0-9]{64}$')
+        self.assertEqual(meta['attribution'], '© OpenStreetMap contributors')
+        self.assertIn('ODbL', meta['license'])
+        self.assertFalse(meta['real_time_traffic'])
+        self.assertEqual(meta['verified_effective_width_count'], 0)
+        self.assertEqual(len(n['destinations']), 3)
+        self.assertEqual(len({d['id'] for d in n['destinations']}), 3)
+        for destination in n['destinations']:
+            self.assertIs(destination['synthetic'], True)
+            self.assertIn('SYN-ROUTE-', destination['report'])
+            self.assertIn('가상', destination['report'])
+            self.assertIn(destination['node_id'], n['nodes'])
+        ids = {e['id'] for e in n['edges']}
+        for closure in n['closures']:
+            self.assertIs(closure['synthetic'], True)
+            self.assertTrue(closure['edge_ids'])
+            self.assertLessEqual(set(closure['edge_ids']), ids)
+        prohibited = {'footway', 'path', 'pedestrian', 'steps', 'cycleway', 'construction', 'proposed', 'bridleway', 'corridor'}
+        for e in n['edges']:
+            self.assertNotIn(e['highway'], prohibited)
+            for key in ('access', 'vehicle', 'motor_vehicle', 'motorcar'):
+                self.assertNotIn(e['tags'].get(key), ('no', 'private'))
+            self.assertNotIn('rescue:verified_width', e['tags'])
+        # The public road snapshot must not carry OSM editor account metadata.
+        def walk(value):
+            if isinstance(value, dict):
+                self.assertFalse({'uid', 'user', 'username', 'changeset'} & set(value))
+                for item in value.values():
+                    walk(item)
+            elif isinstance(value, list):
+                for item in value:
+                    walk(item)
+        walk(n)
+
+    def test_all_snapshot_edge_geometry_and_oneway_direction(self):
+        n = self.network
+        ids = set()
+        directions = {(str(e['way_id']), e['from'], e['to']) for e in n['edges']}
+        min_lon, min_lat, max_lon, max_lat = n['meta']['bbox']
+        oneway_count = 0
+        for e in n['edges']:
+            self.assertNotIn(e['id'], ids)
+            ids.add(e['id'])
+            self.assertTrue(math.isfinite(e['length_m']))
+            self.assertGreater(e['length_m'], 0)
+            self.assertIn(e['from'], n['nodes'])
+            self.assertIn(e['to'], n['nodes'])
+            start, end = n['nodes'][e['from']], n['nodes'][e['to']]
+            self.assertEqual(e['geometry'][0], [start['lon'], start['lat']])
+            self.assertEqual(e['geometry'][-1], [end['lon'], end['lat']])
+            for lon, lat in e['geometry']:
+                self.assertTrue(math.isfinite(lon) and math.isfinite(lat))
+                self.assertTrue(min_lon <= lon <= max_lon and min_lat <= lat <= max_lat)
+            if e['tags'].get('oneway') in ('yes', '1', 'true', '-1') or (e['tags'].get('junction') == 'roundabout' and e['tags'].get('oneway') != 'no'):
+                oneway_count += 1
+                self.assertNotIn((str(e['way_id']), e['to'], e['from']), directions)
+        self.assertGreater(oneway_count, 0)
+
+    def test_html_labels_single_engine_and_attribution(self):
+        html = (ROOT / 'web/routes/index.html').read_text()
+        markup = Markup(html)
+        self.assertEqual(len(markup.ids), len(set(markup.ids)))
+        self.assertLessEqual(set(markup.labels), set(markup.ids))
+        self.assertEqual(markup.scripts, ['engine.js', 'app.js'])
+        self.assertEqual(markup.attrs['route-map']['tabindex'], '0')
+        self.assertEqual(markup.attrs['route-status']['aria-live'], 'polite')
+        self.assertEqual(markup.attrs['route-error']['role'], 'alert')
+        self.assertEqual(markup.attrs['vehicle-width']['min'], '1.5')
+        self.assertEqual(markup.attrs['vehicle-width']['max'], '3.5')
+        self.assertEqual(markup.attrs['vehicle-height']['max'], '4.5')
+        self.assertEqual(markup.attrs['clearance']['min'], '0.1')
+        self.assertEqual(markup.attrs['clearance']['max'], '0.8')
+        for text in ('© OpenStreetMap contributors', 'ODbL', '합성', '공식 119 연계 없음', '차체 길이·회전반경', '현재 피해 상황을 뜻하지 않습니다', '차량 조건·가상 통제·내부 추천은 전달되지'):
+            self.assertIn(text, html)
+        css = (ROOT / 'web/routes/style.css').read_text()
+        self.assertIn(':focus-visible', css)
+        self.assertIn('@media', css)
+        app = (ROOT / 'web/routes/app.js').read_text()
+        self.assertEqual(app.count("fetch('network.json')"), 1)
+        self.assertNotIn('/api/incidents', app)
+        self.assertNotIn('localStorage', app)
+
+    def test_static_build_includes_exact_route_assets_when_requested(self):
+        before_seed = digest(ROOT / 'data/seed.json')
+        with tempfile.TemporaryDirectory(prefix='routing-static-qa-') as temp:
+            output = Path(temp) / 'with-routes'
+            builder.build(output, include_routes=True)
+            expected = {'index.html', 'app.js', 'style.css', 'engine.js', 'network.json'}
+            self.assertEqual({p.name for p in (output / 'routes').iterdir()}, expected)
+            self.assertEqual((output / 'routes/engine.js').read_bytes(), (ROOT / 'service/route-engine.js').read_bytes())
+            self.assertEqual((output / 'routes/network.json').read_bytes(), (ROOT / 'data/routing/network.json').read_bytes())
+            markup = Markup((output / 'index.html').read_text())
+            menu = [a['href'] for a in markup.links if a.get('data-local-only') == 'routes']
+            self.assertEqual(len(menu), 1)
+            target = urlparse(urljoin('https://example.invalid/review/index.html', menu[0])).path
+            self.assertEqual(target, '/review/routes/index.html')
+            info = json.loads((output / 'build-info.json').read_text())
+            self.assertEqual(info['route_page'], 'routes/index.html')
+            self.assertIn('ODbL', info['route_data_license'])
+            for asset in expected:
+                self.assertEqual(info['files_sha256']['routes/' + asset], digest(output / 'routes' / asset))
+            self.assertFalse(list(output.rglob('*.sqlite3')))
+            self.assertFalse((output / 'spatial').exists())
+        self.assertEqual(before_seed, digest(ROOT / 'data/seed.json'))
+
+    def test_default_static_build_excludes_routes_and_menu(self):
+        with tempfile.TemporaryDirectory(prefix='routing-default-qa-') as temp:
+            output = Path(temp) / 'default'
+            builder.build(output)
+            self.assertFalse((output / 'routes').exists())
+            self.assertFalse(any(a.get('data-local-only') == 'routes' for a in Markup((output / 'index.html').read_text()).links))
+            info = json.loads((output / 'build-info.json').read_text())
+            self.assertNotIn('route_page', info)
+            self.assertFalse(any(name.startswith('routes/') for name in info['files_sha256']))
+
+    def test_http_get_head_allowlist_404_and_incident_state_unchanged(self):
+        # A short-lived loopback server with temporary SQLite; no preview server.
+        with tempfile.TemporaryDirectory(prefix='routing-http-qa-') as temp:
+            store = Store(Path(temp) / 'routing.sqlite3')
+            before = store.list_incidents()
+            before_details = {i['id']: store.get_incident(i['id']) for i in before['incidents']}
+            server = ThreadingHTTPServer(('127.0.0.1', 0), serve.make_service_handler(store))
+            thread = threading.Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            base = 'http://127.0.0.1:' + str(server.server_port)
+            routes = {
+                '/routes/': (ROOT / 'web/routes/index.html', 'text/html'),
+                '/routes/index.html': (ROOT / 'web/routes/index.html', 'text/html'),
+                '/routes/app.js': (ROOT / 'web/routes/app.js', 'text/javascript'),
+                '/routes/style.css': (ROOT / 'web/routes/style.css', 'text/css'),
+                '/routes/engine.js': (ROOT / 'service/route-engine.js', 'text/javascript'),
+                '/routes/network.json': (ROOT / 'data/routing/network.json', 'application/json'),
+            }
+            try:
+                for route, (source, mime) in routes.items():
+                    for method in ('GET', 'HEAD'):
+                        with urllib.request.urlopen(urllib.request.Request(base + route, method=method), timeout=5) as response:
+                            self.assertEqual(response.status, 200)
+                            self.assertTrue(response.headers['Content-Type'].startswith(mime))
+                            self.assertEqual(int(response.headers['Content-Length']), source.stat().st_size)
+                            self.assertEqual(response.read(), source.read_bytes() if method == 'GET' else b'')
+                            self.assertEqual(response.headers['X-Content-Type-Options'], 'nosniff')
+                for route in ('/routes/missing.js', '/routes/../service/route-engine.js', '/routes/%2e%2e/service/route-engine.js', '/service/route-engine.js', '/data/routing/network.json', '/data/workspace.sqlite3', '/api/bundle', '/replay/'):
+                    for method in ('GET', 'HEAD'):
+                        with self.assertRaises(urllib.error.HTTPError) as ctx:
+                            urllib.request.urlopen(urllib.request.Request(base + route, method=method), timeout=5)
+                        self.assertEqual(ctx.exception.code, 404)
+                        if method == 'HEAD':
+                            self.assertEqual(ctx.exception.read(), b'')
+                        ctx.exception.close()
+                self.assertEqual(store.list_incidents(), before)
+                # Original reports, revisions, audit and completion evidence are equal.
+                reopened = Store(Path(temp) / 'routing.sqlite3')
+                for incident_id, original in before_details.items():
+                    self.assertEqual(store.get_incident(incident_id), original)
+                    self.assertEqual(reopened.get_incident(incident_id), original)
+            finally:
+                server.shutdown()
+                server.server_close()
+                thread.join(timeout=5)
+                self.assertFalse(thread.is_alive())
+
+
+if __name__ == '__main__':
+    unittest.main()

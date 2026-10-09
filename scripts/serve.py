@@ -33,8 +33,8 @@ class BaseHandler(BaseHTTPRequestHandler):
     def json_response(self, value, code=200, head=False):
         self.respond(code, json.dumps(value, ensure_ascii=False).encode('utf-8'), 'application/json; charset=utf-8', head=head)
 
-    def failure(self, exc):
-        self.json_response({'error': str(exc)}, exc.status)
+    def failure(self, exc, head=False):
+        self.json_response({'error': str(exc)}, exc.status, head=head)
 
     def log_message(self, fmt, *args):
         print(fmt % args, file=sys.stderr)
@@ -76,6 +76,14 @@ def make_service_handler(store, bundle=None, dev_tools=False):
                     self.json_response(store.get_incident(route.rsplit('/', 1)[1]), head=head)
                 elif route == '/api/bundle':
                     self.json_response(bundle, head=head)
+                elif route in {'/routes/engine.js', '/routes/network.json'}:
+                    path, mime = {
+                        '/routes/engine.js': (ROOT / 'service' / 'route-engine.js', 'text/javascript; charset=utf-8'),
+                        '/routes/network.json': (ROOT / 'data' / 'routing' / 'network.json', 'application/json; charset=utf-8'),
+                    }[route]
+                    if not path.is_file():
+                        raise APIError(404, '페이지가 준비되지 않았습니다.')
+                    self.respond(200, path.read_bytes(), mime, head=head)
                 elif route.startswith('/media/'):
                     path = store.allowed_media(route)
                     data = path.read_bytes()
@@ -103,6 +111,10 @@ def make_service_handler(store, bundle=None, dev_tools=False):
                         return
                     files = {'/': ('index.html', 'text/html'), '/index.html': ('index.html', 'text/html'), '/app.js': ('app.js', 'text/javascript'), '/style.css': ('style.css', 'text/css'), '/replay/': ('replay/index.html', 'text/html'), '/replay/index.html': ('replay/index.html', 'text/html'), '/replay/app.js': ('replay/app.js', 'text/javascript'), '/replay/style.css': ('replay/style.css', 'text/css')}
                     files.update({
+                        '/routes/': ('routes/index.html', 'text/html'),
+                        '/routes/index.html': ('routes/index.html', 'text/html'),
+                        '/routes/app.js': ('routes/app.js', 'text/javascript'),
+                        '/routes/style.css': ('routes/style.css', 'text/css'),
                         '/spatial/index.html': ('spatial/index.html', 'text/html'),
                         '/spatial/': ('spatial/index.html', 'text/html'),
                         '/spatial/app.js': ('spatial/app.js', 'text/javascript'),
@@ -119,9 +131,9 @@ def make_service_handler(store, bundle=None, dev_tools=False):
                     content_type = mime if mime.startswith('image/') else mime + '; charset=utf-8'
                     self.respond(200, path.read_bytes(), content_type, head=head)
             except APIError as exc:
-                self.failure(exc)
+                self.failure(exc, head=head)
             except (OSError, sqlite3.Error):
-                self.failure(APIError(503, '저장소 또는 첨부를 읽을 수 없습니다.'))
+                self.failure(APIError(503, '저장소 또는 첨부를 읽을 수 없습니다.'), head=head)
 
         def _body(self):
             if self.headers.get_content_type() != 'application/json':

@@ -1,0 +1,105 @@
+{
+  "objective": "신림동 도림천 합성 요청의 차량 제약 출동경로 검토 페이지",
+  "tasks": [
+    {
+      "inputs": [
+        "AGENTS.md",
+        "docs/service-contract.md",
+        "docs/routing-contract.md",
+        "data/routing/network.json"
+      ],
+      "context": {
+        "decisions": [
+          "실제 OSM 좌표와 합성 신고·통제 분리",
+          "실시간 교통 제외",
+          "단일 JS 경로 엔진",
+          "strict 미확인 폭 제외",
+          "독립 QA 및 메인 브라우저"
+        ],
+        "skill_paths": [
+          ".agents/skills/service-operations/SKILL.md"
+        ]
+      },
+      "required": true,
+      "id": "backend",
+      "role": "service_backend",
+      "ownership": [
+        "service/route-engine.js",
+        "scripts/serve.py"
+      ],
+      "dependencies": [],
+      "acceptance": [
+        "routing-contract 준수",
+        "실제 검사 근거·미실행 범위"
+      ]
+    },
+    {
+      "inputs": [
+        "AGENTS.md",
+        "docs/service-contract.md",
+        "docs/routing-contract.md",
+        "data/routing/network.json"
+      ],
+      "context": {
+        "decisions": [
+          "실제 OSM 좌표와 합성 신고·통제 분리",
+          "실시간 교통 제외",
+          "단일 JS 경로 엔진",
+          "strict 미확인 폭 제외",
+          "독립 QA 및 메인 브라우저"
+        ],
+        "skill_paths": [
+          ".agents/skills/service-operations/SKILL.md"
+        ]
+      },
+      "required": true,
+      "id": "frontend",
+      "role": "service_frontend",
+      "ownership": [
+        "web/routes/",
+        "web/index.html"
+      ],
+      "dependencies": [],
+      "acceptance": [
+        "routing-contract 준수",
+        "실제 검사 근거·미실행 범위"
+      ]
+    },
+    {
+      "inputs": [
+        "AGENTS.md",
+        "docs/service-contract.md",
+        "docs/routing-contract.md",
+        "data/routing/network.json"
+      ],
+      "context": {
+        "decisions": [
+          "실제 OSM 좌표와 합성 신고·통제 분리",
+          "실시간 교통 제외",
+          "단일 JS 경로 엔진",
+          "strict 미확인 폭 제외",
+          "독립 QA 및 메인 브라우저"
+        ],
+        "skill_paths": [
+          ".agents/skills/service-operations/SKILL.md"
+        ]
+      },
+      "required": true,
+      "id": "qa",
+      "role": "service_qa",
+      "ownership": [
+        "tests/test_routing_qa.py",
+        "tests/routing_qa.cjs",
+        ".harness/runs/routing-v1/task-qa/outputs/"
+      ],
+      "dependencies": [
+        "backend",
+        "frontend"
+      ],
+      "acceptance": [
+        "routing-contract 준수",
+        "실제 검사 근거·미실행 범위"
+      ]
+    }
+  ]
+}
