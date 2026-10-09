@@ -1,0 +1,70 @@
+{
+  "created_at": "2026-10-09",
+  "scope": "local-review-only",
+  "floorplan": {
+    "file": "floorplan-source.jpg",
+    "source_page": "https://newace.kr/property/%EB%8D%94-%ED%8F%AC%EC%97%A0-%EC%97%AD%EC%82%BC/",
+    "source_image": "https://newace.kr/wp-content/uploads/2023/09/더포엠역삼브리핑-14.jpg",
+    "kind": "public-marketing-floorplan",
+    "floor_range": [
+      3,
+      16
+    ],
+    "redistribution_permission": "not_verified"
+  },
+  "photo": {
+    "file": "synthetic-report.png",
+    "synthetic": true,
+    "tool": "image_gen built-in",
+    "prompt": "Use case: photorealistic-natural. Asset: clearly synthetic emergency report photo for a Korean rescue dashboard mockup, no actual incident. Generate one smartphone photo from inside a compact modern Korean studio apartment. Camera is in the main living/sleeping room, near a large exterior window with gray curtains. Small sofa and a table beside window. Looking diagonally toward the kitchenette and apartment entrance at the far side. A faint gray haze is visible near the entrance, origin unknown, no flames, no injured people, no faces, no text, no logos. Daylight, slightly tilted handheld composition. The image should permit recognizing window-side living space but must not imply identifiable real occupants or a real location. Landscape image.",
+    "generation_prompt_record": "Conversation image_gen call contains the exact full prompt."
+  },
+  "analysis": {
+    "model_requested": "gpt-6.1-sol",
+    "native_task": "/root/spatial_model",
+    "mode": "direct-model-visual-and-text-analysis",
+    "files": [
+      "floor-model.json",
+      "analysis.json"
+    ],
+    "new_model_call_for_upgrade": false
+  },
+  "upgrade_assumptions": {
+    "repeated_floors": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "unmodeled_base_floors": [
+      1,
+      2
+    ],
+    "unmodeled": [
+      "basement",
+      "roof",
+      "real height",
+      "real facade",
+      "geographic orientation"
+    ],
+    "floor_spacing_display_units": 7,
+    "note": "Display units are not meters."
+  },
+  "sha256": {
+    "report.json": "af449adb87efd401a578e470343e60ebacb48a53717ce2b57b40f31d57690542",
+    "synthetic-report.png": "3d046c6ba59396b76dfd6d9f25bf3a083fa87e18974047250e7d73b41baff0e8",
+    "floorplan-source.jpg": "eb6ec3ebe0adb47502c5342257232aab7d1756e4d4a0c9f284bd8407f2ae452f",
+    "analysis.json": "aa1486467fc5d9ec71193aea75d1568322d63613e3b3f4202bc4d9eaecd20c8c",
+    "floor-model.json": "958224fedb03d7fad7af6795533d095e72282ede076d5383e2a2ee5460039d97"
+  }
+}

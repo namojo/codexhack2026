@@ -54,6 +54,8 @@ def build(output: Path, mode: str = 'offline') -> dict:
     bundle['synthetic'] = True
     html = (ROOT / 'web' / 'index.html').read_text(encoding='utf-8')
     html = re.sub(r'<script\s+src=[\"\']/cloud-client\.js[\"\']\s+defer\s*>\s*</script>\s*', '', html)
+    # Spatial source drawings are for local review; do not publish them or a broken link.
+    html = re.sub(r'\s*<a\b[^>]*data-local-only="spatial"[^>]*>.*?</a>', '', html, flags=re.S)
     html, css_count = re.subn(r'href=[\"\']/style\.css[\"\']', 'href="style.css"', html)
     scripts = '<script src="pages-store.js" defer></script>\n  '
     if mode == 'cloud':

@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "run_id": "spatial-v1",
+  "request_id": "SYN-SP-001",
+  "synthetic": true,
+  "analysis_mode": "direct_model_visual_and_text_analysis",
+  "sources": [
+    "web/spatial/assets/floorplan-source.jpg",
+    "web/spatial/assets/synthetic-report.png",
+    "web/spatial/assets/report.json"
+  ],
+  "assigned_location": {
+    "floor": 3,
+    "unit_id": "3",
+    "type": "B",
+    "basis": "합성 신고 원문 및 가상 지정 메타데이터",
+    "photo_verified": false,
+    "actual_unit_verified": false
+  },
+  "candidates": [
+    {
+      "space_id": "main_room",
+      "label": "B타입 3호 주공간의 외벽 창 인접 영역",
+      "evidence": [
+        {
+          "source": "report.text",
+          "quote": "현관에서 주방을 지나 큰 창문과 회색 커튼 옆에 두 명이 있어요."
+        },
+        {
+          "source": "synthetic-report.png",
+          "observation": "사진 왼쪽의 큰 창과 회색 커튼, 창 옆 소파가 있는 주거 공간이 보인다."
+        },
+        {
+          "source": "floorplan-source.jpg",
+          "observation": "3호의 화면 상부 외벽에 창 기호가 있고 그 안쪽에 넓은 주공간이 있다. 주방 설비는 화면 좌측 중간, 출입문은 하단에 있다."
+        }
+      ],
+      "proposed_region_bbox": [
+        0.542,
+        0.224,
+        0.712,
+        0.316
+      ],
+      "limitations": [
+        "후보 영역은 정규화한 전체 도면 좌표이며 정확한 사람 위치가 아니다.",
+        "사진에 사람이 보이지 않아 두 명의 위치·상태를 확인하지 못했다.",
+        "가상 B타입 3호 지정에 의존한다. 합성 사진의 가구·냉장고 배치가 도면과 일치한다는 증거는 없다.",
+        "창 가까운 넓은 주공간은 근거가 있지만 창에서 거리·좌우 구석·카메라 자세는 알 수 없다."
+      ]
+    }
+  ],
+  "photo_observations": [
+    {
+      "id": "P1",
+      "observation": "왼쪽에 큰 창과 회색 커튼이 보인다.",
+      "interpretation_limit": "창 방향·층수·호실은 사진만으로 식별 불가."
+    },
+    {
+      "id": "P2",
+      "observation": "앞쪽에 소파와 낮은 테이블이 있고 중간에 식탁, 냉장고, 주방 조리대가 보인다.",
+      "interpretation_limit": "합성 이미지 가구의 실제 크기와 도면 일치 미확인."
+    },
+    {
+      "id": "P3",
+      "observation": "후면 어두운 출입문으로 보이는 문 주변과 실내 연결 공간에 뿌연 흐림이 보인다.",
+      "interpretation_limit": "흐림의 성분·원인·온도·유독성·통과 가능성은 사진에서 확인 불가."
+    },
+    {
+      "id": "P4",
+      "observation": "사진 안에 사람은 보이지 않는다.",
+      "interpretation_limit": "사진 밖 인원과 위치, 상태는 판단 불가."
+    }
+  ],
+  "text_evidence": [
+    {
+      "quote": "3층 B타입 3호 라인이에요.",
+      "meaning": "신고자의 가상 층/라인 진술",
+      "photo_confirmed": false
+    },
+    {
+      "quote": "현관에서 주방을 지나 큰 창문과 회색 커튼 옆에 두 명이 있어요.",
+      "meaning": "주방 너머 창 인접 주공간의 2명이라는 원문 진술",
+      "photo_confirmed": false
+    },
+    {
+      "quote": "현관 쪽에 뿌연 것이 보여 밖으로 나가지 못하고 있어요.",
+      "meaning": "현관 방향 흐림과 외부 이동 어려움 진술. 흐림은 사진에도 보이지만 이동 불가와 원인은 원문에 의존.",
+      "photo_confirmed": false
+    }
+  ],
+  "unknowns": [
+    "정확한 사람 위치 및 두 명의 상태",
+    "진북·창 방향·실제 미터 거리·층고",
+    "실제 호실 및 현재 현장 도면 일치",
+    "흐림의 원인과 현관/복도/계단의 현장 상태",
+    "욕실 출입문·현관 유효 폭 및 가구 장애물",
+    "사진 촬영 위치·방향·합성 이미지와 도면의 정확한 대응"
+  ],
+  "entry_cautions": [
+    {
+      "location": "공용 계단·승강기 홀·복도",
+      "basis": "도면상 공용 연결",
+      "note": "우측 공용 계단과 승강기 홀은 중앙 복도에 연결되고 복도에서 3호 현관으로 연결된다. 이는 도면상 위상 관계이며 안전 경로 확정이 아니다."
+    },
+    {
+      "location": "3호 현관 및 주방 인접 연결 공간",
+      "basis": "원문 현관 방향 이동 어려움 + 사진 후면 흐림",
+      "note": "현관 방향 흐림의 원인·현장 상태·실제 통과 가능성을 확인해야 한다. 사진만으로 화재 원인이나 안전 통과를 단정하지 않는다."
+    },
+    {
+      "location": "주공간 외벽 창",
+      "basis": "원문과 사진의 창/커튼 + 도면 창 기호",
+      "note": "창의 개폐 상태·높이·외부 접근은 확인되지 않았다. 창을 대체 출구로 확정하지 않는다."
+    }
+  ],
+  "ground_truth_used": false,
+  "numerical_probability": null
+}
