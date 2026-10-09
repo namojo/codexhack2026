@@ -35,7 +35,7 @@ SQL editor에서 마이그레이션을 적용하고 `rescue_workspace`, 분석 �
 
 제작자 검사와 독립 QA를 분리했다. 앞선 독립 QA가 발견한 NaN GPS와 JSONB 키 재정렬 hash 오류를 수정하고 v7의 고정 입력으로 재검증했다. Python 93, AI API 37, Codex·설정·보안 23, 저장 어댑터 21, 엔진 smoke 28, fixture 20사례·91단언을 모두 통과했다. 제품·의존성 지문 60개 일치와 하네스 완료 검사도 통과했다. 독립 QA의 실제 모델·DB·브라우저 재실행은 미실행이며, 메인의 실제 실행 증거를 별도로 검토했다. 설정 직접 진입 뒤 사건이 빈 목록으로 보이는 실제 브라우저 오류도 수정했다. 이전 실패 산출물은 새 성공으로 덮어쓰지 않는다.
 
-공개 `/about/`, `/guide/`, `/references/`, `/judge/`, `llms.txt`, `llms-full.txt`는 JavaScript 없이 서비스 역할, 119 저장 항목, 10건·20보고의 합성 원문과 실제 미디어, 실제 실행과 한계를 읽게 한다. 현재 DB와 고정 seed 원문은 구분한다. `/judge/evidence.json`과 GitHub의 실행 기록을 연결한다.
+공개 `/about/`, `/guide/`, `/references/`, `/judge/`, `llms.txt`, `llms-full.txt`는 JavaScript 없이 서비스 역할, 119 저장 항목, 12건·30보고의 합성 원문과 실제 미디어, 실제 실행과 한계를 읽게 한다. 현재 DB와 고정 seed 원문은 구분한다. `/judge/evidence.json`과 GitHub의 실행 기록을 연결한다.
 
 인원·위치 정확도, ASR 오류율, 검토 시간 감소, 구조 성과와 공식 119 연계는 아직 평가하지 않았다.
 
