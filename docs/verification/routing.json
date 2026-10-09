@@ -1,0 +1,208 @@
+{
+  "date": "2026-10-09",
+  "status": "passed",
+  "tested_product_commit": "b55ed8c",
+  "feature_commits": [
+    "4313490",
+    "53da70e"
+  ],
+  "merged_remote_through": "11063e9",
+  "source_sha256": {
+    "service/route-engine.js": "ed6ac68545275c1c0a118af08e1458fefc5510f1e5feefb7b6c9aec479e3ca30",
+    "scripts/serve.py": "14f8b65e0f2f9ef1211ffb4e1d9385aeed65a4a26b0e64fa69e809daf20b443a",
+    "scripts/build_pages.py": "a8ed2d807acaf389b3dd82e0b9dee794054e0f69f3080257200758dd306bf845",
+    "scripts/build_flood_history.py": "f14092b564a2e35e3c84d564d68b111392193a930fa37ba8d0b26f3f6798e33a",
+    "data/routing/network.json": "d9d3633758d48992266f11eb6c631457647d21d15d275e9401b0f9cc429dda28",
+    "data/routing/flood-history.json": "6cfd1216d3542a2e5f36069f84e03bbf80409423cf0c6cd489727da1552e482d",
+    "web/routes/index.html": "60689197830c0391f5221caff70b1682b427ab506019b0fb295196436dd7c5ac",
+    "web/routes/app.js": "e1662bb68a02e60a1f054fe55141b84b9fe4f22af72d993e81ad96870c23ff6e",
+    "web/routes/style.css": "b2534fbb9cbe8c21e7ef3457cfe9955232b57b8a741ff3cd83e8a5ed09413980",
+    "tests/routing_qa.cjs": "c380b6bd693190fca77c75fa72238746d6ae3c2755fe7a630de6b46b57223b2a",
+    "tests/test_routing_qa.py": "b79c43b71aeb4302cc42bfeb94e8861d615b03d91567f34e1f4253e07d4ed1f5"
+  },
+  "checks": {
+    "full_python": {
+      "passed": 114,
+      "exit_code": 0
+    },
+    "independent_node": {
+      "passed": 149,
+      "exit_code": 0
+    },
+    "independent_python": {
+      "passed": 10,
+      "exit_code": 0
+    },
+    "independent_http": {
+      "requests": 36,
+      "status": "passed"
+    },
+    "build_matrix": {
+      "combinations": 4,
+      "status": "passed"
+    },
+    "independent_gis": {
+      "passed": 69,
+      "sample_edges": 66,
+      "max_length_difference_m": 0,
+      "exit_code": 0
+    },
+    "engine_smoke": {
+      "passed": 28,
+      "exit_code": 0
+    },
+    "fixture_replay": {
+      "cases": 20,
+      "expectations": 91,
+      "mode": "fixture",
+      "exit_code": 0
+    },
+    "pages_adapter": {
+      "passed": 21,
+      "exit_code": 0
+    },
+    "cloud_ai_mock_contract": {
+      "passed": 47,
+      "exit_code": 0
+    },
+    "codex_demo_mock_boundary": {
+      "passed": 23,
+      "exit_code": 0
+    },
+    "harness_structure": {
+      "agents": 8,
+      "skills": 3,
+      "errors": 0
+    },
+    "harness_completion": {
+      "run": "routing-flood-v2",
+      "errors": 0
+    },
+    "actual_browser": {
+      "date": "2026-10-09",
+      "mode": "actual browser/loopback/temporary synthetic DB",
+      "status": "passed",
+      "checks": [
+        {
+          "name": "console-to-route menu after remote merge",
+          "status": "passed"
+        },
+        {
+          "name": "actual Seoul cumulative map overlay and source/license",
+          "status": "passed"
+        },
+        {
+          "name": "three comparison cards and default flood-aware3.49km with18m nearby exposure",
+          "status": "passed"
+        },
+        {
+          "name": "select flood-aware route and matching map/steps/ARIA",
+          "status": "passed"
+        },
+        {
+          "name": "hide/show trace layer preserves flood calculation",
+          "status": "passed"
+        },
+        {
+          "name": "select2011 updates577records and route exposure0m",
+          "status": "passed"
+        },
+        {
+          "name": "select2025 explicit no registered records and3.02km without safety claim",
+          "status": "passed"
+        },
+        {
+          "name": "strict removes both recommendations and old overlays: edges0",
+          "status": "passed"
+        },
+        {
+          "name": "invalid width9 preserves input with Korean error: cards0/edges0",
+          "status": "passed"
+        },
+        {
+          "name": "vehicle preset recovers valid routes",
+          "status": "passed"
+        },
+        {
+          "name": "synthetic closure retains filtered flood route",
+          "status": "passed"
+        },
+        {
+          "name": "mobile390x844: documentwidth=scrollwidth=390 with three cards and map legend",
+          "status": "passed"
+        },
+        {
+          "name": "canvas keyboard zoom and pan plus viewport reset",
+          "status": "passed"
+        },
+        {
+          "name": "browser console error/warn empty",
+          "status": "passed"
+        }
+      ],
+      "screenshots": [
+        "docs/images/routing-flood-desktop.png",
+        "docs/images/routing-flood-comparison.png",
+        "docs/images/routing-flood-mobile.png"
+      ],
+      "limitations": [
+        "Input/fetch failure also verified by independent mock DOM; no real network outage simulated in browser.",
+        "No actual field vehicle/future probability/current flood/traffic/LLM/OCR/ASR validation."
+      ],
+      "temporary_server": {
+        "host": "127.0.0.1",
+        "port": 8771,
+        "user_approved": true,
+        "auto_shutdown_seconds": 900,
+        "user_database_opened": false
+      }
+    }
+  },
+  "gis": {
+    "date": "2026-10-09",
+    "source": "https://data.seoul.go.kr/dataList/OA-15636/F/1/datasetView.do",
+    "downloaded_year_files": 14,
+    "display_years": [
+      2010,
+      2011,
+      2022,
+      2023,
+      2024
+    ],
+    "no_files_per_provider": [
+      2015,
+      2021
+    ],
+    "data_sha256": "6cfd1216d3542a2e5f36069f84e03bbf80409423cf0c6cd489727da1552e482d",
+    "rebuild_byte_identical": true,
+    "exposed_directed_edges": 4497,
+    "geometry_repairs": 0,
+    "ignored_nonpolygon_records": 0,
+    "gis_runtime_versions": {
+      "pyshp": "3.1.6",
+      "pyproj": "3.8.0",
+      "shapely": "2.2.0"
+    },
+    "geometry_properties_allowlist": [
+      "year",
+      "source_record_count"
+    ],
+    "probability_model": false,
+    "nearby_buffer_m": 10,
+    "heuristic_penalty_per_year_m": 8
+  },
+  "projection_boundary_tolerance": {
+    "observed_max_offset_m": 0.1443,
+    "test_tolerance_degrees": 2e-06,
+    "metric_clip_containment": "passed"
+  },
+  "preserved_existing_local_files": 13,
+  "user_database_changed": false,
+  "publication": "Git push authorized; Netlify deployment not part of this change",
+  "not_run": [
+    "real vehicle field navigation",
+    "future flood probability calibration",
+    "current flood/traffic monitoring",
+    "new LLM/OCR/ASR calls"
+  ]
+}
