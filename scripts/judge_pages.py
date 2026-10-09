@@ -5,7 +5,7 @@ from pathlib import Path
 
 SITE = 'https://namojo-hack-test.netlify.app'
 REPO = 'https://github.com/namojo/codexhack2026'
-LINKS = [('about', '서비스 개요'), ('guide', '이용법'), ('references', '근거와 한계'), ('judge', '심사 안내')]
+LINKS = [('about', '서비스 개요'), ('guide', '이용법'), ('references', '근거와 한계'), ('judge', '심사 안내'), ('spatial', '건물 공간정보')]
 REFERENCES = [
     ('소방청: 119 다매체 신고', 'https://www.nfa.go.kr/nfa/news/pressrelease/press/?cntId=2097&mode=view&pageIdx=2&searchCondition=all',
      '문자·사진, 신고 앱, 영상통화 등으로 신고할 수 있다는 공개 채널 구성을 참고했다. 내부 접수 시스템이나 실제 신고 API를 제공받은 프로젝트는 아니다.'),
@@ -99,7 +99,14 @@ def write_public_pages(stage: Path, root: Path, bundle: dict, mode: str) -> dict
             if ev.get('type') == 'image_observation':
                 live_details += '<p>사진 관찰 ['+esc(ev.get('source_id', ''))+']: '+esc(ev.get('observation', ''))+'</p>'
         live_details += '<p>한계: '+esc(' / '.join(analysis.get('limitations', [])))+'</p></article>'
-    judge += live_details
+    spatial = json.loads((root / 'web/spatial/assets/analysis.json').read_text())
+    spatial_report = json.loads((root / 'web/spatial/assets/report.json').read_text())
+    spatial_info = {'url': SITE+'/spatial/', 'mode': 'preserved-model-analysis-static-view', 'new_model_call_on_view': False, 'synthetic_report': spatial_report, 'analysis': spatial, 'assumptions': '3~16층 동일 평면 반복; 1~2층 내부·실제 층고·현장 상태 미확인', 'original_drawing_redistributed': False}
+    evidence['spatial'] = spatial_info
+    spatial_html = '<h2>건물 공간정보와 신고 위치 후보</h2><p><a class="button" href="/spatial/">전체 건물·층·평면 보기</a></p><p>공개 도면과 합성 사진·문자를 읽은 사전 모델 분석을 공간 후보로 확인합니다. 보기 전환은 모델을 새로 호출하거나 사건 상태를 변경하지 않습니다. 3~16층 동일 평면은 표시 가정이며 실제 사람 위치·진입 안전은 미확정입니다. 원본 도면은 출처 링크에서 대조합니다.</p><blockquote>'+esc(spatial_report['text'])+'</blockquote>'
+    about += spatial_html
+    guide += spatial_html
+    judge += live_details + spatial_html
     (stage / 'public-guide.css').write_text(CSS, encoding='utf-8')
     for slug,title,body in [('about','서비스 개요',about),('guide','이용법',guide),('references','근거와 한계',references),('judge','심사 안내',judge)]:
         (stage / slug).mkdir(exist_ok=True)
@@ -114,6 +121,7 @@ def write_public_pages(stage: Path, root: Path, bundle: dict, mode: str) -> dict
             full += f'\n- {r["id"]} ({r["channel"]}, {r["kind"]}, {r.get("received_at", "")}): {r["text"]}\n'
             for a in r.get('attachments',[]):
                 full += f'  Attachment {a["id"]}: {a.get("url", "")} (synthetic; supplied transcript is not actual ASR)\n'
+    full += '\n## Spatial report and preserved model analysis\n' + json.dumps(spatial_info, ensure_ascii=False, indent=2) + '\n'
     full += '\n## Actual local AI execution records\n' + json.dumps(live, ensure_ascii=False, indent=2) + '\n'
     (stage / 'llms-full.txt').write_text(full,encoding='utf-8')
     (stage / 'robots.txt').write_text(f'User-agent: *\nAllow: /\nDisallow: /api/ai/\nDisallow: /api/media/\nSitemap: {SITE}/sitemap.xml\n',encoding='utf-8')

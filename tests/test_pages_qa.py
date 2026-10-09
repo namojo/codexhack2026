@@ -33,7 +33,10 @@ class PagesIndependentQA(unittest.TestCase):
         expected = {'index.html', 'app.js', 'style.css', 'pages-store.js', 'seed.json', '.nojekyll', 'build-info.json',
                     'media/flood-entrance.png', 'media/flood-stairwell.png', 'media/call-isolated.wav', 'media/call-proxy.wav', 'media/provenance.json',
                     'about/index.html', 'guide/index.html', 'references/index.html', 'judge/index.html', 'judge/evidence.json',
-                    'public-guide.css', 'llms.txt', 'llms-full.txt', 'sitemap.xml', 'robots.txt'}
+                    'public-guide.css', 'llms.txt', 'llms-full.txt', 'sitemap.xml', 'robots.txt',
+                    'spatial/index.html', 'spatial/app.js', 'spatial/style.css', 'spatial/assets/floor-model.json',
+                    'spatial/assets/analysis.json', 'spatial/assets/report.json', 'spatial/assets/provenance.json',
+                    'spatial/assets/synthetic-report.png'}
         self.assertEqual({str(p.relative_to(output)) for p in output.rglob('*') if p.is_file()}, expected)
         bundle = json.loads((output / 'seed.json').read_text())
         self.assertTrue(bundle['synthetic'])

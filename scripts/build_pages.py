@@ -22,6 +22,9 @@ PRODUCT = 'rescue-synthetic-static-v1'
 UI_FILES = ('index.html', 'app.js', 'style.css', 'pages-store.js')
 MEDIA = {'flood-entrance.png': 'image/png', 'flood-stairwell.png': 'image/png',
          'call-isolated.wav': 'audio/wav', 'call-proxy.wav': 'audio/wav'}
+SPATIAL_FILES = ('index.html', 'app.js', 'style.css', 'assets/floor-model.json',
+                 'assets/analysis.json', 'assets/report.json', 'assets/provenance.json',
+                 'assets/synthetic-report.png')
 
 
 def digest(path: Path) -> str:
@@ -54,8 +57,6 @@ def build(output: Path, mode: str = 'offline') -> dict:
     bundle['synthetic'] = True
     html = (ROOT / 'web' / 'index.html').read_text(encoding='utf-8')
     html = re.sub(r'<script\s+src=[\"\']/cloud-client\.js[\"\']\s+defer\s*>\s*</script>\s*', '', html)
-    # Spatial source drawings are for local review; do not publish them or a broken link.
-    html = re.sub(r'\s*<a\b[^>]*data-local-only="spatial"[^>]*>.*?</a>', '', html, flags=re.S)
     html, css_count = re.subn(r'href=[\"\']/style\.css[\"\']', 'href="style.css"', html)
     scripts = '<script src="pages-store.js" defer></script>\n  '
     if mode == 'cloud':
@@ -67,6 +68,7 @@ def build(output: Path, mode: str = 'offline') -> dict:
         raise ValueError('업무 HTML의 CSS·app defer 참조를 확인하세요.')
     source_paths = [ROOT / 'web' / f for f in UI_FILES] + [seed_path, ROOT / 'service' / 'store.py', ROOT / 'service' / 'attention.py', Path(__file__).resolve()]
     source_paths.append(ROOT / 'scripts' / 'judge_pages.py')
+    source_paths += [ROOT / 'web/spatial' / f for f in SPATIAL_FILES]
     if mode == 'cloud':
         source_paths.append(ROOT / 'web' / 'cloud-client.js')
     if (ROOT / 'docs/verification/ai-live.json').exists():
@@ -100,6 +102,11 @@ def build(output: Path, mode: str = 'offline') -> dict:
             shutil.copyfile(ROOT / 'web' / name, stage / name)
         if mode == 'cloud':
             shutil.copyfile(ROOT / 'web' / 'cloud-client.js', stage / 'cloud-client.js')
+        # Only the model, synthetic report and UI are public; original drawing stays local.
+        for name in SPATIAL_FILES:
+            target = stage / 'spatial' / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / 'web/spatial' / name, target)
         (stage / 'seed.json').write_text(json.dumps(bundle, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         (stage / 'media').mkdir()
         for name in (*MEDIA, 'provenance.json'):

@@ -1,0 +1,78 @@
+{
+  "objective": "새 공간정보 목업을 공개 서비스에 포함하고 실제 브라우저와 독립 검사로 확인",
+  "tasks": [
+    {
+      "required": true,
+      "context": {
+        "decisions": [
+          "v3 사용자 공개 공간정보 요청 적용",
+          "동료 변경 되돌리지 않음, 재귀 위임 금지",
+          "원본 도면 JPEG 공개 제외, 출처 링크 대조",
+          "공간 선택으로 DB 또는 AI 초안 상태 변경 금지"
+        ],
+        "skill_paths": [
+          ".agents/skills/service-operations/SKILL.md"
+        ]
+      },
+      "inputs": [
+        "AGENTS.md",
+        "docs/spatial-contract.md",
+        "docs/ai-service-contract.md"
+      ],
+      "acceptance": [
+        "전체/층/평면/후보/출처 기능 유지",
+        "공개 공간 자산 및 메뉴, 원본 JPEG 제외",
+        "기존 업무 데이터/AI 계약 보존, 미실행 범위 명시"
+      ],
+      "id": "frontend",
+      "role": "service_frontend",
+      "ownership": [
+        "web/index.html",
+        "web/spatial/index.html",
+        "web/spatial/app.js",
+        "web/spatial/style.css",
+        "_workspace/verification/spatial-public-v1/frontend/"
+      ],
+      "dependencies": []
+    },
+    {
+      "required": true,
+      "context": {
+        "decisions": [
+          "v3 사용자 공개 공간정보 요청 적용",
+          "동료 변경 되돌리지 않음, 재귀 위임 금지",
+          "원본 도면 JPEG 공개 제외, 출처 링크 대조",
+          "공간 선택으로 DB 또는 AI 초안 상태 변경 금지"
+        ],
+        "skill_paths": [
+          ".agents/skills/service-operations/SKILL.md"
+        ]
+      },
+      "inputs": [
+        "AGENTS.md",
+        "docs/spatial-contract.md",
+        "docs/ai-service-contract.md",
+        "web/index.html",
+        "web/spatial/index.html",
+        "web/spatial/app.js",
+        "web/spatial/style.css",
+        "scripts/build_pages.py",
+        "scripts/judge_pages.py"
+      ],
+      "acceptance": [
+        "전체/층/평면/후보/출처 기능 유지",
+        "공개 공간 자산 및 메뉴, 원본 JPEG 제외",
+        "기존 업무 데이터/AI 계약 보존, 미실행 범위 명시"
+      ],
+      "id": "qa",
+      "role": "service_qa",
+      "ownership": [
+        "tests/test_spatial_public.py",
+        "_workspace/verification/spatial-public-v1/qa/"
+      ],
+      "dependencies": [
+        "frontend"
+      ]
+    }
+  ]
+}

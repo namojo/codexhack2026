@@ -38,3 +38,5 @@ SQL editor에서 마이그레이션을 적용하고 `rescue_workspace`, 분석 �
 공개 `/about/`, `/guide/`, `/references/`, `/judge/`, `llms.txt`, `llms-full.txt`는 JavaScript 없이 서비스 역할, 119 저장 항목, 10건·20보고의 합성 원문과 실제 미디어, 실제 실행과 한계를 읽게 한다. 현재 DB와 고정 seed 원문은 구분한다. `/judge/evidence.json`과 GitHub의 실행 기록을 연결한다.
 
 인원·위치 정확도, ASR 오류율, 검토 시간 감소, 구조 성과와 공식 119 연계는 아직 평가하지 않았다.
+
+공간정보 공개 통합 후 독립 회귀는 Python101(공간8 추가), AI API37, Codex23, 저장21 전부 통과했다. 최초 GitHub CI의 로컬 디렉터리명 단언 실패는 공백 없는 체크아웃에서 재현한 후 경로 기준을 수정했다. 제품이 아닌 검사 이식성 수정이며 공백 경로 실제 파일 읽기 검사를 함께 유지했다.
