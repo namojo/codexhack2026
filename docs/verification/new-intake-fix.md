@@ -21,3 +21,15 @@
 제작과 분리한 독립 QA가 신규 실패·복구 회귀 15개, AI 계약 50개, Python 전체 131개, Pages 21개, Codex 경계 23개, 대표 사례 6개 및 fixture 20사례·91검사를 통과했다. 첫 Python 실행의 loopback bind 샌드박스 오류는 허용된 동일 명령 재실행으로 확인했고 성공 결과와 구분해 보존했다. 기존 타이머 검사는 deadline과 interval의 취소·terminal 정리를 모두 확인하도록 갱신했다. 새 회귀는 GitHub CI에도 추가했다.
 
 메인은 Netlify 미리보기 `6ac8b66bbd83ccda1d2c99fd`에서 실제 브라우저로 같은 줄바꿈 입력을 분석해 ready 초안을 확인했다. 인원 3명, 활성화된 재분석·담당자 확인 버튼, 재분석 클릭 후 수정 가능한 원문과 LF 1개 보존, 콘솔 오류 0건을 확인했다. 이 시연은 담당자 확정 전 중단했으므로 새 사건을 생성하지 않았다.
+
+## 운영 배포 확인
+
+- 코드 커밋: `986ec456d87a8571f22a6bb9fb250b5a06ebf40e`.
+- Netlify 배포: `6ac8b7a35b87ec3a482a2b04`, [운영 사이트](https://namojo-hack-test.netlify.app/).
+- 운영 `build-info.json`의 커밋이 일치하고, 내려받은 `app.js`와 `cloud-client.js`가 로컬 수정 파일과 SHA-256 기준으로 일치했다.
+- [GitHub CI](https://github.com/namojo/codexhack2026/actions/runs/37913227981)는 completed / success다.
+- 실제 운영 브라우저에서 기존 실패 초안을 복구한 뒤 활성화된 재분석 버튼으로 입력 화면을 열었다. 원문의 LF 1개와 110자, 수정 가능한 입력 상태를 확인하고 그대로 재분석했다.
+- 새 작업 `AI-eaa9d024-ce42-4bcb-a466-0430ffb00527`이 실제 OpenAI API 분석 초안으로 표시되었다. 인원 3명, 잠실 롯데타워 지하주차장, 침수·고립 상황과 근거가 표시되었고 재분석·담당자 최종 확인 버튼이 활성화되었다. 브라우저 콘솔 오류는 0건이다.
+- 담당자 확인 체크박스와 최종 등록은 실행하지 않았다. 기존 실패 작업과 원문을 보존하고 새 초안을 검토 화면에 남겼다. 화면 증거는 로컬 `_workspace/verification/new-intake-fix-v1/production-ready.png`에 저장했다.
+
+이번 운영 검증은 위 문자 신고의 실패 복구·재분석 흐름이다. 사진·음성의 추가 실호출, 실제 신고 연동, 현장 구조 성과 평가는 수행하지 않았다.
