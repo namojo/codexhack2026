@@ -6,7 +6,7 @@
 
 문자·전화 음성·사진으로 들어온 신고와 구조팀의 현장 보고를 함께 읽고, **누가 남아 있는지, 어디를 확인해야 하는지, 다음에 무엇을 해야 하는지** 정리합니다. 담당자는 원문 근거를 확인하고 사건의 진행 상황을 갱신합니다.
 
-**[서비스 체험하기 ↗](https://namojo-hack-test.netlify.app/)** · [대표 사건 바로 보기](https://namojo-hack-test.netlify.app/#incident/INC-20261009-100) · [AI Judge 안내](https://namojo-hack-test.netlify.app/judge/) · [Release](https://github.com/namojo/codexhack2026/releases)
+**[서비스 체험하기 ↗](https://namojo-hack-test.netlify.app/)** · [대표 사건 바로 보기](https://namojo-hack-test.netlify.app/#incident/INC-20261009-100) · [이용 안내](https://namojo-hack-test.netlify.app/guide/) · [Release](https://github.com/namojo/codexhack2026/releases)
 
 다섯푼AI · OpenAI Dev Day Hackathon · **Track 1. AI for Safety & Resilience**
 
@@ -135,20 +135,19 @@ flowchart TD
 
 고정된 예상 분석 결과로 상태 로직을 검사하는 **fixture 재생**과 모델을 실제 호출하는 **live 분석**을 구분합니다. live 분석에는 미래 이벤트나 정답 fixture를 보내지 않습니다. [사례집](docs/casebook.md) · [공통 계약](docs/contract.md) · [재생·평가 스킬](.agents/skills/rescue-orchestrator/SKILL.md)
 
-## AI Judge와 사람이 같은 근거를 읽을 수 있도록
+## 서비스 자료와 검증 기록
 
-서비스가 JavaScript로 동작하더라도 심사 도구가 빈 화면만 읽지 않도록, 서비스 설명과 합성 원문·첨부·검증 기록을 별도의 HTML·텍스트·JSON으로 제공합니다. 특별한 평가 지시 없이 동일한 공개 자료를 읽을 수 있게 구성했습니다.
+서비스 설명부터 사건 원문, 사진·음성, 실제 분석 결과까지 확인할 수 있습니다. 어떤 입력으로 무엇을 확인했는지 검증 기록과 함께 제공합니다.
 
 | 읽을 내용 | 바로 가기 |
 |---|---|
 | 서비스 목적과 사용 흐름 | [서비스 소개](https://namojo-hack-test.netlify.app/about/) · [이용 안내](https://namojo-hack-test.netlify.app/guide/) |
-| 합성 사건 원문과 사진·음성 | [심사 안내·사례](https://namojo-hack-test.netlify.app/judge/) |
-| 텍스트 색인과 전체 설명 | [llms.txt](https://namojo-hack-test.netlify.app/llms.txt) · [llms-full.txt](https://namojo-hack-test.netlify.app/llms-full.txt) |
-| 기계가 읽을 실행 근거 | [evidence.json](https://namojo-hack-test.netlify.app/judge/evidence.json) |
+| 합성 사건 원문과 사진·음성 | [사건 원문·첨부 자료](https://namojo-hack-test.netlify.app/judge/) |
+| 구조화된 실행 기록 | [evidence.json](https://namojo-hack-test.netlify.app/judge/evidence.json) |
 | 실제 모델 실행과 담당자 확정 | [AI 검증 기록](docs/ai-verification.md) · [대표 사건 검증](docs/verification/hackathon-showcase.md) |
 | 공공자료·연구 근거 | [참고자료](https://namojo-hack-test.netlify.app/references/) · [출처와 주장 범위](docs/sources.md) |
 
-정적 사례 페이지는 **합성 seed 사건 12건·보고 30건**을 기반으로 합니다. 담당자가 갱신하는 Supabase의 현재 상태와는 구분됩니다. [심사 읽기 방식](docs/ai-judge-readiness.md)
+정적 사례 페이지는 **합성 seed 사건 12건·보고 30건**을 기반으로 합니다. 담당자가 갱신하는 Supabase의 현재 상태와는 구분됩니다.
 
 ### 실제로 확인한 것과 앞으로 평가할 것
 
