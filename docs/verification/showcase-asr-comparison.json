@@ -1,0 +1,16 @@
+{
+  "synthetic": true,
+  "transcripts": [
+    {
+      "attachment_id": "MEDIA-PARKING-NOISY",
+      "text": "여기는 가산동 한빛복합센터 지하 2층 주차장이에요. 기둥 C07 근처에 여자 세 명이 있어요. 할머니와 여자아이, 저예요. 비상등만 켜져 있고 물이 계속 들어와요. 계단으로 나갈 수 없어요.",
+      "model": "gpt-4o-mini-transcribe"
+    },
+    {
+      "attachment_id": "MEDIA-PARKING-ENHANCED",
+      "text": "여기는 가산동 한빛 복합센터 지하 2층 주차장이에요. 기둥 C07 근처에 여자 3명이 있어요. 할머니와 여자아이, 저예요. 비상등만 켜져 있고 물이 계속 들어와요. 계단으로 나갈 수 없어요.",
+      "model": "gpt-4o-mini-transcribe"
+    }
+  ],
+  "scope": "actual ASR of final noisy and DSP WAV; not speech separation or accuracy measurement"
+}

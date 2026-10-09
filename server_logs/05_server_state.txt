@@ -1,0 +1,28 @@
+server_id=SERVER_01
+collected_at=2026-10-09T06:01:17.374818Z
+os=managed service host OS/kernel/architecture unavailable
+project_accounts=ACCOUNT_01
+account_scope=project owner authorization/self-report; full provider admin list unavailable
+project_processes=static site + Node Functions; deployment provider reports ready; host PIDs unavailable
+project_containers=N/A; provider internal containers unavailable
+deployed_git_sha=bc60ecfffed67d612c83202b66035ce7512b3195
+git_sha_scope=client application deployment; not provider OS or database schema Git identity
+working_tree=uncommitted changes (the five evidence files only); deployed code SHA separately verified
+limitations=client/project metadata snapshot; no login/session logs or source IP; does not prove full event-period state
+
+server_id=SERVER_02
+collected_at=2026-10-09T06:01:17.374818Z
+os=managed service host OS/kernel/architecture unavailable
+project_accounts=ACCOUNT_02
+account_scope=project owner authorization/self-report; full provider admin list unavailable
+project_processes=managed PostgreSQL/Storage/RPC; client verified workspace revision13; host PIDs unavailable
+project_containers=N/A; provider internal containers unavailable
+deployed_git_sha=bc60ecfffed67d612c83202b66035ce7512b3195
+git_sha_scope=client application deployment; not provider OS or database schema Git identity
+working_tree=uncommitted changes (the five evidence files only); deployed code SHA separately verified
+limitations=client/project metadata snapshot; no login/session logs or source IP; does not prove full event-period state
+
+local_development_reference=LOCAL_01; not an external server
+local_os=Darwin 25.6.0 arm64
+local_project_process=node; PID 39960 observed (not commandline)
+local_process_note=development process only; not Netlify/Supabase host state

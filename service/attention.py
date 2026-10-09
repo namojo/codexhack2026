@@ -206,5 +206,7 @@ def derive_attention(incident):
 def attention_sort_key(incident):
     levels = [LEVEL_ORDER[item["level"]] for item in incident.get("attention", [])]
     created = _instant(incident.get("created_at"))
-    return (min(levels, default=3), PRIORITY_ORDER.get(incident.get("priority"), 2),
+    # Presentation pin precedes attention ordering without changing its evidence/level.
+    return (0 if incident.get("demo_featured") is True else 1,
+            min(levels, default=3), PRIORITY_ORDER.get(incident.get("priority"), 2),
             created if created is not None else float("inf"), incident.get("id", ""))

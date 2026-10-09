@@ -48,9 +48,9 @@ class ServiceWorkflowQA(unittest.TestCase):
 
     def test_seed_has_all_work_states_and_local_evidence(self):
         data=self.store.list_incidents()
-        self.assertEqual(len(data['incidents']),10)
+        self.assertEqual(len(data['incidents']),12)
         self.assertEqual({i['status'] for i in data['incidents']},{'received','dispatched','on_scene','rescuing','reviewing','closed'})
-        self.assertEqual(len(data['resources']),4)
+        self.assertEqual(len(data['resources']),5)
         refs=[]
         for i in data['incidents']:
             self.assertTrue(i['synthetic'])
@@ -61,9 +61,15 @@ class ServiceWorkflowQA(unittest.TestCase):
                 for a in r['attachments']:
                     p=self.store.allowed_media(a['url']); self.assertGreater(p.stat().st_size,1000);refs.append(a['url'])
                     if a['media_type']=='audio':
-                        self.assertEqual(a['transcript'],r['text'])
+
+                        if a['url'].startswith('/media/parking-'):
+                            provenance=json.loads((ROOT/'data/media/provenance.json').read_text())
+                            source=next(x for x in provenance['audio'] if x['path'].endswith(a['filename']))
+                            self.assertEqual(a['transcript'],source['transcript'])
+                            self.assertEqual(source['transcript_source'],'TTS script, not ASR')
+                        else:self.assertEqual(a['transcript'],r['text'])
                         with wave.open(str(p)) as w: self.assertGreater(w.getnframes()/w.getframerate(),5)
-        self.assertEqual(len(set(refs)),4)
+        self.assertEqual(len(set(refs)),8)
 
     def test_additional_report_does_not_overwrite_original_or_implicitly_correct_count(self):
         i=self.create(); original=copy.deepcopy(i['reports'][0]); i=self.report(i,2,'additional')

@@ -209,10 +209,10 @@ class RoutingIndependentQA(unittest.TestCase):
             self.assertEqual((output / 'routes/network.json').read_bytes(), (ROOT / 'data/routing/network.json').read_bytes())
             self.assertEqual((output / 'routes/flood-history.json').read_bytes(), (ROOT / 'data/routing/flood-history.json').read_bytes())
             markup = Markup((output / 'index.html').read_text())
-            menu = [a['href'] for a in markup.links if a.get('data-local-only') == 'routes']
+            menu = [a['href'] for a in markup.links if a.get('data-nav') == 'routes']
             self.assertEqual(len(menu), 1)
             target = urlparse(urljoin('https://example.invalid/review/index.html', menu[0])).path
-            self.assertEqual(target, '/review/routes/index.html')
+            self.assertEqual(target, '/review/routes/')
             info = json.loads((output / 'build-info.json').read_text())
             self.assertEqual(info['route_page'], 'routes/index.html')
             self.assertIn('ODbL', info['route_data_license'])
@@ -225,12 +225,12 @@ class RoutingIndependentQA(unittest.TestCase):
             self.assertIn('OA-15636', info['flood_history_source'])
         self.assertEqual(before_seed, digest(ROOT / 'data/seed.json'))
 
-    def test_default_static_build_excludes_routes_and_menu(self):
+    def test_explicit_static_build_exclusion_has_no_broken_routes_menu(self):
         with tempfile.TemporaryDirectory(prefix='routing-default-qa-') as temp:
-            output = Path(temp) / 'default'
-            builder.build(output)
+            output = Path(temp) / 'explicit-exclusion'
+            builder.build(output, include_routes=False)
             self.assertFalse((output / 'routes').exists())
-            self.assertFalse(any(a.get('data-local-only') == 'routes' for a in Markup((output / 'index.html').read_text()).links))
+            self.assertFalse(any(a.get('data-nav') == 'routes' for a in Markup((output / 'index.html').read_text()).links))
             info = json.loads((output / 'build-info.json').read_text())
             self.assertNotIn('route_page', info)
             self.assertFalse(any(name.startswith('routes/') for name in info['files_sha256']))
@@ -311,7 +311,7 @@ class RoutingIndependentQA(unittest.TestCase):
                         if include:
                             self.assertEqual((output / 'routes/flood-history.json').read_bytes(), (ROOT / 'data/routing/flood-history.json').read_bytes())
                             self.assertEqual(info['source_sha256']['data/routing/flood-history.json'], digest(ROOT / 'data/routing/flood-history.json'))
-                        self.assertEqual(len(json.loads((output / 'seed.json').read_text())['incidents']), 10)
+                        self.assertEqual(len(json.loads((output / 'seed.json').read_text())['incidents']), 12)
         self.assertEqual(before, digest(ROOT / 'data/seed.json'))
 
     def test_flood_provenance_geometry_privacy_and_network_link(self):

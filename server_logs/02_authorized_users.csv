@@ -1,0 +1,3 @@
+server_id,participant_id,account,access_method,ssh_fingerprint,role
+SERVER_01,MEMBER_01,ACCOUNT_01,HTTPS CLI/API/web console,N/A,프로젝트 소유자 승인 배포·점검; SSH 미사용
+SERVER_02,MEMBER_01,ACCOUNT_02,server-side HTTPS API/RPC,N/A,합성 DB 운영 서비스 역할; SSH 미사용

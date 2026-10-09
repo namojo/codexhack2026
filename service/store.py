@@ -175,7 +175,9 @@ class Store:
 
     def _validate_seed(self, incident):
         required = {"id", "title", "category", "location", "priority", "status", "summary", "people_count", "revision", "created_at", "updated_at", "assigned_team_id", "synthetic", "reports", "progress", "audit", "outcome", "outcome_history", "checks"}
-        body_fields(incident, required, required)
+        body_fields(incident, required | {"demo_featured"}, required)
+        if "demo_featured" in incident and type(incident["demo_featured"]) is not bool:
+            raise APIError(400, "발표 대표 사례 표시는 boolean이어야 합니다.")
         if incident["synthetic"] is not True:
             raise APIError(400, "합성 사건만 초기화할 수 있습니다.")
         for key in ("id", "title", "location", "created_at", "updated_at"):

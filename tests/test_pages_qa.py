@@ -31,19 +31,20 @@ class PagesIndependentQA(unittest.TestCase):
     def test_public_build_allowlist_hashes_and_synthetic_counts(self):
         output = self.build()
         expected = {'index.html', 'app.js', 'style.css', 'pages-store.js', 'seed.json', '.nojekyll', 'build-info.json',
-                    'media/flood-entrance.png', 'media/flood-stairwell.png', 'media/call-isolated.wav', 'media/call-proxy.wav', 'media/provenance.json',
+                    'media/flood-entrance.png', 'media/flood-stairwell.png', 'media/call-isolated.wav', 'media/call-proxy.wav', 'media/provenance.json', 'media/parking-pillar-dark.png', 'media/parking-stair-flood.png', 'media/parking-call-noisy.wav', 'media/parking-call-enhanced.wav',
                     'about/index.html', 'guide/index.html', 'references/index.html', 'judge/index.html', 'judge/evidence.json',
                     'public-guide.css', 'llms.txt', 'llms-full.txt', 'sitemap.xml', 'robots.txt',
                     'spatial/index.html', 'spatial/app.js', 'spatial/style.css', 'spatial/assets/floor-model.json',
                     'spatial/assets/analysis.json', 'spatial/assets/report.json', 'spatial/assets/provenance.json',
                     'spatial/assets/synthetic-report.png', 'spatial/assets/walkthrough.mp4',
                     'spatial/assets/walkthrough-poster.png', 'spatial/assets/walkthrough.ko.vtt',
-                    'spatial/assets/walkthrough.json'}
+                    'spatial/assets/walkthrough.json', 'routes/index.html', 'routes/app.js',
+                    'routes/style.css', 'routes/engine.js', 'routes/network.json', 'routes/flood-history.json'}
         self.assertEqual({str(p.relative_to(output)) for p in output.rglob('*') if p.is_file()}, expected)
         bundle = json.loads((output / 'seed.json').read_text())
         self.assertTrue(bundle['synthetic'])
-        self.assertEqual(len(bundle['incidents']), 10)
-        self.assertEqual(sum(len(i['reports']) for i in bundle['incidents']), 20)
+        self.assertEqual(len(bundle['incidents']), 12)
+        self.assertEqual(sum(len(i['reports']) for i in bundle['incidents']), 30)
         self.assertTrue(all(i['synthetic'] for i in bundle['incidents']))
         info = json.loads((output / 'build-info.json').read_text())
         for name, digest in info['files_sha256'].items():
@@ -83,7 +84,7 @@ class PagesIndependentQA(unittest.TestCase):
     def test_generated_media_exact_allowlist_provenance_preserved(self):
         output = self.build()
         media = output / 'media'
-        for name in ['flood-entrance.png', 'flood-stairwell.png', 'call-isolated.wav', 'call-proxy.wav', 'provenance.json']:
+        for name in ['flood-entrance.png', 'flood-stairwell.png', 'call-isolated.wav', 'call-proxy.wav', 'parking-pillar-dark.png', 'parking-stair-flood.png', 'parking-call-noisy.wav', 'parking-call-enhanced.wav', 'provenance.json']:
             self.assertEqual((media / name).read_bytes(), (ROOT / 'data/media' / name).read_bytes())
         self.assertTrue(json.loads((media / 'provenance.json').read_text())['synthetic'])
 

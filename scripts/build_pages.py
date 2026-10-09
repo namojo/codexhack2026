@@ -21,7 +21,9 @@ from scripts.judge_pages import write_public_pages
 PRODUCT = 'rescue-synthetic-static-v1'
 UI_FILES = ('index.html', 'app.js', 'style.css', 'pages-store.js')
 MEDIA = {'flood-entrance.png': 'image/png', 'flood-stairwell.png': 'image/png',
-         'call-isolated.wav': 'audio/wav', 'call-proxy.wav': 'audio/wav'}
+         'call-isolated.wav': 'audio/wav', 'call-proxy.wav': 'audio/wav',
+         'parking-pillar-dark.png': 'image/png', 'parking-stair-flood.png': 'image/png',
+         'parking-call-noisy.wav': 'audio/wav', 'parking-call-enhanced.wav': 'audio/wav'}
 SPATIAL_FILES = ('index.html', 'app.js', 'style.css', 'assets/floor-model.json',
                  'assets/analysis.json', 'assets/report.json', 'assets/provenance.json',
                  'assets/synthetic-report.png', 'assets/walkthrough.mp4',
@@ -33,7 +35,7 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def build(output: Path, mode: str = 'offline', include_routes: bool = False) -> dict:
+def build(output: Path, mode: str = 'offline', include_routes: bool = True) -> dict:
     if mode not in ('offline', 'cloud'):
         raise ValueError('빌드 모드는 offline 또는 cloud여야 합니다.')
     # Refuse replacing source directories, ancestors, symlinks or unrelated artifacts.
@@ -49,8 +51,8 @@ def build(output: Path, mode: str = 'offline', include_routes: bool = False) -> 
             raise ValueError('기존 출력은 이 빌더의 산출물이어야 합니다. 별도 빈 디렉터리를 사용하세요.')
     seed_path = ROOT / 'data' / 'seed.json'
     original = json.loads(seed_path.read_text(encoding='utf-8'))
-    if original.get('synthetic') is not True or len(original.get('incidents', [])) != 10 or sum(len(i['reports']) for i in original['incidents']) != 20:
-        raise ValueError('공개 초기 자료는 합성 10사건·20보고여야 합니다.')
+    if original.get('synthetic') is not True or not original.get('incidents'):
+        raise ValueError('공개 초기 자료는 비어 있지 않은 합성 사건 목록이어야 합니다.')
     if any(i.get('synthetic') is not True for i in original['incidents']):
         raise ValueError('합성 사건만 공개할 수 있습니다.')
     # The temporary database is seeded only from data/seed.json, never workspace.sqlite3.
@@ -99,7 +101,7 @@ def build(output: Path, mode: str = 'offline', include_routes: bool = False) -> 
     info = {'product': PRODUCT, 'synthetic': True, 'built_at': datetime.now(timezone.utc).isoformat(),
             'git_commit': git.stdout.strip() if git.returncode == 0 else None,
             'storage': 'supabase-configured-at-runtime' if mode == 'cloud' else 'visitor-localStorage',
-            'mode': mode, 'incident_count': 10, 'report_count': 20,
+            'mode': mode, 'incident_count': len(original['incidents']), 'report_count': sum(len(i['reports']) for i in original['incidents']),
             'source_sha256': {str(p.relative_to(ROOT)): digest(p) for p in source_paths}}
     output.parent.mkdir(parents=True, exist_ok=True)
     stage = Path(tempfile.mkdtemp(prefix='.rescue-pages-build-', dir=output.parent))
@@ -133,6 +135,16 @@ def build(output: Path, mode: str = 'offline', include_routes: bool = False) -> 
         for name in (*MEDIA, 'provenance.json'):
             shutil.copyfile(ROOT / 'data' / 'media' / name, stage / 'media' / name)
         (stage / '.nojekyll').write_text('', encoding='utf-8')
+        if not include_routes:
+            # Strip all navigation into excluded route assets, including shared shell pages.
+            for document in stage.rglob('*.html'):
+                content = document.read_text(encoding='utf-8')
+                content = re.sub(r'<a\b[^>]*href=[\"\'](?:\.\./|/)?routes/[^\"\']*[\"\'][^>]*>.*?</a>', '', content, flags=re.S)
+                document.write_text(content, encoding='utf-8')
+            for filename in ('llms.txt', 'llms-full.txt', 'sitemap.xml'):
+                content = (stage / filename).read_text(encoding='utf-8')
+                content = re.sub(r'^.*https://namojo-hack-test.netlify.app/routes/.*\n', '', content, flags=re.M) if filename.endswith('.txt') else content.replace('<url><loc>https://namojo-hack-test.netlify.app/routes/</loc></url>', '')
+                (stage / filename).write_text(content, encoding='utf-8')
         info['files_sha256'] = {str(p.relative_to(stage)): digest(p) for p in sorted(stage.rglob('*')) if p.is_file()}
         (stage / 'build-info.json').write_text(json.dumps(info, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         if output.exists():
@@ -149,7 +161,7 @@ def build(output: Path, mode: str = 'offline', include_routes: bool = False) -> 
         if backup is not None:
             shutil.rmtree(backup)
         return {'output': str(output), 'files': sorted([*info['files_sha256'], 'build-info.json']),
-                'incident_count': 10, 'report_count': 20, 'git_commit': info['git_commit']}
+                'incident_count': len(original['incidents']), 'report_count': sum(len(i['reports']) for i in original['incidents']), 'git_commit': info['git_commit']}
     finally:
         if stage.exists():
             shutil.rmtree(stage)
@@ -159,7 +171,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, default=ROOT / 'dist' / 'pages')
     parser.add_argument('--mode', choices=['offline', 'cloud'], default='offline')
-    parser.add_argument('--include-routes', action='store_true', help='Include route review and public road snapshot; does not publish it')
+    parser.add_argument('--include-routes', action='store_true', default=True, help='Include route review and public road snapshot; does not publish it')
     args = parser.parse_args()
     try:
         print(json.dumps(build(args.output, args.mode, include_routes=args.include_routes), ensure_ascii=False))
