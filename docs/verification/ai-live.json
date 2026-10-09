@@ -1,7 +1,7 @@
 {
   "checked_at": "2026-10-09T04:03:52.502Z",
   "status": "passed",
-  "reason": "실제 OpenAI API 문자·사진·음성 세 사례와 로컬 Codex CLI·Whisper 다매체 분석을 검증했습니다. 담당자 확인 후 Supabase 저장과 중복 등록 방지까지 검증했습니다. 공개 API 활성화는 승인 대기이며 정확도·업무 시간 절감·실제 구조 성과 평가는 미실행입니다.",
+  "reason": "실제 OpenAI API 문자·사진·음성 세 사례와 로컬 Codex CLI·Whisper 다매체 분석을 검증했습니다. 담당자 확인 후 Supabase 저장과 중복 등록 방지까지 검증했습니다. 정확도·업무 시간 절감·실제 구조 성과 평가는 미실행입니다.",
   "runs": [
     {
       "case": "partial-rescue-text",
@@ -1564,7 +1564,6 @@
     "credits_available": true,
     "record": "openai-funded-passed.json",
     "prior_failure_record": "openai-funded-first.json",
-    "public_activation": "approval_pending",
     "human_confirmation": "openai-human-confirmed.json",
     "stale_confirm_http": 409
   },

@@ -195,6 +195,62 @@ class SpatialPublicQA(unittest.TestCase):
             self.assertNotIn('SUPABASE_SERVICE_ROLE_KEY=', main)
             self.assertNotIn('OPENAI_API_KEY=', main)
 
+    def test_shared_brand_native_seven_routes_and_spatial_current(self):
+        routes = ['dashboard', 'attention', 'active', 'field', 'results', 'resources', 'settings']
+        for mode, output in self.outputs.items():
+            with self.subTest(mode=mode):
+                html = (output / 'spatial/index.html').read_text()
+                doc = Document(html)
+                menu = [(a['data-nav'], a) for tag, a in doc.elements if tag == 'a' and 'data-nav' in a]
+                self.assertEqual([name for name, a in menu], routes + ['spatial'])
+                for name, a in menu:
+                    self.assertFalse(any(key.startswith('on') for key in a))
+                    if name == 'spatial':
+                        self.assertEqual(a['href'], './')
+                        self.assertEqual(a.get('aria-current'), 'page')
+                    else:
+                        self.assertEqual(a['href'], '../#' + name)
+                        self.assertNotIn('aria-current', a)
+                        self.assertEqual(urljoin('https://qa.test/spatial/', a['href']), 'https://qa.test/#' + name)
+                brand = [a for tag, a in doc.elements if tag == 'a' and a.get('class') == 'brand']
+                self.assertEqual(len(brand), 1)
+                self.assertEqual(brand[0]['href'], '../#dashboard')
+                for classes in ('topbar', 'app-shell', 'sidebar', 'topbar-tools', 'brand-sub', 'synthetic-badge'):
+                    self.assertTrue(any(classes in a.get('class', '').split() for tag, a in doc.elements), classes)
+                self.assertTrue(any(tag == 'nav' and a.get('aria-label') == '주요 업무' for tag, a in doc.elements))
+                self.assertTrue(any(tag == 'a' and a.get('class') == 'skip-link' and a['href'] == '#workspace' for tag, a in doc.elements))
+                self.assertTrue(any(tag == 'main' and a.get('id') == 'workspace' and a.get('tabindex') == '-1' for tag, a in doc.elements))
+                self.assertIn('신고·구조 상황관리', html)
+                self.assertNotIn('src="../app.js"', html)
+
+    def test_shared_css_keyboard_full_anchor_and_mobile_scroll_contract(self):
+        import re
+        for mode, output in self.outputs.items():
+            with self.subTest(mode=mode):
+                doc = Document((output / 'spatial/index.html').read_text())
+                css = [a['href'] for tag, a in doc.elements if tag == 'link' and a.get('rel') == 'stylesheet']
+                self.assertEqual(css, ['../style.css', 'style.css'])
+                shared = (output / 'style.css').read_text()
+                own = (output / 'spatial/style.css').read_text()
+                self.assertEqual(shared, (ROOT / 'web/style.css').read_text())
+                self.assertRegex(shared, r'\.sidebar nav a\{[^}]*display:flex')
+                self.assertRegex(shared, r'\.sidebar nav a\[aria-current=page\]\{[^}]*background:')
+                self.assertRegex(own, r'\.sidebar nav a\{[^}]*min-height:44px')
+                self.assertRegex(own, r'\.sidebar nav a:focus-visible\{[^}]*outline:3px')
+                self.assertIn('@media(max-width:720px)', own)
+                self.assertRegex(shared, r'\.sidebar nav\{[^}]*flex-direction:row[^}]*overflow-x:auto')
+                self.assertRegex(own, r'\.sidebar nav a\{[^}]*flex:0 0 auto;white-space:nowrap')
+                self.assertRegex(own, r'\.app-shell>main\{[^}]*min-width:0')
+                self.assertIn(':focus-visible', shared)
+                # CSS contract inspection is not actual layout/44px measurement.
+
+    def test_public_docs_have_no_default_twenty_job_quota_claim(self):
+        for mode, output in self.outputs.items():
+            for name in ('judge/index.html', 'judge/evidence.json', 'llms.txt', 'llms-full.txt', 'guide/index.html'):
+                with self.subTest(mode=mode, file=name):
+                    text = (output / name).read_text()
+                    self.assertNotRegex(text, r'(?:일일|하루|기본).{0,20}20(?:회|건)|20(?:회|건).{0,20}(?:제한|한도)')
+
     def test_independent_runtime_navigation_candidates_labels_and_photo(self):
         p = subprocess.run(['node', '-e', NODE_UI, str(self.outputs['cloud'] / 'spatial')], capture_output=True, text=True, timeout=20)
         self.assertEqual(p.returncode, 0, p.stdout + p.stderr)

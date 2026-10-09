@@ -4,7 +4,7 @@
 
 ## 기본 해커톤 시연
 
-사용자 요청에 따라 실제 분석은 ChatGPT 로그인 Codex CLI의 로컬 실행으로 시연한다. API 크레딧을 소비하는 OpenAI 어댑터는 나중 설정으로 유지한다. `codex login` 후 로컬 Node 시연 서버를 실행하고, 콘솔 AI 설정에서 연결 상태와 음성 전사 방식을 확인한다. CLI 인증 정보는 앱이 읽거나 클라우드에 복사하지 않는다. 실행 명령과 검증 결과는 [Codex 시연](codex-demo.md)에 정리한다.
+OpenAI API 서버 연결 또는 ChatGPT 로그인 Codex CLI의 로컬 실행으로 시연할 수 있다. `codex login` 후 로컬 Node 시연 서버를 실행하고, 콘솔 AI 설정에서 연결 상태와 음성 전사 방식을 확인한다. CLI 인증 정보는 앱이 읽거나 클라우드에 복사하지 않는다. 실행 명령과 검증 결과는 [Codex 시연](codex-demo.md)에 정리한다.
 
 ## 서버 환경변수
 
@@ -19,7 +19,6 @@ Netlify의 해당 사이트 Project configuration → Environment variables에 �
 |`OPENAI_TRANSCRIBE_MODEL`|음성 전사 모델; 기본 `gpt-4o-mini-transcribe`|
 |`BACKGROUND_HMAC_SECRET`|서버가 분석 background 요청을 서명하는 비밀; 메인이 Netlify 서버에 생성 등록|
 |`AI_PROVIDER`|공개 기본 `disabled`; API 사용 시 `openai`; 로컬 시연 기본 `codex_cli`|
-|`AI_DAILY_LIMIT`|공개 합성 데모의 일일 분석 한도; 기본 20회|
 
 환경변수 이름 목록의 확인은 연결 성공을 의미하지 않는다. 모델 접근 권한·API 요금·DB schema/Storage 권한은 실제 요청으로 검증해야 한다.
 
