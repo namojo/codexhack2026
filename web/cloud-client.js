@@ -19,10 +19,11 @@
   async function createAnalysis(body){if(!(config?.ai?.enabled??config?.ai?.configured)||mode!=='cloud')throw new ServiceError(503,'이 연결에서는 AI 분석을 사용할 수 없습니다. 담당자 직접 입력을 사용하세요.');const result=await request('/api/ai/analyses',{method:'POST',body});remember(result.id);return result;}
   function getAnalysis(id,options){return request(analysisPath(id),options);}
   async function confirm(id,body){const result=await request(analysisPath(id)+'/confirm',{method:'POST',body});remember(null);return result;}
-  function startPolling(id,{onUpdate,onError,interval=1800}={}){
-   if(pollCancel)pollCancel();let stopped=false,timer=null,controller=null;
-   const stop=()=>{stopped=true;if(timer!==null)clearTimer(timer);controller?.abort();};pollCancel=stop;
-   async function tick(){if(stopped)return;controller=new AbortController();try{const value=await getAnalysis(id,{signal:controller.signal});if(stopped)return;onUpdate?.(value);if(!['queued','running'].includes(value.status)){stop();return;}timer=setTimer(tick,interval);}catch(error){if(stopped)return;stop();onError?.(error);}}tick();return stop;
+  function startPolling(id,{onUpdate,onError,interval=1800,timeout=10*60*1000}={}){
+   if(pollCancel)pollCancel();let stopped=false,timer=null,deadline=null,controller=null;
+   const stop=()=>{stopped=true;if(timer!==null)clearTimer(timer);if(deadline!==null)clearTimer(deadline);controller?.abort();};pollCancel=stop;
+   deadline=setTimer(()=>{if(stopped)return;stop();onError?.(new ServiceError(408,'분석 결과 대기 시간이 초과되었습니다. 초안을 복구하거나 원문으로 재분석하세요.','analysis_timeout'));},timeout);
+   async function tick(){if(stopped)return;controller=new AbortController();try{const value=await getAnalysis(id,{signal:controller.signal});if(stopped)return;onUpdate?.(value);if(stopped)return;if(!['queued','running'].includes(value.status)){stop();return;}timer=setTimer(tick,interval);}catch(error){if(stopped)return;stop();onError?.(error);}}tick();return stop;
   }
   return {boot,request,getSettings,setProvider,createAnalysis,getAnalysis,confirm,startPolling,remember,remembered,get mode(){return mode;},get config(){return config;}};
  }

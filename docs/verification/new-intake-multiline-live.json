@@ -1,0 +1,32 @@
+{
+  "synthetic": true,
+  "date": "2026-10-09",
+  "scope": "신규 줄바꿈 문자 분석 오류 재현과 수정 후 실제 모델 재검증; 담당자 확정 전 초안만 분석",
+  "before": {
+    "http_status": 400,
+    "error_code": "invalid_json_schema",
+    "parameter": "text.format.schema",
+    "cause": "원문 줄바꿈이 strict JSON Schema quote enum에 포함되어 공급자 거절",
+    "incidents": 13,
+    "reports": 35
+  },
+  "after": {
+    "status": "validated",
+    "provider": "openai",
+    "model": "gpt-4.1-mini",
+    "response_id": "resp_0aca4665d6fa0295016ac8b5e053fc87d187f833cb42c06661",
+    "attempt_count": 1,
+    "newline_count": 1,
+    "people_count": 3,
+    "intake_people_count": 3,
+    "evidence_count": 6,
+    "report_sha256": "c2f1daf48b5ba96aca2333475bd7bf2b8fcdcc4b7c34579139e15a51a3d099ac",
+    "incident_mutated": false
+  },
+  "preserved": [
+    "원문 줄바꿈 및 원문 ID",
+    "사진 관찰과 텍스트·전사 인용의 구분",
+    "실제 원문 연속 인용 후검증",
+    "담당자 확인 전 사건 상태 불변"
+  ]
+}

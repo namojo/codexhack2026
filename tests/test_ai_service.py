@@ -40,6 +40,27 @@ class AIServiceQA(unittest.TestCase):
     def validate(self, dto=None, report=None, transcripts=None):
         return ai.validate_analysis(dto or self.dto, report or self.report, [], transcripts or [])
 
+    def test_multiline_input_existing_report_and_asr_keep_exact_source_binding(self):
+        for separator in ("\n", "\r\n", "\t"):
+            with self.subTest(separator=repr(separator)):
+                report = copy.deepcopy(self.report)
+                report["text"] = "합성 첫째" + separator + "합성 둘째"
+                report["attachments"] = [{"id": "A", "media_type": "audio"}]
+                incidents = [{"id": "I", "reports": [{"id": "R", "text": "이전 첫째" + separator + "이전 둘째"}]}]
+                transcripts = [{"attachment_id": "A", "text": "전사 첫째" + separator + "전사 둘째", "model": "mock-asr"}]
+                before = copy.deepcopy((report, incidents, transcripts))
+                for source, kind, quote in (("input", "text", "합성 둘째"), ("R", "text", "이전 둘째"), ("A", "audio_transcript", "전사 둘째")):
+                    dto = copy.deepcopy(self.dto)
+                    dto["transcripts"] = copy.deepcopy(transcripts)
+                    dto["evidence"] = [{"field": "summary", "source_id": source, "type": kind, "quote": quote, "observation": None}]
+                    ai.validate_analysis(dto, report, incidents, transcripts)
+                    for bad_source, bad_quote in (("unknown", quote), (source, "허위 인용"), ("input" if source != "input" else "R", quote)):
+                        bad = copy.deepcopy(dto)
+                        bad["evidence"][0].update(source_id=bad_source, quote=bad_quote)
+                        with self.assertRaises(ValueError):
+                            ai.validate_analysis(bad, report, incidents, transcripts)
+                self.assertEqual((report, incidents, transcripts), before)
+
     def test_all_keys_and_nulls_are_required(self):
         self.validate()
         for mutation in (lambda a: a.pop("handoff"), lambda a: a.update(status="closed"), lambda a: a["proposed_changes"].update(people_count=True), lambda a: a["intake119"]["location"].update(gps={"latitude": 91, "longitude": 0}), lambda a: a["authenticity"].update(status="true")):

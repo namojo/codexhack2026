@@ -13,13 +13,14 @@ export function canonicalJSON(value){
 }
 export const hash=v=>createHash('sha256').update(canonicalJSON(v)).digest('hex');
 export const schema=analysisSchema;
-export function validateSchema(v,s=schema,path='analysis') {
- if(s.anyOf){if(!s.anyOf.some(x=>{try{validateSchema(v,x,path);return true;}catch{return false;}}))throw new APIError(502,`AI 형식 오류: ${path}`);return;}
+export function validateSchema(v,s=schema,path='analysis',root=s) {
+ if(s.$ref){const target=s.$ref.startsWith('#/$defs/')?root.$defs?.[s.$ref.slice(8)]:null;if(!target)throw new APIError(502,`AI 참조 형식 오류: ${path}`);return validateSchema(v,target,path,root);}
+ if(s.anyOf){if(!s.anyOf.some(x=>{try{validateSchema(v,x,path,root);return true;}catch{return false;}}))throw new APIError(502,`AI 형식 오류: ${path}`);return;}
  if(s.enum&&!s.enum.some(x=>x===v))throw new APIError(502,`AI enum 오류: ${path}`);
  if(s.type){const types=Array.isArray(s.type)?s.type:[s.type];const type=v===null?'null':Array.isArray(v)?'array':typeof v==='number'&&Number.isInteger(v)?'integer':typeof v==='object'?'object':typeof v;if(!types.includes(type)&&!(type==='integer'&&types.includes('number')))throw new APIError(502,`AI 자료형 오류: ${path}`);}
  if(typeof v==='number'&&(!Number.isFinite(v)||s.minimum!==undefined&&v<s.minimum||s.maximum!==undefined&&v>s.maximum))throw new APIError(502,`AI 범위 오류: ${path}`);
- if(v&&typeof v==='object'&&!Array.isArray(v)&&s.properties){if(Object.keys(v).some(k=>!Object.hasOwn(s.properties,k))||(s.required||[]).some(k=>!Object.hasOwn(v,k)))throw new APIError(502,`AI 키 오류: ${path}`);for(const [k,x] of Object.entries(v))validateSchema(x,s.properties[k],`${path}.${k}`);}
- if(Array.isArray(v)&&s.items)for(const x of v)validateSchema(x,s.items,path+'[]');
+ if(v&&typeof v==='object'&&!Array.isArray(v)&&s.properties){if(Object.keys(v).some(k=>!Object.hasOwn(s.properties,k))||(s.required||[]).some(k=>!Object.hasOwn(v,k)))throw new APIError(502,`AI 키 오류: ${path}`);for(const [k,x] of Object.entries(v))validateSchema(x,s.properties[k],`${path}.${k}`,root);}
+ if(Array.isArray(v)&&s.items)for(const x of v)validateSchema(x,s.items,path+'[]',root);
 }
 export function validateAnalysis(a,report,incidents,transcripts=[]) {
  validateSchema(a);const sources=new Map([['input',{type:'text',text:report.text}]]),candidates=new Map(incidents.map(i=>[i.id,i]));
@@ -44,17 +45,45 @@ export function sourceCatalog(report,incidents,transcripts=[]){
  }
  return sources;
 }
-// Constrain citations to the actual input catalog before generation. Full source quotes
+// Strict structured output enums reject control characters, including line breaks.
+// Keep the input untouched and offer only verbatim, nonblank contiguous segments.
+export function citationQuotes(text){return [...new Set(String(text??'').split(/[\u0000-\u001f\u007f-\u009f\u2028\u2029]+/u).filter(part=>part.trim()))];}
+// Constrain citations to the actual input catalog before generation. Verbatim quotes
 // avoid model normalization of ASR names/spacing; semantic validation still runs below.
 export function citationSchema(report,incidents,transcripts=[]){
  const result=structuredClone(schema),item=schema.properties.evidence.items;
- result.properties.evidence.items={anyOf:sourceCatalog(report,incidents,transcripts).map(source=>{
+ // Share the identical field enum instead of spending 13 enum values per source.
+ // Keep each source/type/exact quote combination in its own constrained branch.
+ result.$defs={evidence_field:structuredClone(item.properties.field)};
+ const branches=sourceCatalog(report,incidents,transcripts).flatMap(source=>{
+  const quotes=source.type==='image_observation'?null:citationQuotes(source.text);
+  if(quotes&&!quotes.length)return [];
   const branch=structuredClone(item);branch.properties.source_id={type:'string',enum:[source.source_id]};
+  branch.properties.field={$ref:'#/$defs/evidence_field'};
   branch.properties.type={type:'string',enum:[source.type]};
-  branch.properties.quote=source.type==='image_observation'?{type:'null'}:{type:'string',enum:[source.text]};
+  branch.properties.quote=source.type==='image_observation'?{type:'null'}:{type:'string',enum:quotes};
   branch.properties.observation=source.type==='image_observation'?{type:'string'}:{type:'null'};
   return branch;
- })};return result;
+ });
+ if(!branches.length)throw new APIError(400,'인용 가능한 원문 구간이 없습니다. 원문은 보존되었습니다.','ai_no_citable_sources');
+ result.properties.evidence.items={anyOf:branches};return result;
+}
+export function schemaMetrics(value){
+ const metrics={properties:0,enum_values:0,string_characters:0,oversized_enums:0,bytes:Buffer.byteLength(JSON.stringify(value))};
+ const length=value=>typeof value==='string'?[...value].length:0;
+ function visit(node){
+  if(!node||typeof node!=='object')return;
+  if(node.properties){metrics.properties+=Object.keys(node.properties).length;metrics.string_characters+=Object.keys(node.properties).reduce((n,key)=>n+length(key),0);}
+  if(node.$defs)metrics.string_characters+=Object.keys(node.$defs).reduce((n,key)=>n+length(key),0);
+  if(node.enum){const chars=node.enum.reduce((n,v)=>n+length(v),0);metrics.enum_values+=node.enum.length;metrics.string_characters+=chars;if(node.enum.length>250&&chars>15000)metrics.oversized_enums++;}
+  if(Object.hasOwn(node,'const'))metrics.string_characters+=length(node.const);
+  Object.values(node).forEach(visit);
+ }visit(value);return metrics;
+}
+export function checkSchemaBudget(value){
+ const metrics=schemaMetrics(value);
+ if(metrics.enum_values>1000||metrics.properties>5000||metrics.string_characters>120000||metrics.oversized_enums){const error=new APIError(502,'분석 출처가 AI 형식 크기 한도를 초과했습니다. 원문은 보존되었습니다.','ai_schema_limit');error.schema_metrics=metrics;throw error;}
+ return metrics;
 }
 export function validationDetails(analysis,report,incidents,transcripts=[]){
  const fields=['title','category','location','people_count','priority','summary'];
@@ -82,12 +111,31 @@ export function finishExecution(execution){
  const usage=sumUsage(execution.attempts);if(usage)execution.usage=usage;
  return execution;
 }
+export function providerFailure(status,payload,stage){
+ // Provider messages can contain report text, URLs or credentials. Use them only
+ // for classification; persist fixed categories, never arbitrary provider fields.
+ const detail=payload?.error,code=detail?.code,param=detail?.param;
+ let category='request_rejected',label='요청 거절';
+ if(status===401||status===403){category='authentication';label='인증 또는 접근 권한 오류';}
+ else if(status===429){category=code==='insufficient_quota'?'quota':'rate_limit';label=category==='quota'?'사용 한도 초과':'요청 빈도 제한';}
+ else if(status>=500){category='provider_unavailable';label='공급자 일시 오류';}
+ else if(code==='model_not_found'){category='model_unavailable';label='모델 사용 불가';}
+ else if(code==='context_length_exceeded'){category='context_limit';label='입력 길이 한도 초과';}
+ else if(code==='invalid_json_schema'||typeof param==='string'&&/^(text\.format|response_format)(\.|$)/.test(param)){category='schema_rejected';label='분석 형식 거절';}
+ const error=new APIError(502,`실제 AI API ${label} (HTTP ${status}). 원문은 보존되었습니다.`,`ai_${category}`);
+ error.provider_error={category,http_status:status,stage:stage==='responses'?'responses':'audio_transcriptions',retryable:category==='rate_limit'||category==='provider_unavailable'};
+ return error;
+}
 async function openai(url,options,key,limits){
  const timeout=Math.min(90000,limits.deadline-Date.now());
  if(timeout<=0)throw new APIError(502,'실제 AI 전체 작업 시간 한도를 초과했습니다.');
  let response;
  try{response=await fetch('https://api.openai.com/v1/'+url,{...options,headers:{...options.headers,Authorization:'Bearer '+key},signal:AbortSignal.timeout(timeout)});}catch{throw new APIError(502,'실제 AI 네트워크 오류 또는 시간초과입니다.');}
- if(!response.ok)throw new APIError(502,`실제 AI API 실패 HTTP ${response.status}`);
+ if(!response.ok){
+  let payload;const chunks=[];let bytes=0;
+  try{const reader=response.body.getReader();while(true){const part=await reader.read();if(part.done)break;bytes+=part.value.byteLength;if(bytes>65536){await reader.cancel();break;}chunks.push(Buffer.from(part.value));}if(bytes<=65536)payload=JSON.parse(Buffer.concat(chunks).toString());}catch{/* A malformed error body must not escape the sanitized failure. */}
+  throw providerFailure(response.status,payload,url);
+ }
  const chunks=[];let bytes=0;
  try{
   const reader=response.body.getReader();
@@ -117,12 +165,15 @@ export async function analyze(job,incidents,readAttachment,env=process.env){
   if(transcripts.length)execution.asr_model=transcripts[0].model;
   const clean=attachments=>(attachments||[]).map(({id,media_type})=>({id,media_type}));
   const packet={synthetic:true,report:{...job.report,attachments:clean(job.report.attachments)},intake119:job.intake119||null,incidents:incidents.map(i=>({id:i.id,location:i.location,people_count:i.people_count,reports:i.reports.map(r=>({id:r.id,text:r.text,kind:r.kind,people_count:r.people_count,attachments:clean(r.attachments)}))})),allowed_sources:sourceCatalog(job.report,incidents,transcripts),transcripts,limitations};
+  const requestSchema=citationSchema(job.report,incidents,transcripts);
+  execution.schema_metrics=schemaMetrics(requestSchema);execution.source_count=packet.allowed_sources.length;
+  checkSchemaBudget(requestSchema);
   let feedback;
   for(let number=1;number<=2;number++){
    if(Date.now()>=limits.deadline)throw new APIError(502,'실제 AI 전체 작업 시간 한도를 초과했습니다.');
    const attempt={attempt:number,provider:'openai',started_at:new Date().toISOString(),status:'running'};execution.attempts.push(attempt);
    const currentPacket=feedback?{...packet,validation_feedback:feedback}:packet;
-   const response=await openai('responses',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:env.OPENAI_MODEL,store:false,instructions:INSTRUCTIONS,input:[{role:'user',content:[{type:'input_text',text:JSON.stringify(currentPacket)},...images]}],text:{format:{type:'json_schema',name:'rescue_analysis',strict:true,schema:citationSchema(job.report,incidents,transcripts)}}})},env.OPENAI_API_KEY,limits);
+   const response=await openai('responses',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:env.OPENAI_MODEL,store:false,instructions:INSTRUCTIONS,input:[{role:'user',content:[{type:'input_text',text:JSON.stringify(currentPacket)},...images]}],text:{format:{type:'json_schema',name:'rescue_analysis',strict:true,schema:requestSchema}}})},env.OPENAI_API_KEY,limits);
    if(typeof response.id==='string'){attempt.response_id=response.id;execution.response_id=response.id;}if(response.usage)attempt.usage=response.usage;
    attempt.completed_at=new Date().toISOString();
    const chunks=(response.output||[]).filter(i=>i.type==='message').flatMap(i=>i.content||[]);
@@ -141,6 +192,6 @@ export async function analyze(job,incidents,readAttachment,env=process.env){
    attempt.status='validated';for(const limitation of limitations)if(!result.limitations.includes(limitation))result.limitations.push(limitation);
    return {analysis:result,execution:finishExecution(execution)};
   }
- }catch(error){const current=execution.attempts.at(-1);if(current?.status==='running'){current.status='failed';current.completed_at=new Date().toISOString();}error.execution=finishExecution(execution);throw error;
+ }catch(error){const current=execution.attempts.at(-1);if(current?.status==='running'){current.status='failed';current.completed_at=new Date().toISOString();}if(error.provider_error){execution.provider_error=error.provider_error;if(current)current.provider_error=error.provider_error;}if(error.code==='ai_schema_limit')execution.failure_code=error.code;error.execution=finishExecution(execution);throw error;
  }finally{await rm(temp,{recursive:true,force:true});}
 }
