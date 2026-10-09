@@ -1,0 +1,13 @@
+# source=client-observed provider metadata / selected project verification artifacts (NOT sshd or provider authentication/session logs)
+# requested_range=2026-10-09T03:24:16.553Z ~ 2026-10-09T06:01:17.374818Z
+# covered_range=individual observations only; continuous auth/session coverage unavailable
+# collected_at=2026-10-09T06:01:17.374818Z
+# redacted_fields=host,account,source_ip,key_fingerprint; secrets/env/argv/history excluded
+# limitations=successful API/deploy results only; no source IP, provider login or session-end records; mtime event explicitly labeled
+2026-10-09T04:24:13.493Z SERVER_01 ACCOUNT_01 HTTPS_DEPLOY result=ready event=provider_deploy_published deployment=DEPLOY_06 source_ip=unavailable attribution=project_account_self_report
+2026-10-09T04:36:32.471Z SERVER_01 ACCOUNT_01 HTTPS_DEPLOY result=ready event=provider_deploy_published deployment=DEPLOY_07 source_ip=unavailable attribution=project_account_self_report
+2026-10-09T04:45:06.523Z SERVER_01 ACCOUNT_01 HTTPS_DEPLOY result=ready event=provider_deploy_published deployment=DEPLOY_08 source_ip=unavailable attribution=project_account_self_report
+2026-10-09T05:01:07.279Z SERVER_01 ACCOUNT_01 HTTPS_DEPLOY result=ready event=provider_deploy_published deployment=DEPLOY_09 source_ip=unavailable attribution=project_account_self_report
+2026-10-09T05:40:43.405838Z SERVER_02 ACCOUNT_02 HTTPS_RPC result=success event=showcase_append_client_artifact_written workspace_revision=13 preserved_existing=true source_ip=unavailable timestamp_basis=client_artifact_mtime_not_server_auth_time
+2026-10-09T05:59:30.119Z SERVER_01 ACCOUNT_01 HTTPS_DEPLOY result=ready event=provider_deploy_published deployment=DEPLOY_10 source_ip=unavailable attribution=project_account_self_report
+2026-10-09T06:00:06.828Z SERVER_01 ACCOUNT_01 HTTPS_API result=success event=project_deploy_metadata_read source_ip=unavailable
