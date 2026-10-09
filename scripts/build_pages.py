@@ -82,6 +82,7 @@ def build(output: Path, mode: str = 'offline', include_routes: bool = False) -> 
         'routes/style.css': ROOT / 'web/routes/style.css',
         'routes/engine.js': ROOT / 'service/route-engine.js',
         'routes/network.json': ROOT / 'data/routing/network.json',
+        'routes/flood-history.json': ROOT / 'data/routing/flood-history.json',
     } if include_routes else {}
     source_paths += list(route_sources.values())
     if any(not p.is_file() or p.is_symlink() for p in source_paths):
@@ -116,6 +117,8 @@ def build(output: Path, mode: str = 'offline', include_routes: bool = False) -> 
                 shutil.copyfile(source, stage / name)
             info['route_page'] = 'routes/index.html'
             info['route_data_license'] = 'ODbL 1.0 — https://opendatacommons.org/licenses/odbl/1-0/'
+            info['flood_history_license'] = '공공누리 1유형 — 서울특별시'
+            info['flood_history_source'] = 'https://data.seoul.go.kr/dataList/OA-15636/F/1/datasetView.do'
         if mode == 'cloud':
             shutil.copyfile(ROOT / 'web' / 'cloud-client.js', stage / 'cloud-client.js')
         # Only the model, synthetic report and UI are public; original drawing stays local.

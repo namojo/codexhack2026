@@ -76,10 +76,11 @@ def make_service_handler(store, bundle=None, dev_tools=False):
                     self.json_response(store.get_incident(route.rsplit('/', 1)[1]), head=head)
                 elif route == '/api/bundle':
                     self.json_response(bundle, head=head)
-                elif route in {'/routes/engine.js', '/routes/network.json'}:
+                elif route in {'/routes/engine.js', '/routes/network.json', '/routes/flood-history.json'}:
                     path, mime = {
                         '/routes/engine.js': (ROOT / 'service' / 'route-engine.js', 'text/javascript; charset=utf-8'),
                         '/routes/network.json': (ROOT / 'data' / 'routing' / 'network.json', 'application/json; charset=utf-8'),
+                        '/routes/flood-history.json': (ROOT / 'data' / 'routing' / 'flood-history.json', 'application/json; charset=utf-8'),
                     }[route]
                     if not path.is_file():
                         raise APIError(404, '페이지가 준비되지 않았습니다.')

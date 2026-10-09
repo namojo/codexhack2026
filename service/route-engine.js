@@ -8,6 +8,8 @@
   const ASSUMED_WIDTHS = Object.freeze({trunk: 7, primary: 7, secondary: 6, tertiary: 5, residential: 3.2, unclassified: 3.2, living_street: 2.8, service: 2.8});
   const SPEED_KMH = 24;
   const TURN_MINUTES = 0.15;
+  const FLOOD_BUFFER_M = 10;
+  const FLOOD_PENALTY = 8;
   const ALLOWED_ACCESS = new Set(['yes', 'permissive', 'designated', 'destination']);
   const ALLOWED_BARRIERS = new Set(['no', 'entrance', 'toll_booth', 'cattle_grid']);
   const BAD_HIGHWAYS = new Set(['footway', 'path', 'pedestrian', 'steps', 'cycleway', 'construction', 'proposed', 'bridleway', 'corridor']);
@@ -57,7 +59,8 @@
   function validate(network, input) {
     if (!network || !network.nodes || !Array.isArray(network.edges) || !network.origin || !Array.isArray(network.destinations)) throw Error('도로망 형식이 올바르지 않습니다.');
     if (!input || typeof input !== 'object' || Array.isArray(input)) throw Error('경로 입력 객체가 필요합니다.');
-    const options = {destination_id: input.destination_id, vehicle_width_m: input.vehicle_width_m, vehicle_height_m: input.vehicle_height_m, clearance_m: input.clearance_m, mode: input.mode, closed_edge_ids: input.closed_edge_ids === undefined ? [] : input.closed_edge_ids};
+    const options = {destination_id: input.destination_id, vehicle_width_m: input.vehicle_width_m, vehicle_height_m: input.vehicle_height_m, clearance_m: input.clearance_m, mode: input.mode, closed_edge_ids: input.closed_edge_ids === undefined ? [] : input.closed_edge_ids, flood_year: input.flood_year === undefined ? 'all' : input.flood_year};
+    if (options.flood_year !== 'all' && !Number.isInteger(options.flood_year)) throw Error('침수 이력 연도는 all 또는 자료에 있는 연도 숫자로 입력하세요.');
     const ranges = [['vehicle_width_m', 1.5, 3.5, '차량 폭'], ['vehicle_height_m', 1.5, 4.5, '차량 높이'], ['clearance_m', .1, .8, '좌우 각각의 여유']];
     for (const [key, min, max, label] of ranges) if (typeof options[key] !== 'number' || !Number.isFinite(options[key]) || options[key] < min || options[key] > max) throw Error(`${label}는 ${min}~${max}m의 유한한 숫자로 입력하세요.`);
     if (!['training', 'strict'].includes(options.mode)) throw Error('계산 모드는 training 또는 strict여야 합니다.');
@@ -67,6 +70,61 @@
     if (!Array.isArray(options.closed_edge_ids) || options.closed_edge_ids.some(id => typeof id !== 'string' || !ids.has(id))) throw Error('통제 목록에는 도로망에 있는 구간 ID만 입력하세요.');
     options.closed_edge_ids = [...new Set(options.closed_edge_ids)];
     return {options, destination};
+  }
+
+  function prepareFlood(network, data) {
+    if (data === null || data === undefined) throw Error('침수 이력 자료를 제공하지 않았습니다.');
+    if (data.schema_version !== 1 || !data.meta || !Array.isArray(data.meta.years_available) || !data.traces || data.traces.type !== 'FeatureCollection' || !Array.isArray(data.traces.features) || !data.edge_exposure || typeof data.edge_exposure !== 'object' || Array.isArray(data.edge_exposure)) throw Error('침수 이력 자료 형식이 올바르지 않습니다.');
+    if (data.meta.nearby_buffer_m !== FLOOD_BUFFER_M || data.meta.risk_penalty_per_year_m !== FLOOD_PENALTY) throw Error('침수 이력 자료의 주변 거리 또는 훈련 가중치가 계약과 다릅니다.');
+    const years = new Set(data.meta.years_available);
+    if (years.size !== data.meta.years_available.length || [...years].some(year => !Number.isInteger(year))) throw Error('침수 이력 자료의 연도 목록이 올바르지 않습니다.');
+    function validGeometry(g) {
+      if (!g || !['Polygon', 'MultiPolygon'].includes(g.type) || !Array.isArray(g.coordinates)) return false;
+      const polygons = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
+      return polygons.length > 0 && polygons.every(p => Array.isArray(p) && p.length > 0 && p.every(r => Array.isArray(r) && r.length >= 4 && r.every(c => Array.isArray(c) && c.length >= 2 && Number.isFinite(c[0]) && Number.isFinite(c[1]) && Math.abs(c[0]) <= 180 && Math.abs(c[1]) <= 90) && r[0][0] === r[r.length - 1][0] && r[0][1] === r[r.length - 1][1]));
+    }
+    const traceYears = new Set();
+    for (const feature of data.traces.features) {
+      const year = feature && feature.properties && feature.properties.year;
+      if (feature.type !== 'Feature' || !years.has(year) || traceYears.has(year) || !validGeometry(feature.geometry) || !validGeometry(feature.nearby_geometry)) throw Error('침수 이력 자료의 연도별 지도 기하가 올바르지 않습니다.');
+      traceYears.add(year);
+    }
+    const edges = new Map(network.edges.map(edge => [edge.id, edge]));
+    for (const [id, exposure] of Object.entries(data.edge_exposure)) {
+      const edge = edges.get(id);
+      if (!edge || !Number.isFinite(edge.length_m) || !exposure || !Array.isArray(exposure.by_year)) throw Error('침수 이력 자료의 도로 구간이 일치하지 않습니다.');
+      const validLength = value => typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= edge.length_m + .01;
+      if (!validLength(exposure.trace_union_m) || !validLength(exposure.nearby_union_m) || exposure.trace_union_m > exposure.nearby_union_m + .01) throw Error('침수 이력 합집합 노출 길이가 올바르지 않습니다.');
+      const seen = new Set();
+      let traceSum = 0, nearbySum = 0;
+      for (const row of exposure.by_year) {
+        if (!row || !years.has(row.year) || seen.has(row.year) || !validLength(row.trace_m) || !validLength(row.nearby_m) || row.trace_m > row.nearby_m + .01 || row.trace_m > exposure.trace_union_m + .01 || row.nearby_m > exposure.nearby_union_m + .01) throw Error('침수 이력의 연도별 노출 수치 또는 연도 중복을 확인하세요.');
+        seen.add(row.year); traceSum += row.trace_m; nearbySum += row.nearby_m;
+      }
+      if (!Number.isFinite(traceSum) || !Number.isFinite(nearbySum) || exposure.trace_union_m > traceSum + .01 || exposure.nearby_union_m > nearbySum + .01) throw Error('침수 이력 합집합 길이와 연도별 길이가 일치하지 않습니다.');
+    }
+    return {data, years};
+  }
+
+  function floodExposure(edgeIds, flood, selectedYear) {
+    let trace = 0, nearby = 0, weighted = 0;
+    const years = new Set();
+    for (const id of edgeIds) {
+      if (!Object.prototype.hasOwnProperty.call(flood.data.edge_exposure, id)) continue; // Zero-exposure edges may be omitted.
+      const exposure = flood.data.edge_exposure[id];
+      const rows = exposure.by_year.filter(row => selectedYear === 'all' || row.year === selectedYear);
+      trace += selectedYear === 'all' ? exposure.trace_union_m : rows.reduce((sum, row) => sum + row.trace_m, 0);
+      nearby += selectedYear === 'all' ? exposure.nearby_union_m : rows.reduce((sum, row) => sum + row.nearby_m, 0);
+      for (const row of rows) { weighted += row.nearby_m; if (row.nearby_m > 0 || row.trace_m > 0) years.add(row.year); }
+    }
+    return {trace_m: trace, nearby_m: nearby, year_weighted_m: weighted, years: [...years].sort((a, b) => a - b), selected_year: selectedYear, buffer_m: FLOOD_BUFFER_M};
+  }
+
+  function attachFlood(route, flood, year) {
+    if (!route) return;
+    route.flood_exposure = floodExposure(route.edge_ids, flood, year);
+    for (const step of route.steps) step.flood_exposure = floodExposure(step.edge_ids, flood, year);
+    route.warnings.push('침수 이력은 과거 피해 등록 범위이며 현재 침수나 미래 확률을 뜻하지 않습니다.');
   }
 
   function inspect(edge, options, recommended, closed) {
@@ -168,7 +226,7 @@
     return {edge_ids: edges.map(e => e.id), node_ids: nodeIds, distance_m: Math.round(distance * 100) / 100, estimated_minutes: Math.round((distance / (SPEED_KMH * 1000 / 60) + turns * TURN_MINUTES) * 100) / 100, turn_count: turns, unknown_width_count: unknown, assumed_width_count: assumed, steps, geometry, warnings: [...warnings]};
   }
 
-  function solve(network, options, destination, recommended, restrictions) {
+  function solve(network, options, destination, recommended, restrictions, floodCosts = null) {
     const closed = new Set(options.closed_edge_ids), adjacency = new Map(), infos = new Map(), rejected = {closed: 0, access: 0, barrier: 0, maxwidth: 0, maxheight: 0, effective_width: 0, unknown_width: 0, unparsed_restriction: 0, invalid_edge: 0, turn_restriction: 0};
     for (const edge of network.edges) {
       const info = inspect(edge, options, recommended, closed);
@@ -196,6 +254,7 @@
           cost *= 1 + narrow + minor + (info.unknown ? .06 : 0);
           if (isTurn(state.previous, edge)) cost += 25;
         }
+        if (floodCosts) cost += floodCosts.get(edge.id) || 0;
         const total = state.cost + cost;
         if (!distances.has(edge.id) || total < distances.get(edge.id)) {
           distances.set(edge.id, total); parents.set(edge.id, state.key);
@@ -210,7 +269,7 @@
     return {route: routeSummary(edges, infos, network, options, recommended), rejected};
   }
 
-  function plan(network, input) {
+  function plan(network, input, floodHistory = null) {
     const {options, destination} = validate(network, input), restrictions = new Map();
     for (const r of network.restrictions || []) {
       if (r.via_node === undefined || !r.restriction) continue;
@@ -220,7 +279,18 @@
     }
     const recommended = solve(network, options, destination, true, restrictions);
     const shortest = solve(network, options, destination, false, restrictions);
-    return {status: recommended.route ? 'ok' : 'no_route', recommended: recommended.route, shortest: shortest.route, rejected: {recommended: recommended.rejected, shortest: shortest.rejected}, options, destination, origin: network.origin, assumptions: {speed_kmh: SPEED_KMH, turn_minutes: TURN_MINUTES, effective_width_by_highway_m: ASSUMED_WIDTHS, real_time_traffic: false, rejected_counts_scope: '도로망 전체 방향 구간 제외 수; turn_restriction은 탐색 중 제외 횟수'}, limitations: [...((network.meta || {}).limitations || []), '현장 유효폭은 rescue:verified_width 태그만 인정합니다.', `복합 via-way 등 미지원 회전제한 ${Number((network.meta || {}).unsupported_restriction_count || 0)}개 (스냅샷 기록 기준)`]};
+    let flood = null, floodAware = null, floodStatus = 'unavailable', floodMessage = '', floodRejected = null;
+    try { flood = prepareFlood(network, floodHistory); } catch (error) { floodMessage = error.message; }
+    if (flood) {
+      if (options.flood_year !== 'all' && !flood.years.has(options.flood_year)) throw Error('선택한 연도의 침수 이력 자료가 없습니다.');
+      const floodCosts = new Map(network.edges.map(edge => [edge.id, FLOOD_PENALTY * floodExposure([edge.id], flood, options.flood_year).year_weighted_m]));
+      const result = solve(network, options, destination, true, restrictions, floodCosts);
+      floodAware = result.route; floodRejected = result.rejected;
+      floodStatus = floodAware ? 'ok' : 'no_route';
+      floodMessage = floodAware ? '과거 침수 이력 주변 통과 길이에 훈련 가중치를 적용했습니다. 현재 침수 또는 안전 보장을 뜻하지 않습니다.' : '현재 차량·통제·통행 조건을 충족하는 침수 이력 고려 경로가 없습니다.';
+      for (const route of [recommended.route, shortest.route, floodAware]) attachFlood(route, flood, options.flood_year);
+    }
+    return {status: recommended.route ? 'ok' : 'no_route', recommended: recommended.route, shortest: shortest.route, flood_aware: floodAware, flood_status: floodStatus, flood_message: floodMessage, rejected: {recommended: recommended.rejected, shortest: shortest.rejected, flood_aware: floodRejected}, options, destination, origin: network.origin, assumptions: {speed_kmh: SPEED_KMH, turn_minutes: TURN_MINUTES, effective_width_by_highway_m: ASSUMED_WIDTHS, real_time_traffic: false, nearby_buffer_m: FLOOD_BUFFER_M, risk_penalty_per_year_m: FLOOD_PENALTY, rejected_counts_scope: '도로망 전체 방향 구간 제외 수; turn_restriction은 탐색 중 제외 횟수'}, limitations: [...((network.meta || {}).limitations || []), '현장 유효폭은 rescue:verified_width 태그만 인정합니다.', `복합 via-way 등 미지원 회전제한 ${Number((network.meta || {}).unsupported_restriction_count || 0)}개 (스냅샷 기록 기준)`]};
   }
   return Object.freeze({plan});
 });

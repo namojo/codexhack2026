@@ -65,7 +65,7 @@ class RoutingIndependentQA(unittest.TestCase):
         self.assertEqual(completed.returncode, 0, completed.stderr)
         result = json.loads(completed.stdout)
         self.assertEqual(result['status'], 'passed')
-        self.assertGreaterEqual(result['count'], 40)
+        self.assertGreaterEqual(result['count'], 120)
         self.assertTrue(all(c['status'] == 'passed' for c in result['checks']))
 
     def test_source_extraction_retains_node_and_way_conditional_limits(self):
@@ -203,10 +203,11 @@ class RoutingIndependentQA(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix='routing-static-qa-') as temp:
             output = Path(temp) / 'with-routes'
             builder.build(output, include_routes=True)
-            expected = {'index.html', 'app.js', 'style.css', 'engine.js', 'network.json'}
+            expected = {'index.html', 'app.js', 'style.css', 'engine.js', 'network.json', 'flood-history.json'}
             self.assertEqual({p.name for p in (output / 'routes').iterdir()}, expected)
             self.assertEqual((output / 'routes/engine.js').read_bytes(), (ROOT / 'service/route-engine.js').read_bytes())
             self.assertEqual((output / 'routes/network.json').read_bytes(), (ROOT / 'data/routing/network.json').read_bytes())
+            self.assertEqual((output / 'routes/flood-history.json').read_bytes(), (ROOT / 'data/routing/flood-history.json').read_bytes())
             markup = Markup((output / 'index.html').read_text())
             menu = [a['href'] for a in markup.links if a.get('data-local-only') == 'routes']
             self.assertEqual(len(menu), 1)
@@ -218,7 +219,10 @@ class RoutingIndependentQA(unittest.TestCase):
             for asset in expected:
                 self.assertEqual(info['files_sha256']['routes/' + asset], digest(output / 'routes' / asset))
             self.assertFalse(list(output.rglob('*.sqlite3')))
-            self.assertFalse((output / 'spatial').exists())
+            self.assertTrue((output / 'spatial/index.html').is_file())
+            self.assertFalse((output / 'spatial/assets/floorplan-source.jpg').exists())
+            self.assertIn('공공누리', info['flood_history_license'])
+            self.assertIn('OA-15636', info['flood_history_source'])
         self.assertEqual(before_seed, digest(ROOT / 'data/seed.json'))
 
     def test_default_static_build_excludes_routes_and_menu(self):
@@ -248,6 +252,7 @@ class RoutingIndependentQA(unittest.TestCase):
                 '/routes/style.css': (ROOT / 'web/routes/style.css', 'text/css'),
                 '/routes/engine.js': (ROOT / 'service/route-engine.js', 'text/javascript'),
                 '/routes/network.json': (ROOT / 'data/routing/network.json', 'application/json'),
+                '/routes/flood-history.json': (ROOT / 'data/routing/flood-history.json', 'application/json'),
             }
             try:
                 for route, (source, mime) in routes.items():
@@ -258,7 +263,7 @@ class RoutingIndependentQA(unittest.TestCase):
                             self.assertEqual(int(response.headers['Content-Length']), source.stat().st_size)
                             self.assertEqual(response.read(), source.read_bytes() if method == 'GET' else b'')
                             self.assertEqual(response.headers['X-Content-Type-Options'], 'nosniff')
-                for route in ('/routes/missing.js', '/routes/../service/route-engine.js', '/routes/%2e%2e/service/route-engine.js', '/service/route-engine.js', '/data/routing/network.json', '/data/workspace.sqlite3', '/api/bundle', '/replay/'):
+                for route in ('/routes/missing.js', '/routes/../service/route-engine.js', '/routes/%2e%2e/service/route-engine.js', '/service/route-engine.js', '/data/routing/network.json', '/data/workspace.sqlite3', '/api/bundle', '/replay/', '/data/routing/flood-history.json', '/routes/../data/routing/flood-history.json', '/routes/%2e%2e/data/routing/flood-history.json'):
                     for method in ('GET', 'HEAD'):
                         with self.assertRaises(urllib.error.HTTPError) as ctx:
                             urllib.request.urlopen(urllib.request.Request(base + route, method=method), timeout=5)
@@ -277,6 +282,80 @@ class RoutingIndependentQA(unittest.TestCase):
                 server.server_close()
                 thread.join(timeout=5)
                 self.assertFalse(thread.is_alive())
+
+    def test_offline_cloud_routes_four_build_combinations(self):
+        before = digest(ROOT / 'data/seed.json')
+        with tempfile.TemporaryDirectory(prefix='routing-build-matrix-') as temp:
+            for mode in ('offline', 'cloud'):
+                for include in (False, True):
+                    with self.subTest(mode=mode, include_routes=include):
+                        output = Path(temp) / f'{mode}-{include}'
+                        builder.build(output, mode=mode, include_routes=include)
+                        info = json.loads((output / 'build-info.json').read_text())
+                        self.assertEqual(info['mode'], mode)
+                        self.assertEqual((output / 'cloud-client.js').is_file(), mode == 'cloud')
+                        html = (output / 'index.html').read_text()
+                        self.assertEqual('data-service-mode="cloud"' in html, mode == 'cloud')
+                        self.assertEqual('cloud-client.js' in Markup(html).scripts, mode == 'cloud')
+                        self.assertEqual((output / 'routes').exists(), include)
+                        self.assertEqual('route_page' in info, include)
+                        self.assertEqual('flood_history_license' in info, include)
+                        self.assertEqual('flood_history_source' in info, include)
+                        self.assertTrue((output / 'spatial/index.html').is_file())
+                        self.assertFalse(list(output.rglob('floorplan-source.jpg')))
+                        self.assertFalse(list(output.rglob('*.sqlite3')))
+                        self.assertFalse(list(output.rglob('*.shp')))
+                        self.assertFalse(list(output.rglob('*.zip')))
+                        for name, fingerprint in info['files_sha256'].items():
+                            self.assertEqual(digest(output / name), fingerprint, name)
+                        if include:
+                            self.assertEqual((output / 'routes/flood-history.json').read_bytes(), (ROOT / 'data/routing/flood-history.json').read_bytes())
+                            self.assertEqual(info['source_sha256']['data/routing/flood-history.json'], digest(ROOT / 'data/routing/flood-history.json'))
+                        self.assertEqual(len(json.loads((output / 'seed.json').read_text())['incidents']), 10)
+        self.assertEqual(before, digest(ROOT / 'data/seed.json'))
+
+    def test_flood_provenance_geometry_privacy_and_network_link(self):
+        flood = json.loads((ROOT / 'data/routing/flood-history.json').read_text())
+        meta = flood['meta']
+        years = [2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2022, 2023, 2024, 2025]
+        self.assertEqual(flood['schema_version'], 1)
+        self.assertEqual(meta['years_available'], years)
+        self.assertEqual(meta['years_without_files'], [2015, 2021])
+        self.assertEqual(meta['network_sha256'], digest(ROOT / 'data/routing/network.json'))
+        self.assertEqual(meta['nearby_buffer_m'], 10)
+        self.assertEqual(meta['risk_penalty_per_year_m'], 8)
+        self.assertEqual(meta['calculation_crs'], 'EPSG:5179')
+        self.assertEqual(meta['display_crs'], 'EPSG:4326')
+        self.assertIn('OA-15636', meta['source_url'])
+        self.assertIn('공공누리', meta['license'])
+        self.assertEqual(meta['dataset_updated_at'], '2026-04-27')
+        self.assertEqual([s['year'] for s in meta['sources']], years)
+        for source in meta['sources']:
+            self.assertRegex(source['zip_sha256'], r'^[a-f0-9]{64}$')
+            self.assertGreater(source['zip_bytes'], 0)
+            self.assertLessEqual(source['selected_record_count'], source['original_record_count'])
+        self.assertEqual(set(flood), {'schema_version', 'meta', 'traces', 'edge_exposure'})
+        self.assertEqual(flood['traces']['type'], 'FeatureCollection')
+        min_lon, min_lat, max_lon, max_lat = self.network['meta']['bbox']
+        for feature in flood['traces']['features']:
+            self.assertEqual(set(feature['properties']), {'year', 'source_record_count'})
+            self.assertIn(feature['properties']['year'], meta['years_available'])
+            self.assertGreater(feature['properties']['source_record_count'], 0)
+            for key in ('geometry', 'nearby_geometry'):
+                geometry = feature[key]
+                self.assertIn(geometry['type'], ('Polygon', 'MultiPolygon'))
+                polygons = [geometry['coordinates']] if geometry['type'] == 'Polygon' else geometry['coordinates']
+                for polygon in polygons:
+                    for ring in polygon:
+                        self.assertGreaterEqual(len(ring), 4)
+                        self.assertEqual(ring[0], ring[-1])
+                        for lon, lat in ring:
+                            self.assertTrue(math.isfinite(lon) and math.isfinite(lat))
+                            # Straight projected clipping edges curve slightly in WGS84.
+                            # Independent GIS verifies EPSG:5179 containment separately.
+                            self.assertTrue(min_lon - 2e-6 <= lon <= max_lon + 2e-6)
+                            self.assertTrue(min_lat - 2e-6 <= lat <= max_lat + 2e-6)
+        self.assertEqual(meta['years_in_bbox'], [f['properties']['year'] for f in flood['traces']['features']])
 
 
 if __name__ == '__main__':
