@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-10-09",
+  "status": "failed",
+  "provider": "openai",
+  "http": 429,
+  "type": "insufficient_quota",
+  "code": "credit_balance_exhausted",
+  "success": false,
+  "fixture_fallback": false,
+  "key_written_to_evidence": false,
+  "python_adapter_service_attempt": "HTTP429, exit1, actual HTTPS with trusted CA"
+}

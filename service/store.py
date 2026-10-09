@@ -11,10 +11,10 @@ import sqlite3
 from urllib.parse import unquote
 import uuid
 
-from service.attention import derive_attention, attention_sort_key, _instant, _full_confirmation, _after_reopen
+from service.attention import derive_attention, attention_sort_key, _instant, _full_confirmation, _after_reopen, NEGATIVE_CONFIRMATION, RESIDUAL, NO_RESIDUAL, CONTACT_TERMS
 
 ROOT = Path(__file__).resolve().parents[1]
-CHANNELS = {"voice", "sms", "mms", "app", "video_call", "web", "field"}
+CHANNELS = {"voice", "sms", "mms", "app", "video_call", "web", "field", "kakao"}
 STATUSES = {"received", "dispatched", "on_scene", "rescuing", "reviewing", "closed"}
 DEFAULT_ACTOR = "상황실 김담당"
 MEDIA = {"image/png": ("image", ".png"), "image/jpeg": ("image", ".jpg"),
@@ -316,7 +316,7 @@ class Store:
 
     @staticmethod
     def _before(incident):
-        return {key: deepcopy(incident[key]) for key in ("title", "location", "priority", "people_count", "status", "assigned_team_id", "revision", "outcome")}
+        return {key: deepcopy(incident.get(key)) for key in ("title", "location", "priority", "people_count", "status", "assigned_team_id", "revision", "outcome", "intake119")}
 
     def _save(self, db, incident, before, action, actor, reason):
         timestamp = now()
@@ -344,7 +344,7 @@ class Store:
         incident["status"] = "reviewing"
 
     def create_incident(self, body):
-        body_fields(body, {"title", "category", "location", "priority", "summary", "people_count", "channel", "text", "actor", "attachments"}, {"title", "location", "text"})
+        body_fields(body, {"title", "category", "location", "priority", "summary", "people_count", "channel", "text", "actor", "attachments", "intake119"}, {"title", "location", "text"})
         for key in ("title", "location", "text"):
             string(body[key], key)
         actor = string(body.get("actor", DEFAULT_ACTOR), "담당자")
@@ -369,6 +369,10 @@ class Store:
                         "status": "received", "summary": summary, "people_count": people, "revision": 1,
                         "created_at": timestamp, "updated_at": timestamp, "assigned_team_id": None, "synthetic": True,
                         "reports": [report], "progress": [], "audit": [], "outcome": None, "outcome_history": [], "checks": []}
+            if "intake119" in body:
+                if not isinstance(body["intake119"], dict):
+                    raise APIError(400, "119 접수 정보는 객체여야 합니다.")
+                incident["intake119"] = deepcopy(body["intake119"])
             incident["audit"].append({"id": identity("AUD"), "action": "create", "actor": actor, "reason": "신규 합성 신고 접수",
                                       "created_at": timestamp, "before": None, "after": self._before(incident)})
             self._decorate(incident)
@@ -376,7 +380,7 @@ class Store:
             return self._response(incident)
 
     def add_report(self, iid, body):
-        body_fields(body, {"expected_revision", "channel", "actor", "text", "kind", "people_count", "location", "attachments"}, {"expected_revision", "channel", "text", "kind"})
+        body_fields(body, {"expected_revision", "channel", "actor", "text", "kind", "people_count", "location", "attachments", "intake119"}, {"expected_revision", "channel", "text", "kind"})
         channel = enum(body["channel"], CHANNELS, "채널")
         kind = enum(body["kind"], {"additional", "field", "correction"}, "보고 종류")
         actor = string(body.get("actor", DEFAULT_ACTOR), "담당자")
@@ -395,6 +399,10 @@ class Store:
             timestamp = now()
             report = {"id": identity("REP"), "channel": channel, "actor": actor, "text": body["text"], "kind": kind,
                       "received_at": timestamp, "occurred_at": timestamp, "attachments": attachments}
+            if "intake119" in body:
+                if not isinstance(body["intake119"], dict):
+                    raise APIError(400, "119 접수 정보는 객체여야 합니다.")
+                report["intake119"] = deepcopy(body["intake119"])
             for key in ("people_count", "location"):
                 if key in body:
                     report[key] = body[key]
@@ -406,14 +414,17 @@ class Store:
             return self._save(db, incident, before, "report_added", actor, body["text"])
 
     def update_incident(self, iid, body):
-        body_fields(body, {"expected_revision", "actor", "reason", "title", "location", "priority", "people_count"}, {"expected_revision", "reason"})
+        body_fields(body, {"expected_revision", "actor", "reason", "title", "location", "priority", "people_count", "intake119"}, {"expected_revision", "reason"})
         actor = string(body.get("actor", DEFAULT_ACTOR), "담당자")
         reason = string(body["reason"], "수정 이유")
-        changes = {k: v for k, v in body.items() if k in {"title", "location", "priority", "people_count"}}
+        changes = {k: v for k, v in body.items() if k in {"title", "location", "priority", "people_count", "intake119"}}
         if not changes:
             raise APIError(400, "수정할 필드를 입력하세요.")
         for key, value in changes.items():
-            if key == "people_count":
+            if key == "intake119":
+                if not isinstance(value, dict):
+                    raise APIError(400, "119 접수 정보는 객체여야 합니다.")
+            elif key == "people_count":
                 count(value)
             elif key == "priority":
                 enum(value, {"urgent", "high", "normal"}, "우선도")
@@ -488,6 +499,16 @@ class Store:
                         stale = True
                 if stale:
                     raise APIError(400, "재개 이후의 새로운 현장 보고가 필요합니다. 과거 완료 근거는 재사용할 수 없습니다.")
+            if not _full_confirmation(report, incident["people_count"]):
+                raise APIError(400, "현장 원문에 남은 대상이나 미확인 상태가 있습니다. 전체 대상의 안전 확인 근거가 필요합니다.")
+            basis_index = incident["reports"].index(report)
+            for newer in incident["reports"][basis_index + 1:]:
+                raw = NO_RESIDUAL.sub("", newer.get("text", ""))
+                if (NEGATIVE_CONFIRMATION.search(raw) or RESIDUAL.search(raw)
+                        or any(term in raw for term in CONTACT_TERMS)
+                        or newer["kind"] == "field" and not _full_confirmation(newer, confirmed)
+                        or newer["kind"] == "correction" and any(k in newer for k in ("people_count", "location"))):
+                    raise APIError(400, "선택한 현장 근거 이후 새 미확인 정보가 있습니다. 최신 현장 확인이 필요합니다.")
             last_correction = max((i for i, r in enumerate(incident["reports"]) if r["kind"] == "correction" and "people_count" in r), default=-1)
             if any(r["kind"] == "additional" and "people_count" in r and r["people_count"] != confirmed
                    for r in incident["reports"][last_correction + 1:]):

@@ -6,7 +6,7 @@
 
 **[Netlify 체험 사이트](https://namojo-hack-test.netlify.app/)** · [GitHub 저장소](https://github.com/namojo/codexhack2026)
 
-실제 주소와 배포·검증 기록은 [배포 검증](docs/pages-verification.md)에 정리했다.
+AI 심사는 [서비스·원문 안내](https://namojo-hack-test.netlify.app/judge/)와 [llms.txt](https://namojo-hack-test.netlify.app/llms.txt)에서 JavaScript 없이도 내용을 읽을 수 있다. [AI 연결과 검증](docs/ai-verification.md)에 현재 실행 상태를 정리한다. 이전 배포 기록은 [정적판 검증](docs/pages-verification.md)에 보존했다.
 
 [저장소 관리](docs/repository-management.md) · [아이디어와 현재 기능](docs/project-overview.md) · [작업 과정과 결정](docs/development-log.md) · [배포와 저장 범위](docs/deployment.md) · [공개 근거](docs/sources.md)
 
@@ -28,15 +28,17 @@
 
 ## 공개판과 로컬 서버판
 
-|항목|Netlify 공개 체험판|로컬 서버판|
+|항목|Netlify 공개 체험판|Codex CLI 로컬 시연|
 |---|---|---|
-|초기 데이터|합성 사건 10건·보고 20건·대응팀 4개|같은 seed에서 시작|
+|초기 데이터|합성 사건 10건·보고 20건·대응팀 4개|공개판과 같은 Supabase|
 |사진·음성|생성 PNG 2장·한국어 TTS WAV 2개|같은 실제 첨부 파일|
-|업무 상태 저장|각 방문자 브라우저 localStorage|Python API와 SQLite|
-|다른 방문자와 공유|공유되지 않음|이 로컬 서버의 DB 사용|
+|업무 상태 저장|Netlify API → Supabase 공용 합성 workspace|로컬 Node API → 같은 Supabase|
+|실제 AI|기본 비활성; API 잔액·서버 설정 후 활성화|ChatGPT 로그인된 Codex CLI + 로컬 Whisper|
 |접수·보고·배정·결과·정정|브라우저에서 체험|서버에 영속 저장|
 
-모든 사례는 합성이다. 공식 119 접수·출동과 연결되지 않는다. 현재 권고는 **규칙 기반 대조**이며 실제 LLM 호출 결과가 아니다. 음성 전사문은 TTS 대본이고 영상통화 내용은 인간이 작성한 모의 전사다. 생성 사진은 실제 피해 사진이 아니다.
+모든 사례는 합성이다. 공식 119 접수·출동과 연결되지 않는다. 대시보드의 **규칙 기반 대조**와 **실제 AI 분석 초안**을 구분한다. 해커톤의 실제 분석은 로컬 Codex CLI가 기존 ChatGPT 로그인을 사용한다. 문자와 실제 PNG를 분석하고 WAV는 로컬 Whisper가 실제 전사한다. 별도 앱 OAuth를 구현한 것은 아니며, Netlify 서버는 CLI 로그인 토큰을 보관하지 않는다.
+
+[Codex 시연 실행 안내](docs/codex-demo.md) · [현재 실제 검증](docs/ai-verification.md). OpenAI API도 충전 이후 문자·실제 사진·실제 WAV 전사의 세 사례가 모두 검증을 통과했다. 공개 활성화는 승인 대기이며, 서버 키·모델·활성 설정으로 전환한다. 충전 전 429와 최초 인용·근거 실패 기록도 보존했다. 생성 사진·TTS 음성은 실제 피해 자료가 아니며 seed의 대본과 실제 ASR 결과를 구분한다.
 
 ## 대표 사례와 지켜야 할 조건
 
@@ -57,9 +59,10 @@
 
 경로 페이지를 포함하는 정적 검토용 패키지는 `python3 -B scripts/build_pages.py --include-routes --output dist/routing-preview`로 만든다. 이 명령은 파일만 생성한다. 기본 공개 빌드는 기존 범위를 유지하며 이번 작업에서 외부 배포는 수행하지 않는다.
 
-로컬 콘솔의 **건물 공간정보 목업** 메뉴에서는 [더포엠 역삼 3D 페이지](web/spatial/index.html)를 볼 수 있다. 공개 3~16층 평면도를 Sol로 해석하고, 같은 평면이 반복된다는 가정으로 건물 투시도를 만들었다. 층 선택·입체/평면 전환·합성 신고의 위치 후보·원본 근거를 확인한다. 1~2층 내부와 실제 층고·현장 상태는 미확인이다. 도면 재배포 조건을 확인하지 않아 Netlify 공개 빌드에는 포함하지 않는다. [공간정보 검증 기록](docs/spatial-verification.md).
+콘솔의 **건물 공간정보** 메뉴에서는 [더포엠 역삼 3D 페이지](web/spatial/index.html)를 볼 수 있다. 공개 3~16층 평면도를 Sol로 해석하고, 같은 평면이 반복된다는 가정으로 건물 투시도를 만들었다. 층 선택·입체/평면 전환·합성 신고의 위치 후보·원본 근거를 확인한다. 1~2층 내부와 실제 층고·현장 상태는 미확인이다. 공개 사이트에서도 공간 모델과 합성 신고를 볼 수 있다. 원본 도면 JPEG는 공개 빌드에서 제외하고 출처 링크에서 대조한다. [공간정보 검증 기록](docs/spatial-verification.md).
 
-Python 3.11 이상. 로컬 서버판은 추가 패키지나 API 키 없이 실행한다.
+
+ChatGPT 로그인된 Codex CLI 시연은 [시연 안내](docs/codex-demo.md)를 따른다. 아래 Python 서버는 AI 없이 기존 업무·재생을 확인하는 별도 SQLite 경로다. Python 3.11 이상이며 추가 패키지나 API 키 없이 실행한다.
 
 ```bash
 python3 -B scripts/serve.py --port 8765
@@ -73,7 +76,7 @@ http://127.0.0.1:8765/ 에서 업무 콘솔을 연다. 첫 시작에 `data/seed.
 python3 -B scripts/build_pages.py --output dist/pages
 ```
 
-Netlify에는 이 출력 폴더만 배포한다. 사용자 SQLite·업로드·환경 키·개발 재생기는 포함하지 않는다. `netlify.toml`에 빌드와 보안 헤더를 정의했다. [배포 안내](docs/deployment.md)를 참고한다.
+위 기본 빌드는 방문자별 오프라인 체험이다. 현재 Netlify 배포는 `--mode cloud`로 빌드하며 `netlify/functions/`를 함께 배포한다. [서버 설정과 SQL 설치](docs/ai-setup.md)를 따른다. 사용자 SQLite·업로드·환경 키·개발 재생기는 포함하지 않는다. `netlify.toml`에 빌드와 보안 헤더를 정의했다. [배포 안내](docs/deployment.md)를 참고한다.
 
 ## 검증하기
 
@@ -89,7 +92,24 @@ python3 -B .agents/skills/harness/scripts/validate.py --project .
 
 [서비스 검증](docs/service-verification.md) · [판단·조치 검증](docs/attention-verification.md) · [선택·버튼 UX 검증](docs/interaction-verification.md)
 
-통과한 fixture는 AI 정확도·생존율·시간 절감의 증거가 아니다. 운영자 비교 실험, 실제 LLM/OCR/ASR 성능, 현장 구조 성과와 공식 연계는 아직 측정·구현하지 않았다.
+통과한 fixture는 AI 정확도·생존율·시간 절감의 증거가 아니다. 운영자 비교 실험, 실제 LLM·ASR 정확도, 현장 구조 성과와 공식 연계는 아직 검증하지 않았다. OpenAI API 성공 검사는 잔액 부족으로 미실행이며, Codex CLI 실제 실행은 별도 기록으로 구분한다.
+
+## 실제 분석과 담당자 확인
+
+신규 신고 또는 현장 메뉴에서 원문과 사진·음성을 입력하면 background 분석 작업이 생성된다. 사건은 자동 변경되지 않는다. 담당자가 119 접수 항목, 근거, 중복 후보·남은 인원·위치 출처·확인 질문을 수정하고 검토 사유와 확인을 등록해야 원문·분석·감사 이력이 함께 저장된다. 신고 진위와 동일인 여부를 자동 확정하지 않는다.
+
+`scripts/analyzer_codex.mjs`는 ChatGPT 로그인된 CLI의 실제 문자·사진 분석과 로컬 Whisper 전사를 사용한다. `service/ai.py`와 `scripts/analyzer_openai.py --service`, Netlify 함수는 나중 사용할 OpenAI Responses·전사 API 경로다. 두 제공자는 같은 strict JSON 스키마와 Supabase 작업·담당자 확정 흐름을 사용한다. 공급된 TTS 대본을 ASR 결과로 사용하지 않는다.
+
+|119 정보|저장 내용|
+|---|---|
+|접수|접수번호·수신·갱신·상태|
+|신고자|표시 이름·회신 채널·연락처·관계|
+|위치|주소·층·호수·접근·GPS·출처·미확인 상태|
+|상황·구조 대상|원문·요약·재난 분류·시각·인원·부상·의식·호흡·고립|
+|위험·첨부|신고 위험·사진 관찰·추가 확인·사진·음성·실제 전사|
+|담당자 검토|누락·우선 검토 경고·확인·수정 이력|
+
+[AI 계약](docs/ai-service-contract.md) · [연결](docs/ai-setup.md) · [심사 읽기 전략](docs/ai-judge-readiness.md) · [실제 검증](docs/ai-verification.md)
 
 ## 하네스와 AI 확장
 

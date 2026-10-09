@@ -1,0 +1,112 @@
+{
+  "objective": "AI Judge 공개 읽기 자료와 실제 다매체 LLM 분석·담당자 확정·Supabase 영속 업무 구현",
+  "tasks": [
+    {
+      "inputs": [
+        "AGENTS.md",
+        "docs/service-contract.md",
+        "docs/ai-service-contract.md"
+      ],
+      "required": true,
+      "context": {
+        "decisions": [
+          "공통 계약은 root 소유",
+          "동료 변경 되돌리지 않으며 재귀 위임 금지",
+          "원본 사용자 SQLite와 seed 보존",
+          "fixture 성공과 live API 검증 구분",
+          "결과는 최종 저장 및 native FINAL 이후 등록"
+        ],
+        "skill_paths": [
+          ".agents/skills/service-operations/SKILL.md"
+        ]
+      },
+      "id": "backend",
+      "role": "service_backend",
+      "ownership": [
+        "service/",
+        "scripts/analyzer_openai.py",
+        "netlify/functions/",
+        "supabase/",
+        "web/pages-store.js",
+        "_workspace/verification/ai-service-v1/backend/"
+      ],
+      "dependencies": [],
+      "acceptance": [
+        "고정 API/AI DTO와 operator 확인 계약 준수",
+        "배정 구현/독립 검사 실제 실행 및 미실행 범위 기록",
+        "원문·근거·revision·완료·비밀키 경계 유지"
+      ]
+    },
+    {
+      "inputs": [
+        "AGENTS.md",
+        "docs/service-contract.md",
+        "docs/ai-service-contract.md"
+      ],
+      "required": true,
+      "context": {
+        "decisions": [
+          "공통 계약은 root 소유",
+          "동료 변경 되돌리지 않으며 재귀 위임 금지",
+          "원본 사용자 SQLite와 seed 보존",
+          "fixture 성공과 live API 검증 구분",
+          "결과는 최종 저장 및 native FINAL 이후 등록"
+        ],
+        "skill_paths": [
+          ".agents/skills/service-operations/SKILL.md"
+        ]
+      },
+      "id": "frontend",
+      "role": "service_frontend",
+      "ownership": [
+        "web/app.js",
+        "web/index.html",
+        "web/style.css",
+        "web/cloud-client.js",
+        "_workspace/verification/ai-service-v1/frontend/"
+      ],
+      "dependencies": [],
+      "acceptance": [
+        "고정 API/AI DTO와 operator 확인 계약 준수",
+        "배정 구현/독립 검사 실제 실행 및 미실행 범위 기록",
+        "원문·근거·revision·완료·비밀키 경계 유지"
+      ]
+    },
+    {
+      "inputs": [
+        "AGENTS.md",
+        "docs/service-contract.md",
+        "docs/ai-service-contract.md"
+      ],
+      "required": true,
+      "context": {
+        "decisions": [
+          "공통 계약은 root 소유",
+          "동료 변경 되돌리지 않으며 재귀 위임 금지",
+          "원본 사용자 SQLite와 seed 보존",
+          "fixture 성공과 live API 검증 구분",
+          "결과는 최종 저장 및 native FINAL 이후 등록"
+        ],
+        "skill_paths": [
+          ".agents/skills/service-operations/SKILL.md"
+        ]
+      },
+      "id": "qa",
+      "role": "service_qa",
+      "ownership": [
+        "tests/test_ai_service.py",
+        "tests/ai_service_qa.cjs",
+        "_workspace/verification/ai-service-v1/qa/"
+      ],
+      "dependencies": [
+        "backend",
+        "frontend"
+      ],
+      "acceptance": [
+        "고정 API/AI DTO와 operator 확인 계약 준수",
+        "배정 구현/독립 검사 실제 실행 및 미실행 범위 기록",
+        "원문·근거·revision·완료·비밀키 경계 유지"
+      ]
+    }
+  ]
+}

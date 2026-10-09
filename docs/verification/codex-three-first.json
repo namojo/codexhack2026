@@ -1,0 +1,525 @@
+{
+  "checked_at": "2026-10-09T03:49:47.461Z",
+  "site": "http://127.0.0.1:8769",
+  "mode": "live",
+  "status": "failed",
+  "config": {
+    "storage": "supabase",
+    "ai": {
+      "provider": "codex_cli",
+      "configured": true,
+      "enabled": true,
+      "model": null,
+      "local_demo": true,
+      "login": {
+        "status": "logged_in",
+        "detail": "ChatGPT로 로그인한 Codex CLI"
+      },
+      "asr": {
+        "available": true,
+        "provider": "local_whisper",
+        "model": "openai-whisper/small"
+      }
+    },
+    "synthetic": true,
+    "offline_available": true
+  },
+  "storage_http": 200,
+  "runs": [
+    {
+      "case": "partial-rescue-text",
+      "packet": {
+        "incident_id": "INC-20261008-003",
+        "expected_revision": 6,
+        "report": {
+          "channel": "kakao",
+          "kind": "additional",
+          "actor": "합성 통합 검증 담당",
+          "text": "합성 추가 신고. 가상동 해솔길 7 해솔다세대 301호 세 명 중 두 명만 구조했고 한 명이 안에 남아 있습니다. 전원 구조가 아닙니다. 302호라는 전달은 잘못된 것으로 301호를 다시 확인해주세요.",
+          "attachments": []
+        }
+      },
+      "submit_http": 202,
+      "status": "passed",
+      "job": {
+        "id": "AI-0697e6fb-8239-4ed2-9d14-ba4dd4927377",
+        "error": null,
+        "report": {
+          "kind": "additional",
+          "text": "합성 추가 신고. 가상동 해솔길 7 해솔다세대 301호 세 명 중 두 명만 구조했고 한 명이 안에 남아 있습니다. 전원 구조가 아닙니다. 302호라는 전달은 잘못된 것으로 301호를 다시 확인해주세요.",
+          "actor": "합성 통합 검증 담당",
+          "channel": "kakao",
+          "attachments": []
+        },
+        "status": "ready",
+        "analysis": {
+          "handoff": [
+            "INC-20261008-003과의 중복 및 인원 동일성 검토",
+            "301호 위치 재확인: 302호 전달은 잘못되었다고 신고됨",
+            "1명 잔류 상태로 유지하고 전원 구조 완료 처리 금지"
+          ],
+          "summary": "해솔다세대 301호 신고와 기존 INC-20261008-003이 동일 위치·인원·구조 진행 상황으로 보입니다. 3명 중 2명 구조 후 1명 잔류가 신고되었으며, 완료로 처리하면 안 됩니다.",
+          "evidence": [
+            {
+              "type": "text",
+              "field": "title",
+              "quote": "세 명 중 두 명만 구조했고 한 명이 안에 남아 있습니다.",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "category",
+              "quote": "계단 아래에 물이 차서 내려가기 어렵습니다.",
+              "source_id": "REP-003-01",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "location",
+              "quote": "가상동 해솔길 7 해솔다세대 301호",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "people_count",
+              "quote": "한 명이 안에 남아 있습니다.",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "priority",
+              "quote": "세 명 중 두 명만 구조했고 한 명이 안에 남아 있습니다. 전원 구조가 아닙니다.",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "summary",
+              "quote": "세 명 중 두 명만 구조했고 한 명이 안에 남아 있습니다. 전원 구조가 아닙니다.",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "intake119",
+              "quote": "가상동 해솔길 7 해솔다세대 301호 세 명 중 두 명만 구조했고 한 명이 안에 남아 있습니다.",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "hazards",
+              "quote": "계단 아래에 물이 차서 내려가기 어렵습니다.",
+              "source_id": "REP-003-01",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "rescue",
+              "quote": "한 명이 안에 남아 있습니다.",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "remaining_people",
+              "quote": "한 명이 안에 남아 있습니다.",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "handoff",
+              "quote": "전원 구조가 아닙니다.",
+              "source_id": "input",
+              "observation": null
+            }
+          ],
+          "intake119": {
+            "rescue": {
+              "injury": null,
+              "breathing": null,
+              "isolation": "1명이 301호 내부에 남아 있다고 신고됨",
+              "people_count": 1,
+              "consciousness": null
+            },
+            "review": {
+              "priority_warnings": [
+                "전원 구조가 아니며 1명이 내부에 남아 있다고 신고됨",
+                "계단 아래 침수로 하향 이동이 어려운 것으로 신고됨"
+              ],
+              "missing_information": [
+                "잔류자 1명의 현재 상태와 부상 여부",
+                "301호 접근 가능 경로",
+                "구조된 2명과 잔류자 1명의 인원 대조"
+              ]
+            },
+            "hazards": {
+              "observed": [],
+              "reported": [
+                "계단 아래 물 참"
+              ],
+              "unconfirmed": []
+            },
+            "location": {
+              "gps": null,
+              "source": null,
+              "floor_unit": "301호",
+              "access_point": null,
+              "verification": "unverified",
+              "address_landmark": "가상동 해솔길 7 해솔다세대"
+            },
+            "reporter": {
+              "phone": null,
+              "display_name": null,
+              "relationship": null,
+              "reply_channel": null
+            },
+            "situation": {
+              "summary": "301호에서 3명 중 2명만 구조되었고 1명이 남아 있는 것으로 신고되었습니다.",
+              "category": "flood",
+              "occurred_at": null
+            }
+          },
+          "limitations": [],
+          "transcripts": [],
+          "authenticity": {
+            "status": "unverified",
+            "signals": [
+              "자료가 synthetic으로 표시됨",
+              "신고 원문은 합성 추가 신고로 표시됨"
+            ],
+            "questions": [
+              "301호가 구조 대상 위치인지 현장에서 재확인할 수 있는가?",
+              "잔류자 1명의 현재 상태와 구조 여부를 확인했는가?"
+            ]
+          },
+          "person_overlap": [
+            {
+              "reason": "두 자료 모두 301호의 3명 중 2명 구조 후 1명 잔류를 보고합니다.",
+              "source_ids": [
+                "input",
+                "REP-003-03"
+              ],
+              "needs_human_confirmation": true
+            }
+          ],
+          "urgent_reasons": [
+            "301호 내부에 1명이 남아 있다고 신고됨",
+            "계단 아래 침수로 이동이 어렵다고 기존 신고됨",
+            "전원 구조가 아니라는 명시적 신고"
+          ],
+          "proposed_changes": {
+            "title": "해솔다세대 301호 1명 잔류",
+            "summary": "해솔다세대 301호의 3명 중 2명만 구조되었고 1명이 내부에 남아 있습니다. 전원 구조가 아니므로 위치와 잔류 인원을 재확인해야 합니다.",
+            "category": "flood",
+            "location": "가상동 해솔길 7 해솔다세대 301호",
+            "priority": "urgent",
+            "people_count": 1
+          },
+          "remaining_people": {
+            "basis": "신고 원문에서 3명 중 2명만 구조되었고 1명이 내부에 남아 있다고 명시했습니다.",
+            "count": 1,
+            "needs_human_confirmation": true
+          },
+          "missing_information": [
+            "잔류자 1명의 상태, 부상, 의식 및 호흡",
+            "현재 침수 수준과 접근 가능 경로",
+            "신고자 연락 수단 및 현장 확인 정보"
+          ],
+          "duplicate_candidates": [
+            {
+              "reason": "동일한 해솔다세대 301호에서 3명 중 2명 구조, 1명 잔류 및 전원 미구조 상태가 일치합니다.",
+              "report_id": "REP-003-03",
+              "incident_id": "INC-20261008-003",
+              "needs_human_confirmation": true
+            }
+          ]
+        },
+        "execution": {
+          "mode": "live",
+          "usage": {
+            "input_tokens": 27355,
+            "output_tokens": 1862,
+            "cached_input_tokens": 0,
+            "reasoning_output_tokens": 610,
+            "cache_write_input_tokens": 0
+          },
+          "provider": "codex_cli",
+          "started_at": "2026-10-09T03:49:48.344Z",
+          "completed_at": "2026-10-09T03:50:48.309Z",
+          "input_sha256": "b6c97965902b03c5e23d54b60cf1767b204ea266c62a9524406b8100dd17dfef",
+          "cli_session_id": "01a11ec8-09be-7ec2-b7bf-0b594d90acb4",
+          "model_inherited": true
+        },
+        "created_at": "2026-10-09T03:49:47.794Z",
+        "updated_at": "2026-10-09T03:50:50.437948+00:00",
+        "incident_id": "INC-20261008-003",
+        "expected_revision": 6
+      }
+    },
+    {
+      "case": "photo-observation",
+      "packet": {
+        "incident_id": null,
+        "expected_revision": null,
+        "report": {
+          "channel": "mms",
+          "kind": "initial",
+          "actor": "합성 통합 검증 담당",
+          "text": "합성 사진 신고. 출입구가 물에 잠긴 사진을 보냅니다. 건물 위치와 고립 인원은 아직 확인되지 않았습니다. 사진에서 직접 관찰되는 위험과 확인 질문을 구분해주세요.",
+          "attachments": [
+            {
+              "id": "LIVE-PHOTO",
+              "url": "/media/flood-entrance.png",
+              "media_type": "image",
+              "filename": "flood-entrance.png",
+              "caption": "생성 출입구 침수 합성 이미지",
+              "source": "ai_generated"
+            }
+          ]
+        }
+      },
+      "submit_http": 202,
+      "status": "passed",
+      "job": {
+        "id": "AI-71fb545a-376e-489e-a005-db7c903aece9",
+        "error": null,
+        "report": {
+          "kind": "initial",
+          "text": "합성 사진 신고. 출입구가 물에 잠긴 사진을 보냅니다. 건물 위치와 고립 인원은 아직 확인되지 않았습니다. 사진에서 직접 관찰되는 위험과 확인 질문을 구분해주세요.",
+          "actor": "합성 통합 검증 담당",
+          "channel": "mms",
+          "attachments": [
+            {
+              "id": "LIVE-PHOTO",
+              "url": "/media/flood-entrance.png",
+              "source": "ai_generated",
+              "caption": "생성 출입구 침수 합성 이미지",
+              "filename": "flood-entrance.png",
+              "media_type": "image"
+            }
+          ]
+        },
+        "status": "ready",
+        "analysis": {
+          "handoff": [
+            "사진에서 출입구·계단 주변 침수는 관찰됨.",
+            "주소, 고립 인원, 인명 상태 및 접근 가능 지점은 담당자 확인 필요."
+          ],
+          "summary": "출입구와 계단 주변 침수가 사진에서 관찰되나, 대상 건물 위치와 고립 인원은 확인되지 않았습니다.",
+          "evidence": [
+            {
+              "type": "text",
+              "field": "title",
+              "quote": "출입구가 물에 잠긴 사진",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "text",
+              "field": "category",
+              "quote": "출입구가 물에 잠긴",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "image_observation",
+              "field": "priority",
+              "quote": null,
+              "source_id": "LIVE-PHOTO",
+              "observation": "출입구 외부, 낮은 계단, 문턱 안쪽 바닥에 물이 차 있는 모습이 관찰됨."
+            },
+            {
+              "type": "text",
+              "field": "summary",
+              "quote": "출입구가 물에 잠긴 사진을 보냅니다.",
+              "source_id": "input",
+              "observation": null
+            },
+            {
+              "type": "image_observation",
+              "field": "hazards",
+              "quote": null,
+              "source_id": "LIVE-PHOTO",
+              "observation": "출입구 외부와 계단실 바닥에 탁수가 차 있고, 열린 문 안쪽 바닥까지 물이 들어와 있는 모습이 관찰됨."
+            }
+          ],
+          "intake119": {
+            "rescue": {
+              "injury": null,
+              "breathing": null,
+              "isolation": null,
+              "people_count": null,
+              "consciousness": null
+            },
+            "review": {
+              "priority_warnings": [
+                "출입구와 계단실 바닥 침수로 출입 또는 대피 통로가 영향을 받을 수 있음"
+              ],
+              "missing_information": [
+                "대상 건물의 정확한 주소 또는 랜드마크",
+                "건물 내부 또는 인근 고립 인원 수",
+                "부상·의식·호흡 상태",
+                "신고자와 대상자의 관계 및 회신 수단",
+                "현재 출입 가능 여부와 안전한 접근 지점"
+              ]
+            },
+            "hazards": {
+              "observed": [
+                "출입구 외부와 낮은 계단에 탁수가 차 있음",
+                "문턱 안쪽과 계단실 바닥까지 물이 들어와 있음"
+              ],
+              "reported": [],
+              "unconfirmed": [
+                "건물 내부 고립자 유무",
+                "출입·대피 통로의 안전성",
+                "침수 수위 상승 여부"
+              ]
+            },
+            "location": {
+              "gps": null,
+              "source": null,
+              "floor_unit": null,
+              "access_point": "출입구 및 계단",
+              "verification": "unverified",
+              "address_landmark": null
+            },
+            "reporter": {
+              "phone": null,
+              "display_name": null,
+              "relationship": null,
+              "reply_channel": null
+            },
+            "situation": {
+              "summary": "출입구가 물에 잠긴 사진이 신고됨.",
+              "category": "flood",
+              "occurred_at": null
+            }
+          },
+          "limitations": [],
+          "transcripts": [],
+          "authenticity": {
+            "status": "unverified",
+            "signals": [
+              "합성 신고 자료로 제공됨"
+            ],
+            "questions": [
+              "신고 사진의 촬영 시점과 대상 건물 위치를 확인해 주세요.",
+              "사진 속 건물 내부 또는 인근에 고립된 사람이 있는지 확인해 주세요."
+            ]
+          },
+          "person_overlap": [],
+          "urgent_reasons": [
+            "출입구와 계단실 바닥 침수로 이동·대피 통로가 제한될 수 있음"
+          ],
+          "proposed_changes": {
+            "title": "출입구 침수 사진 신고",
+            "summary": "출입구가 물에 잠긴 사진 신고. 대상 건물 위치와 고립 인원 미확인.",
+            "category": "flood",
+            "location": null,
+            "priority": "high",
+            "people_count": null
+          },
+          "remaining_people": {
+            "basis": "신고 원문에서 고립 인원이 아직 확인되지 않았다고 명시함.",
+            "count": null,
+            "needs_human_confirmation": true
+          },
+          "missing_information": [
+            "대상 위치",
+            "고립 인원 수",
+            "인명 상태",
+            "안전한 접근 지점",
+            "회신 수단"
+          ],
+          "duplicate_candidates": []
+        },
+        "execution": {
+          "mode": "live",
+          "usage": {
+            "input_tokens": 28225,
+            "output_tokens": 1627,
+            "cached_input_tokens": 0,
+            "reasoning_output_tokens": 803,
+            "cache_write_input_tokens": 0
+          },
+          "provider": "codex_cli",
+          "started_at": "2026-10-09T03:50:51.016Z",
+          "completed_at": "2026-10-09T03:52:38.920Z",
+          "input_sha256": "8a3e0669b3fc4b19e1adc1299fd65967765152ed34e5abb9d2764746e3a8a99a",
+          "cli_session_id": "01a11ec8-fe60-76c0-a5ff-ab6198b36f2f",
+          "model_inherited": true
+        },
+        "created_at": "2026-10-09T03:50:50.483Z",
+        "updated_at": "2026-10-09T03:52:41.043318+00:00",
+        "incident_id": null,
+        "expected_revision": null
+      }
+    },
+    {
+      "case": "actual-wav-asr",
+      "packet": {
+        "incident_id": null,
+        "expected_revision": null,
+        "report": {
+          "channel": "voice",
+          "kind": "initial",
+          "actor": "합성 통합 검증 담당",
+          "text": "합성 전화 음성 신고. 첨부 WAV 원문을 실제 전사하고 위치·인원·이동 가능 여부를 확인해주세요.",
+          "attachments": [
+            {
+              "id": "LIVE-AUDIO",
+              "url": "/media/call-isolated.wav",
+              "media_type": "audio",
+              "filename": "call-isolated.wav",
+              "caption": "한국어 TTS 합성 음성, 대본은 모델 입력에 전달하지 않음",
+              "source": "tts_synthetic"
+            }
+          ]
+        }
+      },
+      "submit_http": 202,
+      "status": "failed",
+      "job": {
+        "id": "AI-156b82e6-ae69-4579-a87a-451c7574c832",
+        "error": "AI 인용이 실제 원문/전사에 없습니다.",
+        "report": {
+          "kind": "initial",
+          "text": "합성 전화 음성 신고. 첨부 WAV 원문을 실제 전사하고 위치·인원·이동 가능 여부를 확인해주세요.",
+          "actor": "합성 통합 검증 담당",
+          "channel": "voice",
+          "attachments": [
+            {
+              "id": "LIVE-AUDIO",
+              "url": "/media/call-isolated.wav",
+              "source": "tts_synthetic",
+              "caption": "한국어 TTS 합성 음성, 대본은 모델 입력에 전달하지 않음",
+              "filename": "call-isolated.wav",
+              "media_type": "audio"
+            }
+          ]
+        },
+        "status": "failed",
+        "analysis": null,
+        "execution": {
+          "mode": "live",
+          "provider": "codex_cli",
+          "started_at": "2026-10-09T03:52:43.490742+00:00",
+          "input_sha256": "6233f08e6b7a054ecb5d4ea9d1bfdcd63a9210588d311ba0fef22149569dbfe6"
+        },
+        "created_at": "2026-10-09T03:52:41.165Z",
+        "updated_at": "2026-10-09T03:54:09.666307+00:00",
+        "incident_id": null,
+        "expected_revision": null
+      }
+    }
+  ],
+  "limitations": [
+    "합성 사례의 통합 연결 검사이며 정확도·시간 절감·실제 구조 성과 평가는 아니다.",
+    "AI 초안을 이 검사에서 자동으로 담당자 확정하거나 구조 완료시키지 않는다."
+  ]
+}

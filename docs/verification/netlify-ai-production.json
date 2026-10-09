@@ -1,0 +1,93 @@
+{
+  "checked_at": "2026-10-09T04:24:52.980Z",
+  "base": "https://namojo-hack-test.netlify.app",
+  "checks": [
+    {
+      "path": "/",
+      "status": 200,
+      "bytes": 9648
+    },
+    {
+      "path": "/about/",
+      "status": 200,
+      "bytes": 5294
+    },
+    {
+      "path": "/guide/",
+      "status": 200,
+      "bytes": 4680
+    },
+    {
+      "path": "/references/",
+      "status": 200,
+      "bytes": 5936
+    },
+    {
+      "path": "/judge/",
+      "status": 200,
+      "bytes": 21890
+    },
+    {
+      "path": "/llms.txt",
+      "status": 200,
+      "bytes": 1639
+    },
+    {
+      "path": "/llms-full.txt",
+      "status": 200,
+      "bytes": 77252
+    },
+    {
+      "path": "/judge/evidence.json",
+      "status": 200,
+      "bytes": 70003
+    },
+    {
+      "path": "/build-info.json",
+      "status": 200,
+      "bytes": 3893
+    },
+    {
+      "path": "/api/config",
+      "status": 200,
+      "bytes": 335
+    },
+    {
+      "config": {
+        "storage": "supabase",
+        "ai": {
+          "provider": "disabled",
+          "configured": false,
+          "enabled": false,
+          "model": null,
+          "local_demo": false,
+          "login": {
+            "status": "local_only",
+            "detail": "ChatGPT 로그인 Codex CLI는 로컬 시연 서버에서 사용합니다."
+          },
+          "asr": {
+            "available": false,
+            "provider": "none",
+            "model": null
+          }
+        },
+        "synthetic": true,
+        "offline_available": true
+      }
+    },
+    {
+      "path": "/api/settings",
+      "status": 200,
+      "bytes": 588
+    },
+    {
+      "path": "/api/incidents",
+      "status": 200,
+      "bytes": 85174
+    }
+  ],
+  "status": "passed",
+  "deploy_id": "6ac86c6a11544c1ee5c51946",
+  "source_commit": "888672b85edeebfc347ee8755abea9861720a223",
+  "scope": "actual HTTP production docs/config/sharedDB; public model activation pending"
+}

@@ -1,0 +1,187 @@
+{
+  "checked_at": "2026-10-09T04:00:24.783Z",
+  "site": "http://127.0.0.1:8770",
+  "mode": "live",
+  "status": "failed",
+  "config": {
+    "storage": "supabase",
+    "ai": {
+      "provider": "openai",
+      "configured": true,
+      "enabled": true,
+      "model": "gpt-4.1-mini",
+      "local_demo": true,
+      "login": {
+        "status": "logged_in",
+        "detail": "ChatGPT로 로그인한 Codex CLI"
+      },
+      "asr": {
+        "available": true,
+        "provider": "openai",
+        "model": "gpt-4o-mini-transcribe"
+      }
+    },
+    "synthetic": true,
+    "offline_available": true
+  },
+  "storage_http": 200,
+  "runs": [
+    {
+      "case": "partial-rescue-text",
+      "packet": {
+        "incident_id": "INC-20261008-003",
+        "expected_revision": 6,
+        "report": {
+          "channel": "kakao",
+          "kind": "additional",
+          "actor": "합성 통합 검증 담당",
+          "text": "합성 추가 신고. 가상동 해솔길 7 해솔다세대 301호 세 명 중 두 명만 구조했고 한 명이 안에 남아 있습니다. 전원 구조가 아닙니다. 302호라는 전달은 잘못된 것으로 301호를 다시 확인해주세요.",
+          "attachments": []
+        }
+      },
+      "submit_http": 202,
+      "status": "failed",
+      "job": {
+        "id": "AI-e0013cad-d947-4f40-a1db-6dd71065a2ae",
+        "error": "AI 제안 category에 근거가 없습니다.",
+        "report": {
+          "kind": "additional",
+          "text": "합성 추가 신고. 가상동 해솔길 7 해솔다세대 301호 세 명 중 두 명만 구조했고 한 명이 안에 남아 있습니다. 전원 구조가 아닙니다. 302호라는 전달은 잘못된 것으로 301호를 다시 확인해주세요.",
+          "actor": "합성 통합 검증 담당",
+          "channel": "kakao",
+          "attachments": []
+        },
+        "status": "failed",
+        "analysis": null,
+        "execution": {
+          "mode": "live",
+          "provider": "openai",
+          "started_at": "2026-10-09T04:00:27.713768+00:00",
+          "input_sha256": "b6c97965902b03c5e23d54b60cf1767b204ea266c62a9524406b8100dd17dfef"
+        },
+        "created_at": "2026-10-09T04:00:25.396Z",
+        "updated_at": "2026-10-09T04:00:39.409246+00:00",
+        "incident_id": "INC-20261008-003",
+        "expected_revision": 6
+      }
+    },
+    {
+      "case": "photo-observation",
+      "packet": {
+        "incident_id": null,
+        "expected_revision": null,
+        "report": {
+          "channel": "mms",
+          "kind": "initial",
+          "actor": "합성 통합 검증 담당",
+          "text": "합성 사진 신고. 출입구가 물에 잠긴 사진을 보냅니다. 건물 위치와 고립 인원은 아직 확인되지 않았습니다. 사진에서 직접 관찰되는 위험과 확인 질문을 구분해주세요.",
+          "attachments": [
+            {
+              "id": "LIVE-PHOTO",
+              "url": "/media/flood-entrance.png",
+              "media_type": "image",
+              "filename": "flood-entrance.png",
+              "caption": "생성 출입구 침수 합성 이미지",
+              "source": "ai_generated"
+            }
+          ]
+        }
+      },
+      "submit_http": 202,
+      "status": "failed",
+      "job": {
+        "id": "AI-f183a4ef-4625-49ee-aefe-28ac802e75b5",
+        "error": "AI 인용이 실제 원문/전사에 없습니다.",
+        "report": {
+          "kind": "initial",
+          "text": "합성 사진 신고. 출입구가 물에 잠긴 사진을 보냅니다. 건물 위치와 고립 인원은 아직 확인되지 않았습니다. 사진에서 직접 관찰되는 위험과 확인 질문을 구분해주세요.",
+          "actor": "합성 통합 검증 담당",
+          "channel": "mms",
+          "attachments": [
+            {
+              "id": "LIVE-PHOTO",
+              "url": "/media/flood-entrance.png",
+              "source": "ai_generated",
+              "caption": "생성 출입구 침수 합성 이미지",
+              "filename": "flood-entrance.png",
+              "media_type": "image"
+            }
+          ]
+        },
+        "status": "failed",
+        "analysis": null,
+        "execution": {
+          "mode": "live",
+          "provider": "openai",
+          "started_at": "2026-10-09T04:00:40.279747+00:00",
+          "input_sha256": "8a3e0669b3fc4b19e1adc1299fd65967765152ed34e5abb9d2764746e3a8a99a"
+        },
+        "created_at": "2026-10-09T04:00:37.951Z",
+        "updated_at": "2026-10-09T04:00:51.247995+00:00",
+        "incident_id": null,
+        "expected_revision": null
+      }
+    },
+    {
+      "case": "actual-wav-asr",
+      "packet": {
+        "incident_id": null,
+        "expected_revision": null,
+        "report": {
+          "channel": "voice",
+          "kind": "initial",
+          "actor": "합성 통합 검증 담당",
+          "text": "합성 전화 음성 신고. 첨부 WAV 원문을 실제 전사하고 위치·인원·이동 가능 여부를 확인해주세요.",
+          "attachments": [
+            {
+              "id": "LIVE-AUDIO",
+              "url": "/media/call-isolated.wav",
+              "media_type": "audio",
+              "filename": "call-isolated.wav",
+              "caption": "한국어 TTS 합성 음성, 대본은 모델 입력에 전달하지 않음",
+              "source": "tts_synthetic"
+            }
+          ]
+        }
+      },
+      "submit_http": 202,
+      "status": "failed",
+      "job": {
+        "id": "AI-6957f580-8bf9-469b-b879-83841f6e651a",
+        "error": "AI 제안 title에 근거가 없습니다.",
+        "report": {
+          "kind": "initial",
+          "text": "합성 전화 음성 신고. 첨부 WAV 원문을 실제 전사하고 위치·인원·이동 가능 여부를 확인해주세요.",
+          "actor": "합성 통합 검증 담당",
+          "channel": "voice",
+          "attachments": [
+            {
+              "id": "LIVE-AUDIO",
+              "url": "/media/call-isolated.wav",
+              "source": "tts_synthetic",
+              "caption": "한국어 TTS 합성 음성, 대본은 모델 입력에 전달하지 않음",
+              "filename": "call-isolated.wav",
+              "media_type": "audio"
+            }
+          ]
+        },
+        "status": "failed",
+        "analysis": null,
+        "execution": {
+          "mode": "live",
+          "provider": "openai",
+          "started_at": "2026-10-09T04:00:52.842108+00:00",
+          "input_sha256": "6233f08e6b7a054ecb5d4ea9d1bfdcd63a9210588d311ba0fef22149569dbfe6"
+        },
+        "created_at": "2026-10-09T04:00:50.519Z",
+        "updated_at": "2026-10-09T04:01:01.551527+00:00",
+        "incident_id": null,
+        "expected_revision": null
+      }
+    }
+  ],
+  "limitations": [
+    "합성 사례의 통합 연결 검사이며 정확도·시간 절감·실제 구조 성과 평가는 아니다.",
+    "AI 초안을 이 검사에서 자동으로 담당자 확정하거나 구조 완료시키지 않는다."
+  ]
+}

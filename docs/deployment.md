@@ -3,13 +3,19 @@
 - 사이트: [아직 여기](https://namojo-hack-test.netlify.app/) (Netlify 팀 namojo)
 - 저장소: https://github.com/namojo/codexhack2026
 
-## 공개 체험판의 저장 범위
+## 현재 배포 구조
+
+현재 확장판은 정적 HTML과 Netlify Functions가 Supabase 공용 합성 workspace 및 비공개 Storage를 사용한다. [AI 설정](ai-setup.md)과 [최신 검증](ai-verification.md)을 참고한다. 공개 AI 기본 모드는 비활성이다. 충전 후 로컬 서버에서 실제 OpenAI 문자·사진·음성 분석과 담당자 확정을 검증했다. ChatGPT 로그인 Codex CLI와 실제 Whisper ASR도 함께 사용할 수 있다. 공개 사이트의 지속적인 OpenAI 활성화는 방문자 입력 전송·API 비용에 대한 명시 승인 대기 중이다.
+
+아래 방문자별 localStorage 설명은 `--mode offline`로 빌드한 이전 정적 체험판에 해당한다. 현재 공개 사이트의 공유 DB 설명과 구분한다.
+
+## 오프라인 체험판의 저장 범위
 
 Netlify에 정적 HTML/CSS/JS를 배포한다. 기존 Python 서버판과 별도로 `web/pages-store.js`가 합성 seed와 각 방문자의 localStorage를 사용한다. 업무 화면 `web/app.js`는 두 실행 방식이 공유한다.
 
 초기 데이터는 합성 사건 10건, 보고 20건, 대응팀 4개, 생성 PNG 2장과 TTS WAV 2개다. 접수·추가/현장/정정 보고·팀 배정·진행·결과·재개와 이력은 현재 브라우저에 저장된다. 다른 기기나 방문자와 공유되지 않는다. 브라우저 저장 데이터를 지우면 체험 변경 내용도 사라진다.
 
-화면에 저장 범위를 표시한다. 현재 체험판은 공동 상황실 DB나 공식 119 연계를 제공하지 않는다. 실제 개인정보를 입력하지 않고 가상 자료로 체험한다.
+화면에 저장 범위를 표시한다. 이 오프라인 빌드는 공동 상황실 DB나 공식 119 연계를 제공하지 않는다. 실제 개인정보를 입력하지 않고 가상 자료로 체험한다.
 
 공개판에서도 인원·근거·revision·팀 중복 배정 가드를 적용한다. 저장 공간 오류는 저장 실패로 안내하고 입력을 보존한다. 생성 매체 provenance와 모의 전사 표시를 유지한다. 실제 모델·OCR·ASR 결과라고 표시하지 않는다.
 
@@ -32,7 +38,8 @@ python3 -B scripts/build_pages.py --output dist/pages
 `.github/workflows/verify.yml`은 제품 변경 때 서비스 검사·엔진 smoke·fixture·브라우저 어댑터 검사 후 빌드한다. 배포는 연결된 Netlify CLI 계정으로 수행한다. 저장소에 배포 토큰을 넣지 않는다. `netlify.toml`에 빌드 명령, 공개 폴더와 보안 헤더를 정의했다.
 
 ```bash
-netlify deploy --prod --no-build --dir dist/pages --site SITE_ID
+python3 -B scripts/build_pages.py --mode cloud --output dist/pages
+netlify deploy --prod --no-build --dir dist/pages --functions netlify/functions --site SITE_ID
 ```
 
 [Netlify 공식 CLI 안내](https://docs.netlify.com/api-and-cli-guides/cli-guides/get-started-with-cli/)의 정적 폴더 배포 방식을 사용한다. Netlify의 Git 연동을 별도로 설정하는 경우 같은 빌드 명령과 공개 폴더를 사용한다. 이번 배포는 기존 계정 인증으로 수행하며 새 토큰이나 GitHub secret을 만들지 않는다.

@@ -1,0 +1,9 @@
+{
+  "provider": "local_whisper",
+  "model": "base",
+  "language": "ko",
+  "text": " 물 때문에 밖으로 나갈 수 없어요. 가상동 세범 빌라 2층 200일 후에요. 어머니와 저, 두 명이고요. 어머니는 걷기 어려우세요. 1층 입구로 물이 들어와요.",
+  "seconds": 30.48997712135315,
+  "source_file": "data/media/call-isolated.wav",
+  "actual_asr": true
+}

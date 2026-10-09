@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from urllib.parse import urljoin
 
-from service.store import Store, ROOT
+from service.store import APIError, Store, ROOT
 
 spec = importlib.util.spec_from_file_location('pages_build_qa', ROOT / 'scripts' / 'build_pages.py')
 builder = importlib.util.module_from_spec(spec)
@@ -31,7 +31,12 @@ class PagesIndependentQA(unittest.TestCase):
     def test_public_build_allowlist_hashes_and_synthetic_counts(self):
         output = self.build()
         expected = {'index.html', 'app.js', 'style.css', 'pages-store.js', 'seed.json', '.nojekyll', 'build-info.json',
-                    'media/flood-entrance.png', 'media/flood-stairwell.png', 'media/call-isolated.wav', 'media/call-proxy.wav', 'media/provenance.json'}
+                    'media/flood-entrance.png', 'media/flood-stairwell.png', 'media/call-isolated.wav', 'media/call-proxy.wav', 'media/provenance.json',
+                    'about/index.html', 'guide/index.html', 'references/index.html', 'judge/index.html', 'judge/evidence.json',
+                    'public-guide.css', 'llms.txt', 'llms-full.txt', 'sitemap.xml', 'robots.txt',
+                    'spatial/index.html', 'spatial/app.js', 'spatial/style.css', 'spatial/assets/floor-model.json',
+                    'spatial/assets/analysis.json', 'spatial/assets/report.json', 'spatial/assets/provenance.json',
+                    'spatial/assets/synthetic-report.png'}
         self.assertEqual({str(p.relative_to(output)) for p in output.rglob('*') if p.is_file()}, expected)
         bundle = json.loads((output / 'seed.json').read_text())
         self.assertTrue(bundle['synthetic'])
@@ -112,13 +117,15 @@ class PagesIndependentQA(unittest.TestCase):
         close(i)
         self.assertEqual(trace, js)
 
-    def test_documented_python_equal_count_residual_difference_is_explicit(self):
-        # Current Python server boundary is intentionally outside this static-adapter change.
+    def test_python_equal_count_residual_completion_is_rejected(self):
+        # The AI service extension now applies the residual guard to both backends.
         store = Store(self.base / 'difference.sqlite3')
         i = store.create_incident({'title':'합성 기존 서버 경계','location':'가상동','text':'세 명 대상','people_count':3})
         i = store.add_report(i['id'], {'expected_revision':i['revision'],'channel':'field','kind':'field','text':'두 명만 구조, 한 명 남아 있음','people_count':3})
-        i = store.confirm_outcome(i['id'], {'expected_revision':i['revision'],'outcome':'rescued','confirmed_count':3,'basis_report_id':i['reports'][-1]['id'],'note':'기존 서버 차이 확인'})
-        self.assertEqual(i['status'], 'closed', 'documented legacy behavior changed; review parity decision')
+        with self.assertRaises(APIError) as error:
+            store.confirm_outcome(i['id'], {'expected_revision':i['revision'],'outcome':'rescued','confirmed_count':3,'basis_report_id':i['reports'][-1]['id'],'note':'잔여 대상 차단 확인'})
+        self.assertEqual(error.exception.status, 400)
+        self.assertNotEqual(store.get_incident(i['id'])['status'], 'closed')
 
 
 if __name__ == '__main__':

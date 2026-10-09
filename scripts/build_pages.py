@@ -16,18 +16,24 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from service.store import Store, valid_header
+from scripts.judge_pages import write_public_pages
 
 PRODUCT = 'rescue-synthetic-static-v1'
 UI_FILES = ('index.html', 'app.js', 'style.css', 'pages-store.js')
 MEDIA = {'flood-entrance.png': 'image/png', 'flood-stairwell.png': 'image/png',
          'call-isolated.wav': 'audio/wav', 'call-proxy.wav': 'audio/wav'}
+SPATIAL_FILES = ('index.html', 'app.js', 'style.css', 'assets/floor-model.json',
+                 'assets/analysis.json', 'assets/report.json', 'assets/provenance.json',
+                 'assets/synthetic-report.png')
 
 
 def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def build(output: Path, include_routes: bool = False) -> dict:
+def build(output: Path, mode: str = 'offline', include_routes: bool = False) -> dict:
+    if mode not in ('offline', 'cloud'):
+        raise ValueError('빌드 모드는 offline 또는 cloud여야 합니다.')
     # Refuse replacing source directories, ancestors, symlinks or unrelated artifacts.
     if output.is_symlink():
         raise ValueError('출력 경로는 심볼릭 링크일 수 없습니다.')
@@ -50,16 +56,25 @@ def build(output: Path, include_routes: bool = False) -> dict:
         bundle = Store(Path(temp) / 'seed.sqlite3', seed_path).list_incidents()
     bundle['synthetic'] = True
     html = (ROOT / 'web' / 'index.html').read_text(encoding='utf-8')
-    # Spatial source drawings are for local review; do not publish them or a broken link.
-    html = re.sub(r'\s*<a\b[^>]*data-local-only="spatial"[^>]*>.*?</a>', '', html, flags=re.S)
     if not include_routes:
         html = re.sub(r'\s*<a\b[^>]*data-local-only="routes"[^>]*>.*?</a>', '', html, flags=re.S)
+    html = re.sub(r'<script\s+src=[\"\']/cloud-client\.js[\"\']\s+defer\s*>\s*</script>\s*', '', html)
     html, css_count = re.subn(r'href=[\"\']/style\.css[\"\']', 'href="style.css"', html)
-    html, app_count = re.subn(r'<script\s+src=[\"\']/app\.js[\"\']\s+defer\s*>\s*</script>',
-                              '<script src="pages-store.js" defer></script>\n  <script src="app.js" defer></script>', html)
+    scripts = '<script src="pages-store.js" defer></script>\n  '
+    if mode == 'cloud':
+        scripts += '<script src="cloud-client.js" defer></script>\n  '
+        html = html.replace('<html lang="ko">', '<html lang="ko" data-service-mode="cloud">')
+    scripts += '<script src="app.js" defer></script>'
+    html, app_count = re.subn(r'<script\s+src=[\"\']/app\.js[\"\']\s+defer\s*>\s*</script>', scripts, html)
     if css_count != 1 or app_count != 1:
         raise ValueError('업무 HTML의 CSS·app defer 참조를 확인하세요.')
     source_paths = [ROOT / 'web' / f for f in UI_FILES] + [seed_path, ROOT / 'service' / 'store.py', ROOT / 'service' / 'attention.py', Path(__file__).resolve()]
+    source_paths.append(ROOT / 'scripts' / 'judge_pages.py')
+    source_paths += [ROOT / 'web/spatial' / f for f in SPATIAL_FILES]
+    if mode == 'cloud':
+        source_paths.append(ROOT / 'web' / 'cloud-client.js')
+    if (ROOT / 'docs/verification/ai-live.json').exists():
+        source_paths.append(ROOT / 'docs/verification/ai-live.json')
     source_paths += [ROOT / 'data' / 'media' / name for name in (*MEDIA, 'provenance.json')]
     route_sources = {
         'routes/index.html': ROOT / 'web/routes/index.html',
@@ -80,12 +95,18 @@ def build(output: Path, include_routes: bool = False) -> dict:
     git = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=ROOT, capture_output=True, text=True, check=False)
     info = {'product': PRODUCT, 'synthetic': True, 'built_at': datetime.now(timezone.utc).isoformat(),
             'git_commit': git.stdout.strip() if git.returncode == 0 else None,
-            'storage': 'visitor-localStorage', 'incident_count': 10, 'report_count': 20,
+            'storage': 'supabase-configured-at-runtime' if mode == 'cloud' else 'visitor-localStorage',
+            'mode': mode, 'incident_count': 10, 'report_count': 20,
             'source_sha256': {str(p.relative_to(ROOT)): digest(p) for p in source_paths}}
     output.parent.mkdir(parents=True, exist_ok=True)
     stage = Path(tempfile.mkdtemp(prefix='.rescue-pages-build-', dir=output.parent))
     backup = None
     try:
+        public = write_public_pages(stage, ROOT, bundle, mode)
+        if '<!-- judge-snapshot -->' in html:
+            html = html.replace('<!-- judge-snapshot -->', public['snapshot'])
+        else:
+            html = html.replace('<div id="view">', public['snapshot'] + '<div id="view">')
         (stage / 'index.html').write_text(html, encoding='utf-8')
         for name in UI_FILES[1:]:
             shutil.copyfile(ROOT / 'web' / name, stage / name)
@@ -95,6 +116,13 @@ def build(output: Path, include_routes: bool = False) -> dict:
                 shutil.copyfile(source, stage / name)
             info['route_page'] = 'routes/index.html'
             info['route_data_license'] = 'ODbL 1.0 — https://opendatacommons.org/licenses/odbl/1-0/'
+        if mode == 'cloud':
+            shutil.copyfile(ROOT / 'web' / 'cloud-client.js', stage / 'cloud-client.js')
+        # Only the model, synthetic report and UI are public; original drawing stays local.
+        for name in SPATIAL_FILES:
+            target = stage / 'spatial' / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / 'web/spatial' / name, target)
         (stage / 'seed.json').write_text(json.dumps(bundle, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         (stage / 'media').mkdir()
         for name in (*MEDIA, 'provenance.json'):
@@ -125,10 +153,11 @@ def build(output: Path, include_routes: bool = False) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, default=ROOT / 'dist' / 'pages')
-    parser.add_argument('--include-routes', action='store_true', help='Include the local routing prototype and ODbL road snapshot; does not publish it')
+    parser.add_argument('--mode', choices=['offline', 'cloud'], default='offline')
+    parser.add_argument('--include-routes', action='store_true', help='Include route review and public road snapshot; does not publish it')
     args = parser.parse_args()
     try:
-        print(json.dumps(build(args.output, include_routes=args.include_routes), ensure_ascii=False))
+        print(json.dumps(build(args.output, args.mode, include_routes=args.include_routes), ensure_ascii=False))
         return 0
     except (ValueError, OSError, KeyError) as error:
         print(str(error), file=sys.stderr)

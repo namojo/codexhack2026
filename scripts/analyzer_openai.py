@@ -3,6 +3,8 @@
 import json
 import os
 import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
@@ -21,25 +23,30 @@ def main():
         print("OPENAI_API_KEY 및 OPENAI_MODEL 환경변수가 필요합니다. 비밀값을 파일에 쓰지 마세요.", file=sys.stderr)
         return 2
     try:
-        packet = json.load(sys.stdin)
+        from service.ai import strict_json_loads
+        packet = strict_json_loads(sys.stdin.read())
         if packet.get("synthetic") is not True:
             raise ValueError("합성 데이터만 허용")
+        if "--service" in sys.argv or packet.get("mode") == "service":
+            from service.ai import analyze_service
+            print(json.dumps(analyze_service(packet), ensure_ascii=False, allow_nan=False))
+            return 0
         payload = {"model": model, "store": False, "instructions": INSTRUCTIONS,
-                   "input": json.dumps(packet, ensure_ascii=False),
+                   "input": json.dumps(packet, ensure_ascii=False, allow_nan=False),
                    "text": {"format": {"type": "json_object"}}}
         request = Request("https://api.openai.com/v1/responses", method="POST",
-                          data=json.dumps(payload).encode(),
+                          data=json.dumps(payload, allow_nan=False).encode(),
                           headers={"Authorization": "Bearer " + key,
                                    "Content-Type": "application/json"})
         with urlopen(request, timeout=40) as response:
-            body = json.load(response)
+            body = strict_json_loads(response.read())
         chunks = [part["text"] for item in body.get("output", [])
                   if item.get("type") == "message" for part in item.get("content", [])
                   if part.get("type") == "output_text"]
         if body.get("status") != "completed" or not chunks:
             raise ValueError("완료된 JSON 응답 없음")
-        result = json.loads("".join(chunks))
-        print(json.dumps(result, ensure_ascii=False))
+        result = strict_json_loads("".join(chunks))
+        print(json.dumps(result, ensure_ascii=False, allow_nan=False))
         return 0
     except HTTPError as exc:
         print(f"모델 API 오류 HTTP {exc.code}; fixture로 대체하지 않습니다.", file=sys.stderr)
