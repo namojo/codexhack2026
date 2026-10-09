@@ -6,15 +6,35 @@
   <meta name="theme-color" content="#183449">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'">
   <title>출동경로 안내 | 아직 여기</title>
+  <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="style.css">
   <script src="engine.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#route-form">경로 입력으로 이동</a>
-  <header class="topbar"><a class="brand" href="../index.html"><span aria-hidden="true">＋</span><strong>아직 여기</strong><span>신고·구조 상황관리</span></a><a class="back-link" href="../index.html">← 상황실 콘솔</a></header>
-  <main>
-    <div class="page-heading"><div><p class="eyebrow">관악소방서 → 신림동 · 도림천 주변</p><h1>출동경로 안내</h1><p class="intro">차량 제약을 적용한 접근 경로를 비교하고, 현장 확인 항목을 검토합니다.</p></div><span class="badge">합성 훈련</span></div>
+<header class="topbar">
+  <a class="brand" href="../#dashboard"><span class="brand-mark" aria-hidden="true">＋</span><strong>아직 여기</strong><span class="brand-sub">신고·구조 상황관리</span></a>
+  <div class="topbar-tools"><span class="synthetic-badge">합성 훈련 데이터</span><span class="operator">상황실 김담당</span></div>
+</header>
+<div class="app-shell">
+  <aside class="sidebar">
+    <p class="nav-label">상황실 업무</p>
+    <nav aria-label="주요 업무">
+      <a href="../#dashboard" data-nav="dashboard"><span aria-hidden="true">▦</span>상황 대시보드</a>
+      <a href="../#attention" data-nav="attention"><span aria-hidden="true">!</span>지금 판단·조치</a>
+      <a href="../#active" data-nav="active"><span aria-hidden="true">▤</span>진행 사건</a>
+      <a href="../#field" data-nav="field"><span aria-hidden="true">↗</span>현장 정보</a>
+      <a href="../#results" data-nav="results"><span aria-hidden="true">✓</span>처리 결과</a>
+      <a href="../#resources" data-nav="resources"><span aria-hidden="true">◈</span>대응 자원</a>
+      <a href="./" data-nav="routes" aria-current="page"><span aria-hidden="true">↗</span>출동경로 안내</a>
+      <a href="../#settings" data-nav="settings"><span aria-hidden="true">⚙</span>설정 · AI 연결</a>
+      <a href="../spatial/" data-nav="spatial"><span aria-hidden="true">▧</span>건물 공간정보 목업</a>
+    </nav>
+    <div class="sidebar-bottom"><p>공식 119 연계 및<br>외부 신고 전송 없음</p></div>
+  </aside>
+  <main id="workspace" tabindex="-1">
+    <div class="page-heading"><div><p class="eyebrow">관악소방서 → 신림동 · 도림천 주변</p><h1>출동경로 안내</h1><p class="intro">차량 제약을 적용한 접근 경로를 비교하고, 현장 확인 항목을 검토합니다. 대표 가상 B2 사건·더포엠 공간목업과 자동 연결되지 않습니다.</p></div><span class="badge">합성 훈련</span></div>
     <div class="notice"><strong>훈련 가정 · 현장 검토 필요</strong><span>도로폭과 예상 시간은 실측값이 아닙니다. 실시간 교통·현재 침수 정보는 반영하지 않습니다.</span></div>
     <div class="workspace">
       <aside class="planner panel" aria-label="출동경로 입력">
@@ -47,7 +67,8 @@
       </section>
     </div>
     <section class="evidence panel" aria-labelledby="evidence-title"><div class="panel-heading"><h2 id="evidence-title">선정 근거와 확인 범위</h2><span class="small-label">2026-10-09 도로 스냅샷</span></div><div class="evidence-grid"><div><h3>신림동 도림천 주변</h3><p>서울시가 공개한 과거 침수 이력을 바탕으로 신림동을 선정했습니다. 요청과 통제는 합성이며 현재 피해 상황을 뜻하지 않습니다.</p><a href="https://news.seoul.go.kr/citybuild/archives/216916" target="_blank" rel="noopener noreferrer">서울시 침수 관련 공개 자료 ↗</a><br><a href="https://www.eum.go.kr/web/gs/gv/gvGosiDet.jsp?mobile_yn=&amp;seq=596076" target="_blank" rel="noopener noreferrer">관악소방서 위치 공개 자료 ↗</a></div><div><h3>차량 조건과 계산</h3><p>훈련 추천은 차량 폭에 양쪽 여유를 더한 유효폭, 표기된 높이·최대폭 제한과 회전 부담을 고려합니다. 최단 비교에는 차량의 물리 폭 필터를 적용하지 않습니다.</p><p>훈련 유효폭 가정: 주요도로 7m, 보조간선 6m, 집산도로 5m, 주거도로 3.2m, 생활도로·서비스도로 2.8m. OSM 도로폭은 전체 폭일 수 있으며 통행을 보증하지 않습니다.</p></div><div><h3>현장 확인이 필요한 항목</h3><p id="origin-note">차고 출입구에서 도로 출발점까지의 연결 동선은 미확인입니다.</p><p>차체 길이·회전반경·축중·경사·주차·실제 침수·도로 유효폭을 검증하지 않습니다. 예상 시간은 고정 훈련 속도와 회전 부담에 따른 가정입니다.</p><p id="restriction-note">복합 via-way 통행제한의 지원 범위를 확인 중입니다.</p></div></div><div class="flood-evidence"><h3>실제 공공 침수흔적도 · 현재 침수와 구별</h3><p id="flood-source-summary">서울시 누적 침수흔적도 자료를 확인 중입니다.</p><p id="flood-records-summary">지도 영역의 연도별 등록 건수를 불러옵니다.</p><p>침수흔적은 과거 피해 등록 범위입니다. 미래 침수 확률·현재 침수·도로 수심을 뜻하지 않습니다. 기록이 없는 곳도 안전을 보장하지 않습니다. 연도별 조사 범위, 신고 누락, 배수 개선, 강우·수위·고도 및 교량의 수직 차이를 보정하지 않습니다.</p><p>주변 10m는 도로 중심선과 등록 영역의 위치 불확실성을 고려한 훈련 가정입니다. 침수 이력 경로는 기존 차량 권고 비용에 선택 연도별 주변 통과 길이 × 8을 더합니다. 8은 훈련 가중치이며 확률 추정값이 아닙니다. 과거 침수 구간을 완전히 제외하지 않으므로 잔여 노출이 남을 수 있습니다.</p><p><a id="flood-source" href="https://data.seoul.go.kr/dataList/OA-15636/F/1/datasetView.do" target="_blank" rel="noopener noreferrer">서울 열린데이터광장 원자료 ↗</a> · <a id="flood-license" href="https://www.kogl.or.kr/info/licenseType1.do" target="_blank" rel="noopener noreferrer">공공누리 제1유형 · 출처표시 ↗</a></p></div><div class="external-maps"><div><strong>외부 지도에서 위치 확인</strong><p>Google Maps는 목적지 좌표, 네이버지도는 신원시장 주변 검색을 엽니다. 차량 조건·가상 통제·내부 추천은 전달되지 않으며 클릭할 때만 접속합니다.</p></div><a id="google-map" href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer">Google 목적지 위치 ↗</a><a id="naver-map" href="https://map.naver.com/p/search/%EC%8B%A0%EC%9B%90%EC%8B%9C%EC%9E%A5" target="_blank" rel="noopener noreferrer">네이버 주변 검색 ↗</a></div><p class="source-note">도로 자료: <a id="network-source" href="https://www.openstreetmap.org/" target="_blank" rel="noopener noreferrer">OpenStreetMap 원본 다운로드</a> · 실제 신고 발송 및 공식 119 연계 없음 · 사건 원문과 처리 상태 변경 없음</p></section>
+    <footer class="page-footer">아직 여기 · 합성 구조 요청의 접근 경로 검토</footer>
   </main>
-  <footer class="page-footer">아직 여기 · 합성 구조 요청의 접근 경로 검토</footer>
+</div>
 </body>
 </html>

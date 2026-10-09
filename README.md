@@ -2,13 +2,21 @@
 
 **신고가 폭주할 때, 아직 안전이 확인되지 않은 사람을 다음 확인·대응으로 연결하는 상황실 콘솔.**
 
-집중호우로 고립된 주택·다세대 건물을 대상으로 한다. 소방청 다매체 신고의 공개 채널 구성을 참고해, 신고 원문과 현장 보고를 대조하고 인원·위치·연락·배정의 확인 과제를 보여준다. Track 1 **AI for Safety & Resilience** 해커톤 프로젝트다.
+태풍·집중호우로 고립된 지하주차장과 주택·다세대 건물을 대상으로 한다. 소방청 다매체 신고의 공개 채널 구성을 참고해, 신고 원문과 현장 보고를 대조하고 인원·위치·연락·배정의 확인 과제를 보여준다. Track 1 **AI for Safety & Resilience** 해커톤 프로젝트다.
 
 **[Netlify 체험 사이트](https://namojo-hack-test.netlify.app/)** · [GitHub 저장소](https://github.com/namojo/codexhack2026)
 
 AI 심사는 [서비스·원문 안내](https://namojo-hack-test.netlify.app/judge/)와 [llms.txt](https://namojo-hack-test.netlify.app/llms.txt)에서 JavaScript 없이도 내용을 읽을 수 있다. [AI 연결과 검증](docs/ai-verification.md)에 현재 실행 상태를 정리한다. 이전 배포 기록은 [정적판 검증](docs/pages-verification.md)에 보존했다.
 
 [저장소 관리](docs/repository-management.md) · [아이디어와 현재 기능](docs/project-overview.md) · [작업 과정과 결정](docs/development-log.md) · [배포와 저장 범위](docs/deployment.md) · [공개 근거](docs/sources.md)
+
+## 해커톤 대표 사례
+
+[태풍 침수 B2 · 여성 3명 중 1명 미구조](https://namojo-hack-test.netlify.app/#incident/INC-20261009-100)를 처리중 목록 앞에 배치했다. 문자, 잡음 전화 음성, 비상 조명 아래 B2/C07 기둥 사진, 가족의 중복 후보 신고, 2명 구조 현장 보고, 성인 여성의 후속 문자를 원문 ID와 함께 대조한다. 부분 구조 근거로 완료를 확정할 수 없으며 AI 제안을 담당자가 확인해 인계한다.
+
+[사건 설계](docs/hackathon-case.md) · [5분 발표와 심화 시연](docs/hackathon-demo-script.md) · [공공데이터 누적·현장 정보 통합 To-Do와 연구 근거](docs/roadmap.md)
+
+사진은 AI 생성 합성 자료, 음성은 한국어 TTS에 생성 잡음을 섞은 자료다. 비교 음성은 원본에 실제 DSP를 적용했다. 화자 분리나 실제 구조 성과를 입증하는 데모가 아니다. [생성 프롬프트·대본·처리 방법](data/media/provenance.json)을 보존한다. 건물 공간 목업과 서울 과거 침수흔적 기반 출동 경로 검토는 별도 메뉴·사례로 제공한다.
 
 ## 무엇을 체험할 수 있나요?
 
@@ -30,8 +38,8 @@ AI 심사는 [서비스·원문 안내](https://namojo-hack-test.netlify.app/jud
 
 |항목|Netlify 공개 체험판|Codex CLI 로컬 시연|
 |---|---|---|
-|초기 데이터|합성 사건 10건·보고 20건·대응팀 4개|공개판과 같은 Supabase|
-|사진·음성|생성 PNG 2장·한국어 TTS WAV 2개|같은 실제 첨부 파일|
+|초기 데이터|합성 사건 12건·보고 30건·대응팀 5개|공개판과 같은 Supabase|
+|사진·음성|생성 PNG 4장·한국어 TTS/DSP WAV 4개|같은 실제 첨부 파일|
 |업무 상태 저장|Netlify API → Supabase 공용 합성 workspace|로컬 Node API → 같은 Supabase|
 |실제 AI|OpenAI API 문자·사진 분석과 실제 음성 전사|ChatGPT 로그인된 Codex CLI + 로컬 Whisper|
 |접수·보고·배정·결과·정정|브라우저에서 체험|서버에 영속 저장|

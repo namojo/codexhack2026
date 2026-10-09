@@ -181,8 +181,8 @@ class SpatialPublicQA(unittest.TestCase):
         for mode, output in self.outputs.items():
             seed = json.loads((output / 'seed.json').read_text())
             self.assertTrue(seed['synthetic'])
-            self.assertEqual(len(seed['incidents']), 10)
-            self.assertEqual(sum(len(i['reports']) for i in seed['incidents']), 20)
+            self.assertEqual(len(seed['incidents']), 12)
+            self.assertEqual(sum(len(i['reports']) for i in seed['incidents']), 30)
             got = {i['id']: i for i in seed['incidents']}
             for i in original['incidents']:
                 self.assertEqual(got[i['id']]['reports'], i['reports'])
@@ -195,19 +195,23 @@ class SpatialPublicQA(unittest.TestCase):
             self.assertNotIn('SUPABASE_SERVICE_ROLE_KEY=', main)
             self.assertNotIn('OPENAI_API_KEY=', main)
 
-    def test_shared_brand_native_seven_routes_and_spatial_current(self):
+    def test_shared_brand_nine_native_menu_items_and_spatial_current(self):
         routes = ['dashboard', 'attention', 'active', 'field', 'results', 'resources', 'settings']
         for mode, output in self.outputs.items():
             with self.subTest(mode=mode):
                 html = (output / 'spatial/index.html').read_text()
                 doc = Document(html)
                 menu = [(a['data-nav'], a) for tag, a in doc.elements if tag == 'a' and 'data-nav' in a]
-                self.assertEqual([name for name, a in menu], routes + ['spatial'])
+                self.assertEqual([name for name, a in menu], routes[:-1] + ['routes', routes[-1], 'spatial'])
                 for name, a in menu:
                     self.assertFalse(any(key.startswith('on') for key in a))
                     if name == 'spatial':
                         self.assertEqual(a['href'], './')
                         self.assertEqual(a.get('aria-current'), 'page')
+                    elif name == 'routes':
+                        self.assertEqual(a['href'], '../routes/')
+                        self.assertNotIn('aria-current', a)
+                        self.assertEqual(urljoin('https://qa.test/spatial/', a['href']), 'https://qa.test/routes/')
                     else:
                         self.assertEqual(a['href'], '../#' + name)
                         self.assertNotIn('aria-current', a)

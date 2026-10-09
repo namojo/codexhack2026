@@ -1,0 +1,1326 @@
+{
+  "synthetic": true,
+  "status": "failed",
+  "reason": "AI 인용이 실제 원문/전사에 없습니다.",
+  "execution": {
+    "mode": "live",
+    "provider": "openai",
+    "model": "gpt-4.1-mini",
+    "started_at": "2026-10-09T05:49:27.558Z",
+    "attempts": [
+      {
+        "attempt": 1,
+        "provider": "openai",
+        "started_at": "2026-10-09T05:49:29.855Z",
+        "status": "validation_failed",
+        "response_id": "resp_0765c5bfcf4b107a016ac8806bd62087d0a4542b9dd86f8da0",
+        "usage": {
+          "input_tokens": 9158,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 1760,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 10918
+        },
+        "completed_at": "2026-10-09T05:49:47.339Z",
+        "validation_error": "AI 인용이 실제 원문/전사에 없습니다.",
+        "validation_details": {
+          "missingEvidenceFields": [
+            "priority"
+          ],
+          "invalidCitationIndexes": [
+            10
+          ]
+        }
+      },
+      {
+        "attempt": 2,
+        "provider": "openai",
+        "started_at": "2026-10-09T05:49:47.342Z",
+        "status": "validation_failed",
+        "response_id": "resp_0e941ac945a888d8016ac8807d578887d0b17662c8bce4aed7",
+        "usage": {
+          "input_tokens": 12350,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 1759,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 14109
+        },
+        "completed_at": "2026-10-09T05:50:07.825Z",
+        "validation_error": "AI 인용이 실제 원문/전사에 없습니다.",
+        "validation_details": {
+          "missingEvidenceFields": [],
+          "invalidCitationIndexes": [
+            10
+          ]
+        }
+      }
+    ],
+    "asr_model": "gpt-4o-mini-transcribe",
+    "response_id": "resp_0e941ac945a888d8016ac8807d578887d0b17662c8bce4aed7",
+    "attempt_count": 2,
+    "regeneration_count": 1,
+    "completed_at": "2026-10-09T05:50:07.828Z",
+    "elapsed_ms": 40270,
+    "usage": {
+      "input_tokens": 21508,
+      "output_tokens": 3519,
+      "total_tokens": 25027
+    }
+  },
+  "calls": [
+    {
+      "endpoint": "audio/transcriptions",
+      "status": 200,
+      "text": "여기는 가산동 한빛 복합센터 지하 2층 주차장이에요. 기둥 C07 근처에 여자 세 명이 있어요. 할머니와 여자아이, 저예요. 비상등만 켜져 있고 물이 계속 들어와요. 계단으로 나갈 수 없어요.",
+      "usage": {
+        "type": "tokens",
+        "total_tokens": 234,
+        "input_tokens": 162,
+        "input_token_details": {
+          "text_tokens": 0,
+          "audio_tokens": 162
+        },
+        "output_tokens": 72
+      }
+    },
+    {
+      "endpoint": "audio/transcriptions",
+      "status": 200,
+      "text": "여기는 가상동 한빛 복합센터 지하 2층 주차장이에요. 기둥 C07 근처에 여자 세 명이 있어요. 할머니와 여자아이, 저예요. 비상등만 켜져 있고 물이 계속 들어와요. 계단으로 나갈 수 없어요.",
+      "usage": {
+        "type": "tokens",
+        "total_tokens": 234,
+        "input_tokens": 162,
+        "input_token_details": {
+          "text_tokens": 0,
+          "audio_tokens": 162
+        },
+        "output_tokens": 72
+      }
+    },
+    {
+      "endpoint": "responses",
+      "status": 200,
+      "model": "gpt-4.1-mini-2025-04-14",
+      "response_id": "resp_0765c5bfcf4b107a016ac8806bd62087d0a4542b9dd86f8da0",
+      "text": {
+        "format": {
+          "type": "json_schema",
+          "description": null,
+          "name": "rescue_analysis",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "summary": {
+                "type": "string"
+              },
+              "proposed_changes": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "category": {
+                    "enum": [
+                      "flood",
+                      "fire",
+                      "rescue",
+                      "medical",
+                      "other",
+                      null
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "location": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "people_count": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0
+                  },
+                  "priority": {
+                    "enum": [
+                      "urgent",
+                      "high",
+                      "normal",
+                      null
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "summary": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "title",
+                  "category",
+                  "location",
+                  "people_count",
+                  "priority",
+                  "summary"
+                ],
+                "additionalProperties": false
+              },
+              "intake119": {
+                "type": "object",
+                "properties": {
+                  "reporter": {
+                    "type": "object",
+                    "properties": {
+                      "display_name": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "reply_channel": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "phone": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "relationship": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "display_name",
+                      "reply_channel",
+                      "phone",
+                      "relationship"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "location": {
+                    "type": "object",
+                    "properties": {
+                      "address_landmark": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "floor_unit": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "access_point": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "source": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "gps": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "latitude": {
+                                "type": "number",
+                                "minimum": -90,
+                                "maximum": 90
+                              },
+                              "longitude": {
+                                "type": "number",
+                                "minimum": -180,
+                                "maximum": 180
+                              }
+                            },
+                            "required": [
+                              "latitude",
+                              "longitude"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "verification": {
+                        "enum": [
+                          "unverified"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "address_landmark",
+                      "floor_unit",
+                      "access_point",
+                      "source",
+                      "gps",
+                      "verification"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "situation": {
+                    "type": "object",
+                    "properties": {
+                      "category": {
+                        "enum": [
+                          "flood",
+                          "fire",
+                          "rescue",
+                          "medical",
+                          "other",
+                          null
+                        ],
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "occurred_at": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "summary": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "category",
+                      "occurred_at",
+                      "summary"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "rescue": {
+                    "type": "object",
+                    "properties": {
+                      "people_count": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "injury": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "consciousness": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "breathing": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "isolation": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "people_count",
+                      "injury",
+                      "consciousness",
+                      "breathing",
+                      "isolation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "hazards": {
+                    "type": "object",
+                    "properties": {
+                      "reported": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "observed": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "unconfirmed": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "reported",
+                      "observed",
+                      "unconfirmed"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "review": {
+                    "type": "object",
+                    "properties": {
+                      "missing_information": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "priority_warnings": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "missing_information",
+                      "priority_warnings"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "reporter",
+                  "location",
+                  "situation",
+                  "rescue",
+                  "hazards",
+                  "review"
+                ],
+                "additionalProperties": false
+              },
+              "evidence": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "field": {
+                      "enum": [
+                        "title",
+                        "category",
+                        "location",
+                        "people_count",
+                        "priority",
+                        "summary",
+                        "intake119",
+                        "hazards",
+                        "rescue",
+                        "reporter",
+                        "situation",
+                        "remaining_people",
+                        "handoff"
+                      ],
+                      "type": "string"
+                    },
+                    "source_id": {
+                      "type": "string"
+                    },
+                    "quote": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "observation": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "type": {
+                      "enum": [
+                        "text",
+                        "audio_transcript",
+                        "image_observation"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "source_id",
+                    "quote",
+                    "observation",
+                    "type"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "duplicate_candidates": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "incident_id": {
+                      "type": "string"
+                    },
+                    "report_id": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "reason": {
+                      "type": "string"
+                    },
+                    "needs_human_confirmation": {
+                      "enum": [
+                        true
+                      ],
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "incident_id",
+                    "report_id",
+                    "reason",
+                    "needs_human_confirmation"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "person_overlap": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "source_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "reason": {
+                      "type": "string"
+                    },
+                    "needs_human_confirmation": {
+                      "enum": [
+                        true
+                      ],
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "source_ids",
+                    "reason",
+                    "needs_human_confirmation"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "remaining_people": {
+                "type": "object",
+                "properties": {
+                  "count": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0
+                  },
+                  "basis": {
+                    "type": "string"
+                  },
+                  "needs_human_confirmation": {
+                    "enum": [
+                      true
+                    ],
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "count",
+                  "basis",
+                  "needs_human_confirmation"
+                ],
+                "additionalProperties": false
+              },
+              "authenticity": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "unverified"
+                    ],
+                    "type": "string"
+                  },
+                  "signals": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "questions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "status",
+                  "signals",
+                  "questions"
+                ],
+                "additionalProperties": false
+              },
+              "handoff": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "missing_information": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "urgent_reasons": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "transcripts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "attachment_id": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    },
+                    "model": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "attachment_id",
+                    "text",
+                    "model"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "summary",
+              "proposed_changes",
+              "intake119",
+              "evidence",
+              "duplicate_candidates",
+              "person_overlap",
+              "remaining_people",
+              "authenticity",
+              "handoff",
+              "missing_information",
+              "urgent_reasons",
+              "transcripts",
+              "limitations"
+            ],
+            "additionalProperties": false
+          },
+          "strict": true
+        },
+        "verbosity": "medium"
+      },
+      "output": [
+        {
+          "id": "msg_0765c5bfcf4b107a016ac8806f2e4087d08b90504830b8cb52",
+          "type": "message",
+          "status": "completed",
+          "content": [
+            {
+              "type": "output_text",
+              "annotations": [],
+              "logprobs": [],
+              "text": "{\"summary\":\"태풍으로 한빛복합센터 B2 지하주차장이 침수되어 여성 3명 중 할머니와 여자아이 2명을 구조하였고, 성인 여성 1명이 아직 내부에 남아 있음. 비상등만 켜져 있고 계단 통로로 물이 들어와 접근이 어려운 상태임.\",\"proposed_changes\":{\"title\":\"한빛복합센터 B2 지하주차장 태풍 침수 및 인명 구조 현장\",\"category\":\"flood\",\"location\":\"가상동 한빛길 31 한빛복합센터 B2, 기둥 B2-C07 인근\",\"people_count\":null,\"priority\":\"urgent\",\"summary\":\"태풍으로 한빛복합센터 B2 지하주차장이 침수되어 여성 3명 중 할머니와 여자아이 2명을 구조하였고, 성인 여성 1명이 아직 내부에 남아 있음. 비상등만 켜져 있고 계단 통로로 물이 들어와 접근이 어려운 상태임.\"},\"intake119\":{\"reporter\":{\"display_name\":null,\"reply_channel\":\"field\",\"phone\":null,\"relationship\":null},\"location\":{\"address_landmark\":\"가상동 한빛길 31 한빛복합센터 B2, 기둥 B2-C07 인근\",\"floor_unit\":\"B2\",\"access_point\":\"기둥 B2-C07 인근\",\"source\":\"input\",\"gps\":null,\"verification\":\"unverified\"},\"situation\":{\"category\":\"flood\",\"occurred_at\":null,\"summary\":\"태풍으로 한빛복합센터 B2 지하주차장이 침수됨\"},\"rescue\":{\"people_count\":3,\"injury\":null,\"consciousness\":null,\"breathing\":null,\"isolation\":\"성인 여성 1명 미구조로 침수 지역 내 잔류 중\"},\"hazards\":{\"reported\":[\"비상등 점등\",\"계단 통로에 물 유입\"],\"observed\":[\"지하주차장 침수\",\"계단 통로에 침수수위\"],\"unconfirmed\":[]},\"review\":{\"missing_information\":[\"정확한 발생 시간\",\"부상자 상태 및 의식/호흡 여부\",\"추가 잔류 인원 및 위치 확인\"],\"priority_warnings\":[\"침수에 따른 인명 위험\",\"계단 통로 물 유입으로 접근 어려움\"]}},\"evidence\":[{\"field\":\"title\",\"source_id\":\"input\",\"quote\":\"합성 현장 추가 보고: 태풍으로 한빛복합센터 B2 지하주차장이 침수됐습니다.\",\"observation\":null,\"type\":\"text\"},{\"field\":\"category\",\"source_id\":\"input\",\"quote\":\"합성 현장 추가 보고: 태풍으로 한빛복합센터 B2 지하주차장이 침수됐습니다.\",\"observation\":null,\"type\":\"text\"},{\"field\":\"location\",\"source_id\":\"REP-100-02\",\"quote\":\"지하 이층 같아요. 가까운 기둥에 B2와 C07이라고 적혀 있는 것 같아요.\",\"observation\":null,\"type\":\"text\"},{\"field\":\"summary\",\"source_id\":\"input\",\"quote\":\"합성 현장 추가 보고: 태풍으로 한빛복합센터 B2 지하주차장이 침수됐습니다. 최초 여성 세 명 중 할머니 한 명과 여자아이 한 명, 두 명을 구조했습니다. 성인 여성 한 명은 아직 안에 남아 있습니다. 전원 구조가 아닙니다. 비상등만 켜져 있고 계단 통로로 물이 들어옵니다.\",\"observation\":null,\"type\":\"text\"},{\"field\":\"summary\",\"source_id\":\"REP-100-06\",\"quote\":\"한빛복합센터 B2 요청의 여성 세 명 중 고령 여성 한 명과 여자아이 한 명, 합계 두 명만 구조했습니다. 성인 여성 한 명은 기둥 B2-C07 인근에 아직 남아 있습니다. 전원 구조가 아닙니다. 계단 통로의 물 유입이 계속되어 접근을 재확인 중입니다.\",\"observation\":null,\"type\":\"text\"},{\"field\":\"intake119\",\"source_id\":\"input\",\"quote\":\"합성 현장 추가 보고: 태풍으로 한빛복합센터 B2 지하주차장이 침수됐습니다. 최초 여성 세 명 중 할머니 한 명과 여자아이 한 명, 두 명을 구조했습니다. 성인 여성 한 명은 아직 안에 남아 있습니다. 전원 구조가 아닙니다. 비상등만 켜져 있고 계단 통로로 물이 들어옵니다.\",\"observation\":null,\"type\":\"text\"},{\"field\":\"intake119\",\"source_id\":\"REP-100-06\",\"quote\":\"한빛복합센터 B2 요청의 여성 세 명 중 고령 여성 한 명과 여자아이 한 명, 합계 두 명만 구조했습니다. 성인 여성 한 명은 기둥 B2-C07 인근에 아직 남아 있습니다. 전원 구조가 아닙니다. 계단 통로의 물 유입이 계속되어 접근을 재확인 중입니다.\",\"observation\":null,\"type\":\"text\"},{\"field\":\"intake119\",\"source_id\":\"MEDIA-PARKING-PILLAR\",\"quote\":null,\"observation\":\"B2, C07 표시가 찍힌 기둥과 침수된 지하주차장 상태\",\"type\":\"image_observation\"},{\"field\":\"intake119\",\"source_id\":\"MEDIA-PARKING-STAIR\",\"quote\":null,\"observation\":\"비상등이 켜진 계단 입구와 침수된 계단 통로\",\"type\":\"image_observation\"},{\"field\":\"intake119\",\"source_id\":\"MEDIA-PARKING-NOISY\",\"quote\":\"여기는 가산동 한빛 복합센터 지하 2층 주차장이에요. 기둥 C07 근처에 여자 세 명이 있어요. 할머니와 여자아이, 저예요. 비상등만 켜져 있고 물이 계속 들어와요. 계단으로 나갈 수 없어요.\",\"observation\":null,\"type\":\"audio_transcript\"},{\"field\":\"intake119\",\"source_id\":\"MEDIA-PARKING-ENHANCED\",\"quote\":\"여기는 가상동 한빛복합센터 지하 2층 주차장이에요. 기둥 C07 근처에 여자 세 명이 있어요. 할머니와 여자아이, 저예요. 비상등만 켜져 있고 물이 계속 들어와요. 계단으로 나갈 수 없어요.\",\"observation\":null,\"type\":\"audio_transcript\"}],\"duplicate_candidates\":[],\"person_overlap\":[],\"remaining_people\":{\"count\":1,\"basis\":\"성인 여성 1명이 기둥 B2-C07 인근에 아직 내부에 남아 있음\",\"needs_human_confirmation\":true},\"authenticity\":{\"status\":\"unverified\",\"signals\":[\"합성 신고 문서 명시\",\"추가 음성 내용 합성 대본\",\"사진 내 위치 표시 확인 가능\"],\"questions\":[\"실제 위치 및 상황 확인 필요\",\"남은 인원 상태 및 위험도 확인 필요\"]},\"handoff\":[],\"missing_information\":[\"신고 발생 정확 시간\",\"부상자 상태 및 의료 요청 여부\",\"대피 경로 및 추가 잔류자 가능성\"],\"urgent_reasons\":[\"침수로 인한 인명 위급 상황\",\"계단 통로 물 유입으로 접근 및 대피 어려움 지속\"] ,\"transcripts\":[{\"attachment_id\":\"MEDIA-PARKING-NOISY\",\"text\":\"여기는 가산동 한빛 복합센터 지하 2층 주차장이에요. 기둥 C07 근처에 여자 세 명이 있어요. 할머니와 여자아이, 저예요. 비상등만 켜져 있고 물이 계속 들어와요. 계단으로 나갈 수 없어요.\",\"model\":\"gpt-4o-mini-transcribe\"},{\"attachment_id\":\"MEDIA-PARKING-ENHANCED\",\"text\":\"여기는 가상동 한빛복합센터 지하 2층 주차장이에요. 기둥 C07 근처에 여자 세 명이 있어요. 할머니와 여자아이, 저예요. 비상등만 켜져 있고 물이 계속 들어와요. 계단으로 나갈 수 없어요.\",\"model\":\"gpt-4o-mini-transcribe\"}],\"limitations\":[]}"
+            }
+          ],
+          "role": "assistant"
+        }
+      ],
+      "usage": {
+        "input_tokens": 9158,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1760,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 10918
+      }
+    },
+    {
+      "endpoint": "responses",
+      "status": 200,
+      "model": "gpt-4.1-mini-2025-04-14",
+      "response_id": "resp_0e941ac945a888d8016ac8807d578887d0b17662c8bce4aed7",
+      "text": {
+        "format": {
+          "type": "json_schema",
+          "description": null,
+          "name": "rescue_analysis",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "summary": {
+                "type": "string"
+              },
+              "proposed_changes": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "category": {
+                    "enum": [
+                      "flood",
+                      "fire",
+                      "rescue",
+                      "medical",
+                      "other",
+                      null
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "location": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "people_count": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0
+                  },
+                  "priority": {
+                    "enum": [
+                      "urgent",
+                      "high",
+                      "normal",
+                      null
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "summary": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "title",
+                  "category",
+                  "location",
+                  "people_count",
+                  "priority",
+                  "summary"
+                ],
+                "additionalProperties": false
+              },
+              "intake119": {
+                "type": "object",
+                "properties": {
+                  "reporter": {
+                    "type": "object",
+                    "properties": {
+                      "display_name": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "reply_channel": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "phone": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "relationship": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "display_name",
+                      "reply_channel",
+                      "phone",
+                      "relationship"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "location": {
+                    "type": "object",
+                    "properties": {
+                      "address_landmark": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "floor_unit": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "access_point": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "source": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "gps": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "latitude": {
+                                "type": "number",
+                                "minimum": -90,
+                                "maximum": 90
+                              },
+                              "longitude": {
+                                "type": "number",
+                                "minimum": -180,
+                                "maximum": 180
+                              }
+                            },
+                            "required": [
+                              "latitude",
+                              "longitude"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "verification": {
+                        "enum": [
+                          "unverified"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "address_landmark",
+                      "floor_unit",
+                      "access_point",
+                      "source",
+                      "gps",
+                      "verification"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "situation": {
+                    "type": "object",
+                    "properties": {
+                      "category": {
+                        "enum": [
+                          "flood",
+                          "fire",
+                          "rescue",
+                          "medical",
+                          "other",
+                          null
+                        ],
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "occurred_at": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "summary": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "category",
+                      "occurred_at",
+                      "summary"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "rescue": {
+                    "type": "object",
+                    "properties": {
+                      "people_count": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "injury": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "consciousness": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "breathing": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "isolation": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "people_count",
+                      "injury",
+                      "consciousness",
+                      "breathing",
+                      "isolation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "hazards": {
+                    "type": "object",
+                    "properties": {
+                      "reported": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "observed": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "unconfirmed": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "reported",
+                      "observed",
+                      "unconfirmed"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "review": {
+                    "type": "object",
+                    "properties": {
+                      "missing_information": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "priority_warnings": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "missing_information",
+                      "priority_warnings"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "reporter",
+                  "location",
+                  "situation",
+                  "rescue",
+                  "hazards",
+                  "review"
+                ],
+                "additionalProperties": false
+              },
+              "evidence": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "field": {
+                      "enum": [
+                        "title",
+                        "category",
+                        "location",
+                        "people_count",
+                        "priority",
+                        "summary",
+                        "intake119",
+                        "hazards",
+                        "rescue",
+                        "reporter",
+                        "situation",
+                        "remaining_people",
+                        "handoff"
+                      ],
+                      "type": "string"
+                    },
+                    "source_id": {
+                      "type": "string"
+                    },
+                    "quote": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "observation": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "type": {
+                      "enum": [
+                        "text",
+                        "audio_transcript",
+                        "image_observation"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "source_id",
+                    "quote",
+                    "observation",
+                    "type"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "duplicate_candidates": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "incident_id": {
+                      "type": "string"
+                    },
+                    "report_id": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "reason": {
+                      "type": "string"
+                    },
+                    "needs_human_confirmation": {
+                      "enum": [
+                        true
+                      ],
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "incident_id",
+                    "report_id",
+                    "reason",
+                    "needs_human_confirmation"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "person_overlap": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "source_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "reason": {
+                      "type": "string"
+                    },
+                    "needs_human_confirmation": {
+                      "enum": [
+                        true
+                      ],
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "source_ids",
+                    "reason",
+                    "needs_human_confirmation"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "remaining_people": {
+                "type": "object",
+                "properties": {
+                  "count": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0
+                  },
+                  "basis": {
+                    "type": "string"
+                  },
+                  "needs_human_confirmation": {
+                    "enum": [
+                      true
+                    ],
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "count",
+                  "basis",
+                  "needs_human_confirmation"
+                ],
+                "additionalProperties": false
+              },
+              "authenticity": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "unverified"
+                    ],
+                    "type": "string"
+                  },
+                  "signals": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "questions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "status",
+                  "signals",
+                  "questions"
+                ],
+                "additionalProperties": false
+              },
+              "handoff": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "missing_information": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "urgent_reasons": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "transcripts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "attachment_id": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    },
+                    "model": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "attachment_id",
+                    "text",
+                    "model"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "summary",
+              "proposed_changes",
+              "intake119",
+              "evidence",
+              "duplicate_candidates",
+              "person_overlap",
+              "remaining_people",
+              "authenticity",
+              "handoff",
+              "missing_information",
+              "urgent_reasons",
+              "transcripts",
+              "limitations"
+            ],
+            "additionalProperties": false
+          },
+          "strict": true
+        },
+        "verbosity": "medium"
+      },
+      "output": [
+        {
+          "id": "msg_0e941ac945a888d8016ac8808033d087d0a4255d6382c8024f",
+          "type": "message",
+          "status": "completed",
+          "content": [
+            {
+              "type": "output_text",
+              "annotations": [],
+              "logprobs": [],
+              "text": "{\"summary\":\"태풍으로 한빛복합센터 B2 지하주차장이 침수되어 여성 3명 중 할머니와 여자아이 2명을 구조하였고 성인 여성 1명이 아직 내부에 남아 있음. 비상등만 켜져 있고 계단 통로로 물이 들어와 접근이 어려운 상태임.\",\"proposed_changes\":{\"title\":\"한빛복합센터 B2 지하주차장 태풍 침수 및 인명 구조 현장\",\"category\":\"flood\",\"location\":\"가상동 한빛길 31 한빛복합센터 B2, 기둥 B2-C07 인근\",\"people_count\":null,\"priority\":null,\"summary\":\"태풍으로 한빛복합센터 B2 지하주차장이 침수되어 여성 3명 중 할머니와 여자아이 2명을 구조하였고 성인 여성 1명이 아직 내부에 남아 있음. 비상등만 켜져 있고 계단 통로로 물이 들어와 접근이 어려운 상태임.\"},\"intake119\":{\"reporter\":{\"display_name\":null,\"reply_channel\":\"field\",\"phone\":null,\"relationship\":null},\"location\":{\"address_landmark\":\"가상동 한빛길 31 한빛복합센터 B2, 기둥 B2-C07 인근\",\"floor_unit\":\"B2\",\"access_point\":\"기둥 B2-C07 인근\",\"source\":\"input\",\"gps\":null,\"verification\":\"unverified\"},\"situation\":{\"category\":\"flood\",\"occurred_at\":null,\"summary\":\"태풍으로 한빛복합센터 B2 지하주차장이 침수됨\"},\"rescue\":{\"people_count\":3,\"injury\":null,\"consciousness\":null,\"breathing\":null,\"isolation\":\"성인 여성 1명 미구조로 침수 지역 내 잔류 중\"},\"hazards\":{\"reported\":[\"비상등 점등\",\"계단 통로에 물 유입\"],\"observed\":[\"지하주차장 침수\",\"계단 통로에 침수수위\"],\"unconfirmed\":[]},\"review\":{\"missing_information\":[\"정확한 발생 시간\",\"부상자 상태 및 의식/호흡 여부\",\"추가 잔류 인원 및 위치 확인\"],\"priority_warnings\":[\"침수에 따른 인명 위험\",\"계단 통로 물 유입으로 접근 어려움\"]}},\"evidence\":[{\"field\":\"title\",\"source_id\":\"input\",\"quote\":\"합성 현장 추가 보고: 태풍으로 한빛복합센터 B2 지하주차장이 침수됐습니다.\",\"observation\":null,\"type\":\"text\"},{\"field\":\"category\",\"source_id\":\"input\",\"quote\":\"합성 현장 추가 보고: 태풍으로 한빛복합센터 B2 지하주차장이 침수됐습니다.\",\"observation\":null,\"type\":\"text\"},{\"field\":\"location\",\"source_id\":\"REP-100-02\",\"quote\":\"지하 이층 같아요. 가까운 기둥에 B2와 C07이라고 적혀 있는 것 같아요.\",\"observation\":null,\"type\":\"text\"},{\"field\":\"summary\",\"source_id\":\"input\",\"quote\":\"합성 현장 추가 보고: 태풍으로 한빛복합센터 B2 지하주차장이 침수됐습니다. 최초 여성 세 명 중 할머니 한 명과 여자아이 한 명, 두 명을 구조했습니다. 성인 여성 한 명은 아직 안에 남아 있습니다. 전원 구조가 아닙니다. 비상등만 켜져 있고 계단 통로로 물이 들어옵니다.\",\"observation\":null,\"type\":\"text\"},{\"field\":\"summary\",\"source_id\":\"REP-100-06\",\"quote\":\"한빛복합센터 B2 요청의 여성 세 명 중 고령 여성 한 명과 여자아이 한 명, 합계 두 명만 구조했습니다. 성인 여성 한 명은 기둥 B2-C07 인근에 아직 남아 있습니다. 전원 구조가 아닙니다. 계단 통로의 물 유입이 계속되어 접근을 재확인 중입니다.\",\"observation\":null,\"type\":\"text\"},{\"field\":\"intake119\",\"source_id\":\"input\",\"quote\":\"합성 현장 추가 보고: 태풍으로 한빛복합센터 B2 지하주차장이 침수됐습니다. 최초 여성 세 명 중 할머니 한 명과 여자아이 한 명, 두 명을 구조했습니다. 성인 여성 한 명은 아직 안에 남아 있습니다. 전원 구조가 아닙니다. 비상등만 켜져 있고 계단 통로로 물이 들어옵니다.\",\"observation\":null,\"type\":\"text\"},{\"field\":\"intake119\",\"source_id\":\"REP-100-06\",\"quote\":\"한빛복합센터 B2 요청의 여성 세 명 중 고령 여성 한 명과 여자아이 한 명, 합계 두 명만 구조했습니다. 성인 여성 한 명은 기둥 B2-C07 인근에 아직 남아 있습니다. 전원 구조가 아닙니다. 계단 통로의 물 유입이 계속되어 접근을 재확인 중입니다.\",\"observation\":null,\"type\":\"text\"},{\"field\":\"intake119\",\"source_id\":\"MEDIA-PARKING-PILLAR\",\"quote\":null,\"observation\":\"B2, C07 표시가 찍힌 기둥과 침수된 지하주차장 상태\",\"type\":\"image_observation\"},{\"field\":\"intake119\",\"source_id\":\"MEDIA-PARKING-STAIR\",\"quote\":null,\"observation\":\"비상등이 켜진 계단 입구와 침수된 계단 통로\",\"type\":\"image_observation\"},{\"field\":\"intake119\",\"source_id\":\"MEDIA-PARKING-NOISY\",\"quote\":\"여기는 가산동 한빛 복합센터 지하 2층 주차장이에요. 기둥 C07 근처에 여자 세 명이 있어요. 할머니와 여자아이, 저예요. 비상등만 켜져 있고 물이 계속 들어와요. 계단으로 나갈 수 없어요.\",\"observation\":null,\"type\":\"audio_transcript\"},{\"field\":\"intake119\",\"source_id\":\"MEDIA-PARKING-ENHANCED\",\"quote\":\"여기는 가상동 한빛복합센터 지하 2층 주차장이에요. 기둥 C07 근처에 여자 세 명이 있어요. 할머니와 여자아이, 저예요. 비상등만 켜져 있고 물이 계속 들어와요. 계단으로 나갈 수 없어요.\",\"observation\":null,\"type\":\"audio_transcript\"}],\"duplicate_candidates\":[],\"person_overlap\":[],\"remaining_people\":{\"count\":1,\"basis\":\"성인 여성 1명이 기둥 B2-C07 인근에 아직 내부에 남아 있음\",\"needs_human_confirmation\":true},\"authenticity\":{\"status\":\"unverified\",\"signals\":[\"합성 신고 문서 명시\",\"추가 음성 내용 합성 대본\",\"사진 내 위치 표시 확인 가능\"],\"questions\":[\"실제 위치 및 상황 확인 필요\",\"남은 인원 상태 및 위험도 확인 필요\"]},\"handoff\":[],\"missing_information\":[\"신고 발생 정확 시간\",\"부상자 상태 및 의식/호흡 여부\",\"추가 잔류 인원 및 위치 확인\"],\"urgent_reasons\":[\"침수로 인한 인명 위급 상황\",\"계단 통로 물 유입으로 접근 및 대피 어려움 지속\"],\"transcripts\":[{\"attachment_id\":\"MEDIA-PARKING-NOISY\",\"text\":\"여기는 가산동 한빛 복합센터 지하 2층 주차장이에요. 기둥 C07 근처에 여자 세 명이 있어요. 할머니와 여자아이, 저예요. 비상등만 켜져 있고 물이 계속 들어와요. 계단으로 나갈 수 없어요.\",\"model\":\"gpt-4o-mini-transcribe\"},{\"attachment_id\":\"MEDIA-PARKING-ENHANCED\",\"text\":\"여기는 가상동 한빛복합센터 지하 2층 주차장이에요. 기둥 C07 근처에 여자 세 명이 있어요. 할머니와 여자아이, 저예요. 비상등만 켜져 있고 물이 계속 들어와요. 계단으로 나갈 수 없어요.\",\"model\":\"gpt-4o-mini-transcribe\"}],\"limitations\":[]}"
+            }
+          ],
+          "role": "assistant"
+        }
+      ],
+      "usage": {
+        "input_tokens": 12350,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1759,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 14109
+      }
+    }
+  ]
+}

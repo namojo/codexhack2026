@@ -5,7 +5,7 @@ from pathlib import Path
 
 SITE = 'https://namojo-hack-test.netlify.app'
 REPO = 'https://github.com/namojo/codexhack2026'
-LINKS = [('about', '서비스 개요'), ('guide', '이용법'), ('references', '근거와 한계'), ('judge', '심사 안내'), ('spatial', '건물 공간정보')]
+LINKS = [('about', '서비스 개요'), ('guide', '이용법'), ('references', '근거와 한계'), ('judge', '심사 안내'), ('spatial', '건물 공간정보'), ('routes', '출동 경로 검토')]
 REFERENCES = [
     ('소방청: 119 다매체 신고', 'https://www.nfa.go.kr/nfa/news/pressrelease/press/?cntId=2097&mode=view&pageIdx=2&searchCondition=all',
      '문자·사진, 신고 앱, 영상통화 등으로 신고할 수 있다는 공개 채널 구성을 참고했다. 내부 접수 시스템이나 실제 신고 API를 제공받은 프로젝트는 아니다.'),
@@ -24,6 +24,13 @@ REFERENCES = [
     ('Netlify: Functions 실행 제한', 'https://docs.netlify.com/build/functions/configuration/?fn-language=js',
      '긴 분석을 background function과 DB 작업 상태 조회로 분리하는 구현 근거. 대기 화면이 최종 완료를 의미하지 않으며 실제 ready/failed 상태를 확인한다.'),
 ]
+REFERENCES += [
+    ('NIST: Public Safety Audio Quality', 'https://www.nist.gov/programs-projects/public-safety-audio-quality', '공공안전 통신에서 배경 소음과 음성 명료도 측정의 중요성을 다룬다. 본 사례의 DSP가 화자를 분리하거나 전사 정확도를 개선했다는 근거는 아니다.'),
+    ('Gupta et al.: xBD (2019)', 'https://arxiv.org/abs/1911.09296', '재난 전후 위성 영상의 건물 피해 데이터셋과 평가 기반을 제시한다. 이미지와 공간정보를 결합하는 방향을 참고하며, 실내 요구조자 위치나 개인 식별 성능을 증명하지 않는다.'),
+    ('Chen et al.: DisasTeller (Nature Communications, 2026)', 'https://www.nature.com/articles/s41467-025-68216-z', '비전 언어 모델 에이전트로 재난 피해 평가·경보·자원 배분 보고를 지원하는 연구. 정보 정리의 가능성과 초기 오류의 전파·사람 검토 필요성을 함께 보여준다. 우리 서비스의 생존율이나 운영 시간 개선을 측정한 연구는 아니다.'),
+]
+SHOWCASE = '<h2>발표 대표 사례: 아직 한 명이 남아 있다</h2><p>태풍·집중호우로 신고가 폭주하는 상황에서 한빛복합센터 지하 B2에 여성 3명이 고립됐다는 문자·잡음 음성·기둥 사진이 들어옵니다. 가족의 재전달 신고는 별도 ID로 보존하고 중복 후보로만 제안합니다. 할머니와 여자아이 2명을 구조한 뒤 성인 여성의 추가 문자가 도착합니다. 담당자는 남은 1명을 확인하고 현장에 다시 인계하며, 부분 구조 근거로 사건을 끝낼 수 없습니다.</p><p><a class="button" href="/#incident/INC-20261009-100">대표 사건 열기</a> <a href="'+REPO+'/blob/main/docs/hackathon-demo-script.md">5분 발표와 심화 시연 대본</a></p><p>대표 배치는 발표용 고정 표시입니다. 위험 판단은 원문과 별도 경고를 대조합니다. 사진의 B2/C07은 위치 후보이며, 대본은 실제 ASR 결과가 아닙니다. 잡음 원본과 DSP 처리 음성을 비교하고 실제 모델 초안은 담당자가 확인합니다.</p>'
+ROADMAP = '<h2>향후 연계 · To-Do</h2><ul><li>현장 캠·CCTV·기상과 침수 관측을 수신 시각·출처·지연 정보와 함께 통합하고 새 정보가 들어오면 위험과 인계를 재검토합니다.</li><li>서울시·지자체·관공서의 공개 3D 건물·층별 지도와 기둥 표기를 좌표계·층·버전 검증 후 연결합니다. 현재 공간 목업의 건물과 가상 B2 사례는 별개입니다.</li><li>Codex 보조로 공공데이터를 정기 수집·정규화·중복 제거해 누적하고, 출처·라이선스·관측 시각·변경 이력·품질을 담당자가 확인한 뒤 지도·검색·평가셋을 갱신합니다.</li><li>실제 소음·저조도 평가셋에서 전사 오류·기둥 인식·잔류 인원 누락·담당자 검토 시간을 측정합니다. 화자 분리·동영상 분석과 실시간 3D 연계는 후속 개발입니다.</li></ul><p><a href="'+REPO+'/blob/main/docs/roadmap.md">실행 계획과 완료 기준</a> · <a href="/spatial/">건물 공간정보 목업</a> · <a href="/routes/">별도 출동 경로 검토</a></p><p>출동 경로는 서울 도로와 과거 침수흔적 기반의 별도 예제이며 현재 통행 가능성·수심을 보장하지 않습니다. 가상 B2 신고와 자동 연결하지 않습니다.</p>'
 FIELDS = [
     ('접수 정보', '접수번호, 수신 시각, 마지막 갱신 시각, 처리 상태'),
     ('신고자·연락처', '표시 이름, 회신 채널, 전화번호, 구조 대상과의 관계'),
@@ -62,8 +69,12 @@ def case_html(i):
         media = []
         for a in r.get('attachments', []):
             url = a.get('url', '')
-            if url not in ['/media/flood-entrance.png', '/media/flood-stairwell.png', '/media/call-isolated.wav', '/media/call-proxy.wav']:
+            if url not in ['/media/flood-entrance.png', '/media/flood-stairwell.png', '/media/call-isolated.wav', '/media/call-proxy.wav', '/media/parking-pillar-dark.png', '/media/parking-stair-flood.png', '/media/parking-call-noisy.wav', '/media/parking-call-enhanced.wav']:
                 continue
+            if a.get('media_type') == 'image':
+                media.append(f'<figure><img src="{url}" loading="lazy" alt="{esc(a.get("caption", "합성 신고 사진"))}"><figcaption>{esc(a.get("caption", "합성 신고 사진"))}</figcaption></figure>')
+            elif a.get('media_type') == 'audio':
+                media.append(f'<audio controls preload="none" src="{url}" aria-label="{esc(a.get("caption", "합성 신고 음성"))}"></audio><p>{esc(a.get("caption", "합성 음성"))}</p>')
             media.append(f'<a href="{url}">{esc(a.get("filename", a["id"]))} 실제 합성 파일</a>')
         reports.append(f'<details open><summary>{esc(r["id"])} · {esc(r["channel"])} · {esc(r["kind"])} · 원문 보기</summary><p class="case-meta">접수 {esc(r.get("received_at", ""))} / 발생 {esc(r.get("occurred_at", "미확인"))}</p><blockquote>{esc(r["text"])}</blockquote><p>{" · ".join(media)}</p></details>')
     return f'<article id="{esc(i["id"])}"><h3>{esc(i["title"])}</h3><p class="case-meta">{esc(i["id"])} · {esc(i["status"])} · {esc(i["priority"])} · {esc(str(i.get("people_count")))}명</p><p>{esc(i["location"])}</p><p>{esc(i.get("summary", ""))}</p>{"".join(reports)}<a href="/#incident/{esc(i["id"])}">콘솔에서 사건 열기 →</a></article>'
@@ -78,12 +89,12 @@ def write_public_pages(stage: Path, root: Path, bundle: dict, mode: str) -> dict
     guide = '<p class="lead">접수부터 추가 신고, AI 초안 검토, 현장 확인까지</p><ol>'+''.join(f'<li><h2>{esc(a)}</h2><p>{esc(b)}</p></li>' for a,b in STEPS)+'</ol><h2>반드시 구분할 상태</h2><ul><li>AI 분석 대기는 사건 접수 확정이나 출동 완료가 아닙니다.</li><li>DB 연결 실패 시 합성 사례 둘러보기는 이 브라우저에만 저장하는 별도 모드입니다.</li><li>분석 실패 시 담당자 직접 입력을 선택할 수 있습니다. fixture를 실제 AI 결과로 표시하지 않습니다.</li><li>사진·음성 원문을 열어 초안의 주소·층·호수·인원과 비교합니다.</li><li>진행·구조 완료는 현장 보고에 근거하여 별도로 처리합니다.</li></ul><h2>AI 연결 설정</h2><p>콘솔의 AI 설정에서 로컬 Codex CLI 시연을 엽니다. 시연 서버가 실행되어 있어야 하며 codex login의 ChatGPT 인증을 사용합니다. 음성 전사와 위치는 담당자가 원문과 대조합니다. 공개 사이트에서는 현장 정보에서 사건을 선택하고 추가 신고·현장 정보 AI 분석을 실행합니다. 현재 연결 상태는 콘솔 설정에서 확인할 수 있습니다.</p><h2>해커톤 시연 경로</h2><p>동일 건물의 다른 세대, 대리 신고의 GPS, 연락 두절, 부분 구조, 완료 이후 새 정보의 다섯 사례를 /judge/에서 원문으로 읽고 콘솔에서 비교하세요. 전용 분석 초안 ID가 있으면 새로고침 뒤에도 조회하여 검토할 수 있습니다.</p>'
     references = '<p class="lead">공개 자료가 뒷받침하는 활용 방향과, 우리가 아직 검증해야 할 효과</p><p>AI 활용의 목적은 원문을 구조화하고 미확인 요청을 드러내 접수담당자의 판단을 돕는 것입니다. 기존 시스템의 실제 운영 성과나 생명 구조 효과를 이미 달성했다는 주장은 하지 않습니다.</p>'+''.join(f'<article><h2><a href="{esc(url)}">{esc(title)}</a></h2><p>{esc(body)}</p></article>' for title,url,body in REFERENCES)+'<h2>효과 평가 계획</h2><div class="table-wrap"><table><tr><th>확인하려는 효과</th><th>측정할 내용</th></tr><tr><td>접수 내용 파악</td><td>주소·층·호수·인원 추출의 실제 모델 정확도, 전사 오류, 담당자 수정 빈도</td></tr><tr><td>인계 누락 감소</td><td>남은 사람·위치 정정·미확인 위험이 초안에 포함되는지</td></tr><tr><td>업무 도움</td><td>동일 원문에 대한 수동 대조 대비 검토 소요 시간과 누락률</td></tr><tr><td>잘못된 확정 방지</td><td>부분 구조·다른 사건 근거·오래된 revision·가짜 인용 차단</td></tr></table></div><p>하네스의 결정적 재생 성공은 위 실제 모델 정확도와 업무 시간 개선을 증명하지 않습니다. 수행 여부와 측정 결과를 검증 기록에 구분합니다.</p>'
     evidence = {'project': '아직 여기', 'synthetic': True, 'official_119_connected': False, 'repository': REPO, 'site': SITE, 'build_mode': mode, 'live_verification': live, 'readable_without_javascript': True,
-                'dataset': {'incidents': len(bundle['incidents']), 'reports': sum(len(i['reports']) for i in bundle['incidents']), 'source': REPO+'/blob/main/data/seed.json', 'actual_media': ['/media/flood-entrance.png','/media/flood-stairwell.png','/media/call-isolated.wav','/media/call-proxy.wav']},
+                'dataset': {'incidents': len(bundle['incidents']), 'reports': sum(len(i['reports']) for i in bundle['incidents']), 'source': REPO+'/blob/main/data/seed.json', 'actual_media': sorted({a['url'] for i in bundle['incidents'] for r in i['reports'] for a in r.get('attachments',[])})},
                 'code': {'codex_demo': REPO+'/blob/main/scripts/serve_codex_demo.mjs','codex_analyzer': REPO+'/blob/main/scripts/analyzer_codex.mjs','python_analyzer': REPO+'/blob/main/scripts/analyzer_openai.py','server_functions': REPO+'/tree/main/netlify/functions','database_migrations': REPO+'/tree/main/supabase/migrations','contract': REPO+'/blob/main/docs/ai-service-contract.md'},
                 'checks': {'fixture': {'scope': '결정적 합성 재생; 실제 모델 정확도 아님','command': 'python3 -B scripts/replay.py --all'}, 'service': {'command': 'python3 -B -m unittest discover -s tests -v','scope': '업무/동시성/근거 경계; 실행 기록은 GitHub 참조'}},
                 'current_runtime_status': SITE+'/api/config', 'reference_urls': [r[1] for r in REFERENCES]}
     judge = f'<p class="lead">프로젝트 이해와 검증을 위한 공개 읽기 경로</p><p>이 페이지는 모든 방문자에게 동일하게 공개되며 자바스크립트 실행이나 로그인 없이 서비스 목적과 합성 원문을 읽을 수 있습니다.</p><div class="notice">{esc(live_text)}</div><h2>읽는 순서</h2><ol><li><a href="/about/">문제·사용자·119 접수 항목과 AI 역할</a></li><li><a href="/guide/">AI 분석 → 담당자 확인 → 사건 갱신 흐름</a></li><li><a href="/references/">공개 근거, 한계와 효과 측정 계획</a></li><li><a href="{REPO}">GitHub 구현·하네스·검증 로그</a></li><li><a href="/judge/evidence.json">실제 실행 여부와 소스 링크 JSON</a> · <a href="/api/config">현재 서버 연결 상태 JSON</a></li></ol><h2>작동을 확인할 사례</h2><p>아래 {len(bundle["incidents"])}건·{sum(len(i["reports"]) for i in bundle["incidents"])}개 보고는 매 빌드 때 data/seed.json에서 생성됩니다. AI가 만들어낸 분석 결과 표가 아니라 테스트 입력인 합성 신고 원문입니다. 실제 사진·WAV 링크를 포함합니다.</p>'+''.join(case_html(i) for i in bundle['incidents'])+'<h2>판단의 근거</h2><p>실제 모델은 API 실행 정보, 전사, 이미지 관찰과 출처 인용을 분석 초안에 남깁니다. 원문과 맞지 않는 인용·후보 ID는 서버가 거부하며 담당자 확인 전에 사건을 변경하지 않습니다. 중복 후보와 잔여 인원은 미확인 대상으로 남기고 완료 결정은 현장 보고에 따릅니다.</p>'
-    live_details = '<h2>실제 AI 실행과 담당자 검토 기록</h2><p>공개 서버에서 모델을 실행했다는 의미가 아닙니다. 로컬 Codex CLI/Whisper 시연 결과를 모든 방문자가 읽을 수 있도록 공개합니다.</p>'
+    live_details = '<h2>실제 AI 실행과 담당자 검토 기록</h2><p>각 실행의 provider·전사 모델·입력·검증 범위를 함께 공개합니다. Codex/Whisper 로컬 시연과 OpenAI API 실행은 서로 구분합니다.</p>'
     for run in live.get('runs', []):
         job = run.get('job', {})
         analysis = job.get('analysis') or run.get('analysis') or {}
@@ -104,9 +115,9 @@ def write_public_pages(stage: Path, root: Path, bundle: dict, mode: str) -> dict
     spatial_info = {'url': SITE+'/spatial/', 'mode': 'preserved-model-analysis-static-view', 'new_model_call_on_view': False, 'synthetic_report': spatial_report, 'analysis': spatial, 'assumptions': '3~16층 동일 평면 반복; 1~2층 내부·실제 층고·현장 상태 미확인', 'original_drawing_redistributed': False}
     evidence['spatial'] = spatial_info
     spatial_html = '<h2>건물 공간정보와 신고 위치 후보</h2><p><a class="button" href="/spatial/">전체 건물·층·평면 보기</a></p><p>공개 도면과 합성 사진·문자를 읽은 사전 모델 분석을 공간 후보로 확인합니다. 보기 전환은 모델을 새로 호출하거나 사건 상태를 변경하지 않습니다. 3~16층 동일 평면은 표시 가정이며 실제 사람 위치·진입 안전은 미확정입니다. 원본 도면은 출처 링크에서 대조합니다.</p><blockquote>'+esc(spatial_report['text'])+'</blockquote>'
-    about += spatial_html
-    guide += spatial_html
-    judge += live_details + spatial_html
+    about += SHOWCASE + ROADMAP + spatial_html
+    guide += SHOWCASE + ROADMAP + spatial_html
+    judge += SHOWCASE + ROADMAP + live_details + spatial_html
     (stage / 'public-guide.css').write_text(CSS, encoding='utf-8')
     for slug,title,body in [('about','서비스 개요',about),('guide','이용법',guide),('references','근거와 한계',references),('judge','심사 안내',judge)]:
         (stage / slug).mkdir(exist_ok=True)
@@ -121,6 +132,7 @@ def write_public_pages(stage: Path, root: Path, bundle: dict, mode: str) -> dict
             full += f'\n- {r["id"]} ({r["channel"]}, {r["kind"]}, {r.get("received_at", "")}): {r["text"]}\n'
             for a in r.get('attachments',[]):
                 full += f'  Attachment {a["id"]}: {a.get("url", "")} (synthetic; supplied transcript is not actual ASR)\n'
+    full += '\n## Showcase and roadmap\n'+ '태풍 침수 B2: 여성 3명 신고, 2명 구조, 성인 여성 1명 잔류. 중복 후보 별도 보존, 담당자 확인, 부분구조 완료 차단. '+ (root/'docs/roadmap.md').read_text() + '\n'
     full += '\n## Spatial report and preserved model analysis\n' + json.dumps(spatial_info, ensure_ascii=False, indent=2) + '\n'
     full += '\n## Actual local AI execution records\n' + json.dumps(live, ensure_ascii=False, indent=2) + '\n'
     (stage / 'llms-full.txt').write_text(full,encoding='utf-8')

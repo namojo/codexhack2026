@@ -1,0 +1,167 @@
+{
+  "synthetic": true,
+  "scope": "isolated image input; no prior text containing pillar label, no GPS or official geolocation",
+  "report": {
+    "channel": "media",
+    "kind": "additional",
+    "text": "합성 사진 신고: 비상 조명만 켜진 침수 지하주차장입니다. 기둥에 있는 표기가 잘 안 보여 사진을 보냅니다. 사진으로 보이는 표기를 위치 후보로 기록하고 확인할 사항을 정리해 주세요. 주소나 GPS는 확인하지 못했습니다.",
+    "attachments": [
+      {
+        "id": "MEDIA-PARKING-PILLAR",
+        "media_type": "image",
+        "filename": "parking-pillar-dark.png",
+        "url": "/media/parking-pillar-dark.png",
+        "source": "ai_generated",
+        "caption": "합성 훈련 이미지"
+      }
+    ]
+  },
+  "analysis": {
+    "summary": "침수된 지하주차장 비상 조명 켜짐, 기둥 표기 B2 C07 확인됨. 위치는 정확하지 않으며 추가 확인 필요.",
+    "proposed_changes": {
+      "title": "지하주차장 침수 신고",
+      "category": "flood",
+      "location": "기둥 표기 B2 C07 부근 지하주차장",
+      "people_count": null,
+      "priority": null,
+      "summary": "침수된 지하주차장 비상 조명 켜짐, 기둥 표기 B2 C07 확인됨. 위치는 구체적이지 않아 추가 확인 필요."
+    },
+    "intake119": {
+      "reporter": {
+        "display_name": null,
+        "reply_channel": null,
+        "phone": null,
+        "relationship": null
+      },
+      "location": {
+        "address_landmark": null,
+        "floor_unit": null,
+        "access_point": null,
+        "source": "input",
+        "gps": null,
+        "verification": "unverified"
+      },
+      "situation": {
+        "category": "flood",
+        "occurred_at": null,
+        "summary": "침수된 지하주차장 비상 조명 켜짐, 기둥 표기 B2 C07 확인됨."
+      },
+      "rescue": {
+        "people_count": null,
+        "injury": null,
+        "consciousness": null,
+        "breathing": null,
+        "isolation": null
+      },
+      "hazards": {
+        "reported": [],
+        "observed": [
+          "지하주차장 침수"
+        ],
+        "unconfirmed": []
+      },
+      "review": {
+        "missing_information": [
+          "정확한 위치 정보",
+          "추가 피해 상황",
+          "대상 인원 여부"
+        ],
+        "priority_warnings": []
+      }
+    },
+    "evidence": [
+      {
+        "field": "title",
+        "source_id": "input",
+        "quote": "합성 사진 신고: 비상 조명만 켜진 침수 지하주차장입니다. 기둥에 있는 표기가 잘 안 보여 사진을 보냅니다. 사진으로 보이는 표기를 위치 후보로 기록하고 확인할 사항을 정리해 주세요. 주소나 GPS는 확인하지 못했습니다.",
+        "observation": null,
+        "type": "text"
+      },
+      {
+        "field": "category",
+        "source_id": "input",
+        "quote": "합성 사진 신고: 비상 조명만 켜진 침수 지하주차장입니다. 기둥에 있는 표기가 잘 안 보여 사진을 보냅니다. 사진으로 보이는 표기를 위치 후보로 기록하고 확인할 사항을 정리해 주세요. 주소나 GPS는 확인하지 못했습니다.",
+        "observation": null,
+        "type": "text"
+      },
+      {
+        "field": "summary",
+        "source_id": "input",
+        "quote": "합성 사진 신고: 비상 조명만 켜진 침수 지하주차장입니다. 기둥에 있는 표기가 잘 안 보여 사진을 보냅니다. 사진으로 보이는 표기를 위치 후보로 기록하고 확인할 사항을 정리해 주세요. 주소나 GPS는 확인하지 못했습니다.",
+        "observation": null,
+        "type": "text"
+      },
+      {
+        "field": "location",
+        "source_id": "MEDIA-PARKING-PILLAR",
+        "quote": null,
+        "observation": "사진 속 기둥에 'B2' 및 'C07' 표기가 보이며, 침수된 지하주차장이다.",
+        "type": "image_observation"
+      }
+    ],
+    "duplicate_candidates": [],
+    "person_overlap": [],
+    "remaining_people": {
+      "count": null,
+      "basis": "보고에 잔류 인원 정보 없음",
+      "needs_human_confirmation": true
+    },
+    "authenticity": {
+      "status": "unverified",
+      "signals": [
+        "신고자가 사진을 근거로 위치 후보를 요청함"
+      ],
+      "questions": [
+        "정확한 위치 확인 필요",
+        "주소 및 GPS 정보 누락"
+      ]
+    },
+    "handoff": [],
+    "missing_information": [
+      "정확한 위치 정보",
+      "추가 피해 상황",
+      "대상 인원 여부"
+    ],
+    "urgent_reasons": [],
+    "transcripts": [],
+    "limitations": []
+  },
+  "execution": {
+    "mode": "live",
+    "provider": "openai",
+    "model": "gpt-4.1-mini",
+    "started_at": "2026-10-09T05:56:37.573Z",
+    "attempts": [
+      {
+        "attempt": 1,
+        "provider": "openai",
+        "started_at": "2026-10-09T05:56:37.581Z",
+        "status": "validated",
+        "response_id": "resp_0c177332cbb23241016ac882171c0087d0ac6b533ca6bd2f0d",
+        "usage": {
+          "input_tokens": 4685,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 753,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 5438
+        },
+        "completed_at": "2026-10-09T05:56:47.206Z"
+      }
+    ],
+    "response_id": "resp_0c177332cbb23241016ac882171c0087d0ac6b533ca6bd2f0d",
+    "attempt_count": 1,
+    "regeneration_count": 0,
+    "completed_at": "2026-10-09T05:56:47.207Z",
+    "elapsed_ms": 9634,
+    "usage": {
+      "input_tokens": 4685,
+      "output_tokens": 753,
+      "total_tokens": 5438
+    }
+  }
+}

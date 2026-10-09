@@ -18,12 +18,13 @@
       <a href="../#field" data-nav="field"><span aria-hidden="true">↗</span>현장 정보</a>
       <a href="../#results" data-nav="results"><span aria-hidden="true">✓</span>처리 결과</a>
       <a href="../#resources" data-nav="resources"><span aria-hidden="true">◈</span>대응 자원</a>
+      <a href="../routes/" data-nav="routes"><span aria-hidden="true">↗</span>출동경로 안내</a>
       <a href="../#settings" data-nav="settings"><span aria-hidden="true">⚙</span>설정 · AI 연결</a>
       <a href="./" data-nav="spatial" aria-current="page"><span aria-hidden="true">▧</span>건물 공간정보 목업</a>
     </nav>
     <div class="sidebar-bottom"><p>공식 119 연계 및<br>외부 신고 전송 없음</p></div>
   </aside>
-  <main id="workspace" tabindex="-1"><div class="intro"><div><h1>더포엠 역삼 · 전체 건물과 위치 후보</h1><p class="muted">서울 강남구 테헤란로33길 12 · 센터필드 뒤편 인근 · 3~16층 동일 평면 가정 · 1~2층은 미확인 공간으로 표시</p></div><p class="progress"><span class="badge">합성 신고 · 사전 분석 공간정보</span><br>SYN-SP-001 · 2026.10.09 10:00 접수<br>실제 호실·사람과 연결되지 않은 사례</p></div>
+  <main id="workspace" tabindex="-1"><div class="intro"><div><h1>더포엠 역삼 · 전체 건물과 위치 후보</h1><p class="muted">서울 강남구 테헤란로33길 12 · 센터필드 뒤편 인근 · 3~16층 동일 평면 가정 · 1~2층은 미확인 공간으로 표시. 대표 가상 B2 사건·관악 출동경로와 자동 연결되지 않습니다.</p></div><p class="progress"><span class="badge">합성 신고 · 사전 분석 공간정보</span><br>SYN-SP-001 · 2026.10.09 10:00 접수<br>실제 호실·사람과 연결되지 않은 사례</p></div>
 <div class="layout"><div>
 <section class="panel"><div class="panel-title"><h2>건물 전체와 선택 층</h2><span class="badge">미확정 위치</span></div>
 <div class="controls"><button id="building" aria-pressed="true">건물 전체</button><button id="three" aria-pressed="false">선택 층 입체</button><button id="top" aria-pressed="false">평면 보기</button><label>선택 층 <select id="floor-select" aria-label="선택 층"><option value="3">3층 · 신고</option><option value="4">4층</option><option value="5">5층</option><option value="6">6층</option><option value="7">7층</option><option value="8">8층</option><option value="9">9층</option><option value="10">10층</option><option value="11">11층</option><option value="12">12층</option><option value="13">13층</option><option value="14">14층</option><option value="15">15층</option><option value="16">16층</option></select></label><button id="focus">신고 위치 보기</button><button id="reset">초기화</button><label>확대 <input id="zoom" type="range" min="65" max="180" value="100" aria-label="공간 확대 비율"></label><label><input id="walls" type="checkbox" checked>벽 표시</label><label><input id="connection" type="checkbox" checked>연결 표시</label></div>

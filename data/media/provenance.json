@@ -15,6 +15,28 @@
       "tool": "built-in image_gen",
       "prompt": "Use case: photorealistic-natural. Asset type: fictional emergency training report attachment, candid smartphone photograph. Interior stairwell of a fictional modest Korean residential villa viewed from the second-floor landing looking down, brown flood water accumulated at ground level; concrete stair treads, stainless steel handrail, pale walls, gray daylight from entrance window. Small practical flashlight reflection, ordinary handheld smartphone exposure and slight grain, detail legible, no cinematic art. No people, no victims, no text, no address, no logo, no official signage. Landscape snapshot showing lower landing and blocked flooded exit.",
       "review": "주제·수위·구도·인물 및 실제 주소 부재를 눈으로 확인"
+    },
+    {
+      "path": "data/media/parking-pillar-dark.png",
+      "source": "ai_generated",
+      "tool": "built-in image_gen",
+      "generated_at": "2026-10-09",
+      "prompt": "Photorealistic fictional smartphone report of Korean B2 underground parking during typhoon power outage: dim green emergency lighting, brown flood water, pillar physically painted B2 and C07 with yellow-black band, slight blur and lens droplets. No people, real address, brands, UI or overlays.",
+      "review": "비상 조명과 B2/C07 표기를 육안 확인. 사람·실제 주소 없음. 표기는 위치 후보이며 GPS/안전/인원 증명이 아님.",
+      "sha256": "a75a60b7e114b4f6da52983b4a387bd9ef4c7f41c00cce5c0c94fa17410a97f1",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "data/media/parking-stair-flood.png",
+      "source": "ai_generated",
+      "tool": "built-in image_gen",
+      "generated_at": "2026-10-09",
+      "prompt": "Photorealistic fictional field smartphone report from same dark Korean B2 garage: muddy water, dim green emergency lights, steel stairwell door partly ajar, lower concrete stairs, small cardboard debris, mild handheld blur. No people, real address, logo, UI or overlays.",
+      "review": "침수된 계단 하부·반쯤 열린 철문을 육안 확인. 사람 없음. 통행 가능 여부·전기 위험·정확한 수심 미확인.",
+      "sha256": "ea3bf2d93d2351cc006ff49de5b6c31e6793ae4c5c744e9260e08710d2d35c66",
+      "width": 1536,
+      "height": 1024
     }
   ],
   "audio": [
@@ -31,7 +53,43 @@
       "tool": "macOS say -v Yuna → afconvert PCM WAV",
       "transcript": "저는 다른 곳에 있는 아들입니다. 어머니가 가상동 푸른빌라 삼층 삼백이호에 혼자 계세요. 제 휴대폰 위치는 어머니 집이 아니에요. 연락이 끊겨서 대신 신고합니다.",
       "seconds": 11.42
+    },
+    {
+      "path": "data/media/parking-call-noisy.wav",
+      "source": "tts_synthetic",
+      "tool": "macOS say -v Yuna + scripts/generate_parking_audio.py (NumPy DSP)",
+      "generated_at": "2026-10-09",
+      "synthetic": true,
+      "transcript_source": "TTS script, not ASR",
+      "transcript": "여기는 가상동 한빛복합센터 지하 이층 주차장이에요. 기둥 씨 공 칠 근처에 여자 세 명이 있어요. 할머니와 여자아이, 저예요. 비상등만 켜져 있고 물이 계속 들어와요. 계단으로 나갈 수 없어요.",
+      "seconds": 16.27,
+      "sample_rate": 22050,
+      "noise_seed": 1192026,
+      "processing": "noise-only prefix estimate + STFT spectral attenuation and frequency filtering, applied to noisy input; not speaker separation",
+      "peak_noisy": 0.6535227578063181,
+      "peak_enhanced": 0.6022664688564322,
+      "sha256": "8b2b3abf5399ae92327be64c732be0b714b18384ca3def9567065e21c0a67feb",
+      "variant": "noisy_input",
+      "review": "초기 강한 잡음의 ASR 빈 전사를 관찰해 최종 합성 잡음 강도를 낮췄다. 대본과 실제 ASR를 구분한다."
+    },
+    {
+      "path": "data/media/parking-call-enhanced.wav",
+      "source": "tts_synthetic",
+      "tool": "macOS say -v Yuna + scripts/generate_parking_audio.py (NumPy DSP)",
+      "generated_at": "2026-10-09",
+      "synthetic": true,
+      "transcript_source": "TTS script, not ASR",
+      "transcript": "여기는 가상동 한빛복합센터 지하 이층 주차장이에요. 기둥 씨 공 칠 근처에 여자 세 명이 있어요. 할머니와 여자아이, 저예요. 비상등만 켜져 있고 물이 계속 들어와요. 계단으로 나갈 수 없어요.",
+      "seconds": 16.27,
+      "sample_rate": 22050,
+      "noise_seed": 1192026,
+      "processing": "noise-only prefix estimate + STFT spectral attenuation and frequency filtering, applied to noisy input; not speaker separation",
+      "peak_noisy": 0.6535227578063181,
+      "peak_enhanced": 0.6022664688564322,
+      "sha256": "bbdbfa60f93785ea8e3360619974903aeee3bdb8d8c95ca212539893a73a6901",
+      "variant": "DSP_processed_noisy_input",
+      "review": "초기 강한 잡음의 ASR 빈 전사를 관찰해 최종 합성 잡음 강도를 낮췄다. 대본과 실제 ASR를 구분한다."
     }
   ],
-  "limits": "실제 신고/피해사진/음성이 아닌 합성 훈련 자료. ASR/OCR/LLM 미실행."
+  "limits": "실제 피해 사진·신고 음성이 아닌 합성 훈련 자료. 대본은 ASR 결과가 아니다. 처리 음성은 잡음 원본에 적용한 DSP 비교이며 화자 분리·명료도 향상·ASR 정확도를 보장하지 않는다. 실제 모델 실행은 별도 검증 기록을 따른다."
 }

@@ -1,0 +1,12 @@
+{
+  "synthetic": true,
+  "status": "passed",
+  "added": [
+    "INC-20261009-100",
+    "INC-20261009-101"
+  ],
+  "workspace_revision": 13,
+  "existing_incidents_preserved": true,
+  "incident_count": 13,
+  "team_added": "TEAM-DEMO01"
+}

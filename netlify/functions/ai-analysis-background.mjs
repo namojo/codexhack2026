@@ -2,7 +2,7 @@ import {readFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {database} from './supabase.mjs';
 import {analyze,verifySignature,hash,APIError} from './ai-core.mjs';
-const seeds={'/media/flood-entrance.png':'image/png','/media/flood-stairwell.png':'image/png','/media/call-isolated.wav':'audio/wav','/media/call-proxy.wav':'audio/wav'};
+const seeds={'/media/flood-entrance.png':'image/png','/media/flood-stairwell.png':'image/png','/media/call-isolated.wav':'audio/wav','/media/call-proxy.wav':'audio/wav', '/media/parking-pillar-dark.png':'image/png', '/media/parking-stair-flood.png':'image/png', '/media/parking-call-noisy.wav':'audio/wav', '/media/parking-call-enhanced.wav':'audio/wav'};
 
 // Only server code supplies hooks; the HTTP DTO has no command/provider/hook inputs.
 export async function processJob(id,inputHash,env=process.env,hooks={}){
